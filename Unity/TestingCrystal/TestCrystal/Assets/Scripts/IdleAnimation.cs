@@ -1,16 +1,17 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WaveAnimation : IPlayerAnimator {
-
+public class IdleAnimation : IPlayerAnimator
+{
     public void playAnimation(Animator crystalChan)
     {
-        crystalChan.SetBool("isWaving", true);
+        crystalChan.SetBool("isIdle", true);
     }
 
     public void stopAnimation(Animator crystalChan)
     {
-        crystalChan.SetBool("isWaving", false);
+        crystalChan.SetBool("isIdle", false);
     }
 }

@@ -1,5 +1,8 @@
-﻿public interface IPlayerAnimator
+﻿using UnityEngine;
+
+public interface IPlayerAnimator
 {
-    string getAnimationName();
+    void playAnimation(Animator crystalChan);
+    void stopAnimation(Animator crystalChan);
 
 }

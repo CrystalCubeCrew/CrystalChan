@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WeatherAnimation : MonoBehaviour {
+public class WeatherAnimation :IPlayerAnimator {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    public void playAnimation(Animator crystalChan)
+    {
+        crystalChan.SetBool("isWeather", true);
+    }
+
+    public void stopAnimation(Animator crystalChan)
+    {
+        crystalChan.SetBool("isWeather", false);
+    }
 }

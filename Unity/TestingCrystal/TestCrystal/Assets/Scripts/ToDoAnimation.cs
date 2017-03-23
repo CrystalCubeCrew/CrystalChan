@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WaveAnimation : IPlayerAnimator {
+public class ToDoAnimation : IPlayerAnimator {
 
     public void playAnimation(Animator crystalChan)
     {
-        crystalChan.SetBool("isWaving", true);
+        crystalChan.SetBool("isDoing", true);
     }
 
     public void stopAnimation(Animator crystalChan)
     {
-        crystalChan.SetBool("isWaving", false);
+        crystalChan.SetBool("isDoing", false);
     }
 }

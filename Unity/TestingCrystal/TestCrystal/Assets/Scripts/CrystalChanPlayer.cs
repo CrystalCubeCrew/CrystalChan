@@ -5,14 +5,15 @@ using UnityEngine;
 
 public class CrystalChanPlayer : MonoBehaviour {
 
-    private Animator crystal;
-    private IPlayerAnimator playerAnimator;
+    private Animator crystal = null;
+    private IPlayerAnimator playerAnimator = null;
 
 
 	// Use this for initialization, runs at beginning of game
 	void Start () {
         //playerAnimator = new IdleAnimation();
         crystal = gameObject.GetComponent<Animator>();
+        setAnimationStrategy("idle");
     }
 	
 	// Update is called once per frame
@@ -47,15 +48,52 @@ public class CrystalChanPlayer : MonoBehaviour {
     }
 
     //sets the animation based on the IPlayerAnimator
-    public void setAnimation(String animationToPlay)
+    public void setAnimationStrategy(String animationToPlay)
     {
-        crystal.SetBool("isIdle", false);
-        crystal.SetBool("isNews", true);
+        switch (animationToPlay)
+        {
+            case "shrug":
+                playerAnimator = new ShrugAnimation();
+
+                break;
+            case "todo":
+                playerAnimator = new ToDoAnimation();
+                break;
+            case "weather":
+                playerAnimator = new WeatherAnimation();
+                break;
+            case "music":
+                playerAnimator = new MusicAnimation();
+                break;
+            case "news":
+                playerAnimator = new NewsFeedAnimation();
+                break;
+            case "wave":
+                playerAnimator = new WaveAnimation();
+                break;
+            case "math":
+                playerAnimator = new BasicMathAnimation();
+                break;
+            case "idle":
+                playerAnimator = new IdleAnimation();
+                break;
+        }
 
     }
     //setter for the animator (for testing purposes)
     public void setAnimator(Animator animator)
     {
         crystal = animator;
+    }
+
+    public Animator getAnimator()
+    {
+        return crystal;
+    }
+
+    public void playAnimation()
+    {
+        crystal.SetBool("isIdle", false);
+        playerAnimator.playAnimation(crystal);
     }
 }
