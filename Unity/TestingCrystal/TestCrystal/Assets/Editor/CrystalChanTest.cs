@@ -19,7 +19,7 @@ public class CrystalChanTest
 
         CrystalScript = Crystal.GetComponent<CrystalChanPlayer>();
         CrystalAnimator = Crystal.GetComponent<Animator>(); //unity game animator
-        Debug.LogError("Animator is " + CrystalAnimator);
+
         CrystalScript.setAnimator(CrystalAnimator);
         CrystalScript.setAnimationStrategy("idle");
         
@@ -44,9 +44,8 @@ public class CrystalChanTest
     public void ifSetAnimationIsNewsThenNewsAnimationIsPlayed()
     {
 
-            CrystalScript.setAnimationStrategy("news");
-            CrystalScript.playAnimation();
-        Debug.LogError("news is " + CrystalAnimator.GetBool("isNews"));
+        CrystalScript.setAnimationStrategy("news");
+        CrystalScript.playAnimation();
         Assert.True(CrystalAnimator.GetBool("isNews"));
     }
     [Test]
@@ -55,10 +54,33 @@ public class CrystalChanTest
         CrystalScript.setAnimationStrategy("todo");
         CrystalScript.playAnimation();
 
-        Debug.LogError("todo is " + CrystalAnimator.GetBool("isDoing"));
-
         Assert.False(CrystalAnimator.GetBool("isIdle"));
         Assert.True(CrystalAnimator.GetBool("isDoing"));
+
+    }
+
+    [Test]
+    public void ifSetAnimationIstodoIsThenStoppedThenIdleAnimationIsPlayedAndToDoIsNot()
+    {
+        CrystalScript.setAnimationStrategy("todo");
+        CrystalScript.playAnimation();
+        CrystalScript.stopAnimation();
+
+
+        Assert.True(CrystalAnimator.GetBool("isIdle"));
+        Assert.False(CrystalAnimator.GetBool("isDoing"));
+
+    }
+
+    [Test]
+    public void ifSetAnimationIsWeatherIsThenStoppedThenIdleAnimationIsPlayedAndWeatherIsNot()
+    {
+        CrystalScript.setAnimationStrategy("weather");
+        CrystalScript.playAnimation();
+        CrystalScript.stopAnimation();
+
+        Assert.True(CrystalAnimator.GetBool("isIdle"));
+        Assert.False(CrystalAnimator.GetBool("isWeather"));
 
     }
 }

@@ -1,4 +1,4 @@
 sceneSetups:
-- path: C:/Users/Orion/Documents/College/senior year/ProjectsInComputerScience/UnityProjects/TestingObjects/GestureTest/Assets/scene1.unity
+- path: Assets/CrystalChan.unity
   isLoaded: 1
   isActive: 1

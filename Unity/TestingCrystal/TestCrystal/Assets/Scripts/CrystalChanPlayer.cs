@@ -7,13 +7,16 @@ public class CrystalChanPlayer : MonoBehaviour {
 
     private Animator crystal = null;
     private IPlayerAnimator playerAnimator = null;
+    public ApiAiModuleCrystalChan cy;
 
-
-	// Use this for initialization, runs at beginning of game
-	void Start () {
+    // Use this for initialization, runs at beginning of game
+    void Start () {
         //playerAnimator = new IdleAnimation();
         crystal = gameObject.GetComponent<Animator>();
         setAnimationStrategy("idle");
+        StartCoroutine(cy.Start());
+
+
     }
 	
 	// Update is called once per frame
@@ -28,6 +31,15 @@ public class CrystalChanPlayer : MonoBehaviour {
         {
             setIdleAction();
         }
+
+        if (crystal.GetBool("isShrugging"))
+        {
+            cy.StartListening();
+        }
+        else if(crystal.GetBool("isDoing"))
+        {
+            cy.StopListening();
+        }
 	}
 
     private bool informationChanged()
@@ -35,7 +47,7 @@ public class CrystalChanPlayer : MonoBehaviour {
         return true;
     }
 
-    //set all non idle actions to false
+    //set all non idle actions to false, so idle can only be played and other actions are locked
     public void setIdleAction()
     {
         crystal.SetBool("isIdle", true);
@@ -90,5 +102,11 @@ public class CrystalChanPlayer : MonoBehaviour {
     {
         crystal.SetBool("isIdle", false);
         playerAnimator.playAnimation(crystal);
+    }
+
+    public void stopAnimation()
+    {
+        playerAnimator.stopAnimation(crystal);
+        crystal.SetBool("isIdle", true);
     }
 }
