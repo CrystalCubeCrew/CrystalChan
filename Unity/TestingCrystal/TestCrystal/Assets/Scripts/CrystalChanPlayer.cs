@@ -54,7 +54,6 @@ public class CrystalChanPlayer : MonoBehaviour {
         {
             case "shrug":
                 playerAnimator = new ShrugAnimation();
-
                 break;
             case "todo":
                 playerAnimator = new ToDoAnimation();
@@ -86,10 +85,6 @@ public class CrystalChanPlayer : MonoBehaviour {
         crystal = animator;
     }
 
-    public Animator getAnimator()
-    {
-        return crystal;
-    }
 
     public void playAnimation()
     {
