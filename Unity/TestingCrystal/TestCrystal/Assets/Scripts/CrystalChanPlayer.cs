@@ -107,7 +107,7 @@ public class CrystalChanPlayer : MonoBehaviour
 
     private string retrieveTextAudioFromCloudBasedOnIntent(string intent)
     {
-        return "Hey Mckenzie and Chet";
+        return "Hey John and Chet";
     }
 
     //setter for the animator (for testing purposes)

@@ -20,6 +20,7 @@ public class Recognition : MonoBehaviour {
         //initilize stuff
         keywords.Add("Hey Crystal", () =>
          {
+             //add animation to play when you say hey crystal
              cy.StartListening();
              currentTime = Time.realtimeSinceStartup;
              endTime = (float)(currentTime + 3);
