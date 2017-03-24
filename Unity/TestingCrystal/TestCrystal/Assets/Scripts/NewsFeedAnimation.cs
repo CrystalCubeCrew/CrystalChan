@@ -6,11 +6,7 @@ public class NewsFeedAnimation : IPlayerAnimator {
 
     public void playAnimation(Animator crystalChan)
     {
-        crystalChan.SetBool("isNews", true);
-    }
+        crystalChan.Play("NewsFeedAnimation", 0);
 
-    public void stopAnimation(Animator crystalChan)
-    {
-        crystalChan.SetBool("isNews", false);
     }
 }

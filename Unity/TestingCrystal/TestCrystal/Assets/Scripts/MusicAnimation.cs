@@ -7,11 +7,6 @@ public class MusicAnimation : IPlayerAnimator
 {
     public void playAnimation(Animator crystalChan)
     {
-        crystalChan.SetBool("isDancing", true);
-    }
-
-    public void stopAnimation(Animator crystalChan)
-    {
-        crystalChan.SetBool("isDancing", false);
+        crystalChan.Play("Dancing", 0);
     }
 }

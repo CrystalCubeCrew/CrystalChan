@@ -28,15 +28,12 @@ public class CrystalChanTest
 
 
     [Test]
-    public void ifCrystalIsIdleNoOtherAnimationsShouldBePlaying()
+    public void ifCrystalIsIdleNoOtherAnimationsShouldBePlayingButIdle()
     {
 
         CrystalScript.setIdleAction();
 
-        Assert.False(CrystalAnimator.GetBool("isShrugging"));
-        Assert.False(CrystalAnimator.GetBool("isCalculating"));
-        Assert.False(CrystalAnimator.GetBool("isNews"));
-        Assert.False(CrystalAnimator.GetBool("isDoing"));
+        Assert.True((CrystalScript.playerAnimator.GetType()).Equals(new IdleAnimation().GetType()));
 
     }
 
@@ -46,7 +43,8 @@ public class CrystalChanTest
 
         CrystalScript.setAnimationStrategy("news");
         CrystalScript.playAnimation();
-        Assert.True(CrystalAnimator.GetBool("isNews"));
+
+        Assert.True((CrystalScript.playerAnimator.GetType()).Equals(new NewsFeedAnimation().GetType()));
     }
     [Test]
     public void ifSetAnimationIstodoThenToDoAnimationIsPlayed()
@@ -54,8 +52,7 @@ public class CrystalChanTest
         CrystalScript.setAnimationStrategy("todo");
         CrystalScript.playAnimation();
 
-        Assert.False(CrystalAnimator.GetBool("isIdle"));
-        Assert.True(CrystalAnimator.GetBool("isDoing"));
+        Assert.True((CrystalScript.playerAnimator.GetType()).Equals(new ToDoAnimation().GetType()));
 
     }
 
@@ -64,11 +61,10 @@ public class CrystalChanTest
     {
         CrystalScript.setAnimationStrategy("todo");
         CrystalScript.playAnimation();
+
         CrystalScript.stopAnimation();
 
-
-        Assert.True(CrystalAnimator.GetBool("isIdle"));
-        Assert.False(CrystalAnimator.GetBool("isDoing"));
+        Assert.False((CrystalScript.playerAnimator.GetType()).Equals(new ToDoAnimation().GetType()));
 
     }
 
@@ -77,10 +73,10 @@ public class CrystalChanTest
     {
         CrystalScript.setAnimationStrategy("weather");
         CrystalScript.playAnimation();
+
         CrystalScript.stopAnimation();
 
-        Assert.True(CrystalAnimator.GetBool("isIdle"));
-        Assert.False(CrystalAnimator.GetBool("isWeather"));
+        Assert.False((CrystalScript.playerAnimator.GetType()).Equals(new WeatherAnimation().GetType()));
 
     }
 }

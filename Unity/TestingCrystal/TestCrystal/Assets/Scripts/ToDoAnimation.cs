@@ -6,11 +6,7 @@ public class ToDoAnimation : IPlayerAnimator {
 
     public void playAnimation(Animator crystalChan)
     {
-        crystalChan.SetBool("isDoing", true);
-    }
+        crystalChan.Play("ToDoAnimation", 0);
 
-    public void stopAnimation(Animator crystalChan)
-    {
-        crystalChan.SetBool("isDoing", false);
     }
 }

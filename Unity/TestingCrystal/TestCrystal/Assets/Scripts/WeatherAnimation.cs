@@ -6,11 +6,7 @@ public class WeatherAnimation :IPlayerAnimator {
 
     public void playAnimation(Animator crystalChan)
     {
-        crystalChan.SetBool("isWeather", true);
-    }
+        crystalChan.Play("Weather", 0);
 
-    public void stopAnimation(Animator crystalChan)
-    {
-        crystalChan.SetBool("isWeather", false);
     }
 }

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Text.RegularExpressions;
-
+using System;
 
 /// <summary>
 /// <author>Jefferson Reis</author>
@@ -13,10 +13,14 @@ public class GoogleTextToSpeech : MonoBehaviour
 
     public string words = "Hello";
 
-    IEnumerator Start()
+    IEnumerator Startt()
     {
         AudioSource myAudio = gameObject.GetComponent<AudioSource>();
-        string url = "http://api.voicerss.org/?key=d94ce83f767b429e95b0be81eb9c1962&hl=en-us&c=wav&src=" + words;
+        // Remove the "spaces" in excess
+        Regex rgx = new Regex("\\s+");
+        // Replace the "spaces" with "% 20" for the link Can be interpreted
+        string result = rgx.Replace(words, "%20");
+        string url = "http://api.voicerss.org/?key=12a3ff2575614e97b1b6120ff03fd3d3&hl=en-us&c=wav&src=\"" + result+"\"";
         WWW www = new WWW(url);
         yield return www;
 
@@ -28,14 +32,8 @@ public class GoogleTextToSpeech : MonoBehaviour
 
     }
 
-    void OnGUI()
+    internal void playTTS()
     {
-        words = GUI.TextField(new Rect(Screen.width / 2 - 200 / 2, 10, 200, 30), words);
-        if (GUI.Button(new Rect(Screen.width / 2 - 150 / 2, 40, 150, 50), "Speak"))
-        {
-            StartCoroutine(Start());
-        }
+        StartCoroutine(Startt());
     }
-
-
 }//closes the class

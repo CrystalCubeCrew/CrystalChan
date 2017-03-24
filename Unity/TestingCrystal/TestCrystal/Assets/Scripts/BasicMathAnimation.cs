@@ -7,11 +7,7 @@ public class BasicMathAnimation : IPlayerAnimator
 {
     public void playAnimation(Animator crystalChan)
     {
-        crystalChan.SetBool("isCalculating", true);
-    }
+        crystalChan.Play("mathAnimation", 0);
 
-    public void stopAnimation(Animator crystalChan)
-    {
-        crystalChan.SetBool("isCalculating", false);
     }
 }

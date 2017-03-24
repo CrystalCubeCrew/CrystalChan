@@ -7,11 +7,7 @@ public class IdleAnimation : IPlayerAnimator
 {
     public void playAnimation(Animator crystalChan)
     {
-        crystalChan.SetBool("isIdle", true);
+        crystalChan.Play("Idle", 0);
     }
 
-    public void stopAnimation(Animator crystalChan)
-    {
-        crystalChan.SetBool("isIdle", false);
-    }
 }

@@ -39,6 +39,7 @@ public class ApiAiModuleCrystalChan : MonoBehaviour
     private ApiAiUnity apiAiUnity;
     private AudioSource aud;
     public AudioClip listeningSound;
+    public CrystalChanPlayer crystal;
 
     private readonly JsonSerializerSettings jsonSettings = new JsonSerializerSettings
     {
@@ -83,6 +84,7 @@ public class ApiAiModuleCrystalChan : MonoBehaviour
                 var outText = JsonConvert.SerializeObject(aiResponse, jsonSettings);
 
                 Debug.Log(outText);
+                crystal.determineAction(outText);
 
             }
             else
@@ -98,6 +100,7 @@ public class ApiAiModuleCrystalChan : MonoBehaviour
             Debug.LogException(e.Exception);
             Debug.Log(e.ToString());
             answerTextField.text = e.Exception.Message;
+            crystal.determineAction("error");
         });
     }
 

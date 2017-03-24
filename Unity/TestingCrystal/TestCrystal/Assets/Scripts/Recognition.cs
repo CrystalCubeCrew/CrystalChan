@@ -10,39 +10,31 @@ public class Recognition : MonoBehaviour {
     //listens for specific words
     KeywordRecognizer keywordRecog;
     Dictionary<string, System.Action> keywords = new Dictionary<string, System.Action>();
-    private ApiAiModuleCrystalChan listener;
+    public ApiAiModuleCrystalChan cy;
 
-
+    public float currentTime;
+    public float endTime;
     void Start()
     {
+        currentTime = endTime = 0;
         //initilize stuff
         keywords.Add("Hey Crystal", () =>
          {
-             startRecordingVoice();
-
+             cy.StartListening();
+             currentTime = Time.realtimeSinceStartup;
+             endTime = (float)(currentTime + 3);
+             gameObject.GetComponent<CrystalChanPlayer>().recordingStarted = true;
          });
-        keywords.Add("stop", () =>
-        {
-            stopRecordingVoice();
-
-        });
 
 
         keywordRecog = new KeywordRecognizer(keywords.Keys.ToArray());
         keywordRecog.OnPhraseRecognized += keywordRecognOnPhraseRecog;
         keywordRecog.Start();
 
-        listener =gameObject.GetComponent<ApiAiModuleCrystalChan>();
-
 
     }
 
-    private void stopRecordingVoice()
-    {
-        Debug.Log("Stopped Recording...");
-       listener.StopListening();
-      // listener.SendText();
-    }
+
 
     void keywordRecognOnPhraseRecog(PhraseRecognizedEventArgs args)
     {
@@ -54,13 +46,5 @@ public class Recognition : MonoBehaviour {
         }
     }
 
-    public void startRecordingVoice()
-    {
-        Debug.Log("Started Recording...");
-        if(listener == null)
-        {
-            Debug.Log("NO OBJECT INSTANCTE");
-        }
-       listener.StartListening();
-    }
+
 }

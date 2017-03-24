@@ -7,11 +7,7 @@ public class ShrugAnimation :IPlayerAnimator
 {
     public void playAnimation(Animator crystalChan)
     {
-        crystalChan.SetBool("isShrugging", true);
-    }
+        crystalChan.Play("Shrug", 0);
 
-    public void stopAnimation(Animator crystalChan)
-    {
-        crystalChan.SetBool("isShrugging", false);
     }
 }

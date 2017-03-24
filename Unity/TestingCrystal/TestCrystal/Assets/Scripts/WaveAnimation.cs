@@ -6,11 +6,7 @@ public class WaveAnimation : IPlayerAnimator {
 
     public void playAnimation(Animator crystalChan)
     {
-        crystalChan.SetBool("isWaving", true);
-    }
+        crystalChan.Play("Wave", 0);
 
-    public void stopAnimation(Animator crystalChan)
-    {
-        crystalChan.SetBool("isWaving", false);
     }
 }
