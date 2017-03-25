@@ -9,7 +9,7 @@ public class CrystalChanPlayer : MonoBehaviour
     private Animator crystal = null;
     public IPlayerAnimator playerAnimator = null;
     public ApiAiModuleCrystalChan cy;
-    private GoogleTextToSpeech tts;
+    private VoiceRSSTextToSpeech tts;
     public bool recordingStarted;
     HttpRequest httpTest;
 
@@ -19,7 +19,7 @@ public class CrystalChanPlayer : MonoBehaviour
     {
         //playerAnimator = new IdleAnimation();
         crystal = gameObject.GetComponent<Animator>();
-        tts = gameObject.GetComponent<GoogleTextToSpeech>();
+        tts = gameObject.GetComponent<VoiceRSSTextToSpeech>();
         httpTest = new HttpRequest();
         setAnimationStrategy("idle");
         StartCoroutine(cy.Start());
@@ -46,6 +46,12 @@ public class CrystalChanPlayer : MonoBehaviour
         {
             Debug.LogAssertion("currentTime: " + gameObject.GetComponent<Recognition>().currentTime + " endtime " + gameObject.GetComponent<Recognition>().endTime);
         }
+    }
+
+    internal void playError()
+    {
+        setAnimationStrategy("shrug");
+        playAnimation();
     }
 
     //set all non idle actions to false, so idle can only be played and other actions are locked
@@ -88,39 +94,85 @@ public class CrystalChanPlayer : MonoBehaviour
     }
 
     //mehtod determine the animation action that should be played
-    public IEnumerator determineAction(string outText)
+    public IEnumerator determineAction(string json)
     {
+        //type of animation and intent to be voiced and animated by crystal
+        string actiontype = parseIntent(json);
+        //determine the animation action that should be played _> (Current;y action type is "weather" but should be changed to Actiontype when sujen done"
+        setAnimationStrategy("weather");
 
-        string actiontype = parseIntent(outText);
-        //determine the animation action that should be played
-        setAnimationStrategy(actiontype);
-
-        //send intent to crystal cloud
+        //send intent to crystal cloud -- dummy weather----> should be actionType passed when sujen gets apiai done.
         CoroutineWithData cd = new CoroutineWithData(this, getTextFromCloud("weather"));
         yield return cd.coroutine;
         //grab reponse speech fromcrystal cloud and play it
-        TextToSpeech((string)cd.result);
-    }
+        Debug.LogError("Return is of type" + cd.result); //ERROR CHECK HERE IF CD.RESULT IS OF TYPE COROUTINE WE GET ERROR SO SHRUG HERE
 
-    //determine the itent based on the json string 
-    private string parseIntent(string outText)
-    {
-        if (outText.Contains("weather"))
+        if (isString(cd.result))
         {
-            return "weather";
+            PlayTextToSpeechWithAnimation((string)cd.result);
         }
         else
         {
-            return "shrug";
+            playError();
         }
+
+
+       
+    }
+
+
+    //checks to see if return response is a string type that crystal can say
+    public bool isString(object result)
+    {
+        var objectConversion = result as string;
+        return (objectConversion != null);
+    }
+
+    //determine the itent based on the json string 
+    public string parseIntent(string json)
+    {
+        if(json != null)
+        {
+             if (json.Contains("weather"))
+             {
+                 return "weather";
+             }else if (json.Contains("todo"))
+            {
+                 return "todo";
+             }
+            else if (json.Contains("music"))
+            {
+                return "music";
+            }
+            else if (json.Contains("news"))
+            {
+                return "news";
+            }
+            else if (json.Contains("wave"))
+            {
+                return "wave";
+            }
+            else if (json.Contains("math"))
+            {
+                return "math";
+            }
+            else if (json.Contains("idle"))
+            {
+                return "idle";
+            }
+        }
+       
+        
+            return "shrug";
+    
     }
 
 
     //play audio of the string "text" allow in unity using rss api
-    private void TextToSpeech(string textToPlay)
+    public void PlayTextToSpeechWithAnimation(string textToPlay)
     {
         tts.words = textToPlay;
-        tts.playTTS();
+        //tts.playTTS();
     }
 
 
@@ -132,16 +184,15 @@ public class CrystalChanPlayer : MonoBehaviour
         //Get Response object from coroutine
         CoroutineWithData cd = new CoroutineWithData(this, httpTest.httpCall());
         yield return cd.coroutine;
-        Response response = (Response)cd.result;
-
+        Response res = (Response)cd.result;
         //Do something depended on return
-        if (response.error == null)
+        if (res.error == null)
         {
-            Debug.Log("result is " + response.boii);
-            yield return response.boii;
+            Debug.Log("result is " + res.response);
+            yield return res.response;
         }
         else {
-            Debug.Log("result is " + response.error);
+            Debug.Log("result is " + res.error);
         }
 
     }
@@ -155,8 +206,7 @@ public class CrystalChanPlayer : MonoBehaviour
     public void playAnimation()
     {
         //crystal.SetBool("isIdle", false);
-        // playerAnimator.playAnimation(crystal);
-        crystal.Play("Shrug", 0);
+        playerAnimator.playAnimation(crystal);
     }
 
     public void stopAnimation()

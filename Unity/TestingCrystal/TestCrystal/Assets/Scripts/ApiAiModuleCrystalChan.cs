@@ -82,10 +82,13 @@ public class ApiAiModuleCrystalChan : MonoBehaviour
             if (aiResponse != null)
             {
                 Debug.Log(aiResponse.Result.ResolvedQuery);
-                var outText = JsonConvert.SerializeObject(aiResponse, jsonSettings);
+                //test to grab actions from the intent json string <WHEN SUJEN IS DONE, ADD API.AI RESPONE TYPE PARSER HERE> -> aiResponse.Result.Action
+                Debug.Log("INTENT ACTION IS: " + aiResponse.Result.Action);
+
+                var outText = JsonConvert.SerializeObject(aiResponse.Result.Action, jsonSettings);
 
                 Debug.Log(outText);
-                //notify crystal to send intent to claoud and determine and play animation ans response
+                //notify crystal to send intent to cloud and determine and play animation ans response
                 StartCoroutine(crystal.determineAction(outText));
 
             }
@@ -103,6 +106,8 @@ public class ApiAiModuleCrystalChan : MonoBehaviour
             Debug.LogException(e.Exception);
             Debug.Log(e.ToString());
             answerTextField.text = e.Exception.Message;
+
+            //if error occurs while getting intent, then let crystalknow error has occurred
             crystal.determineAction("error");
         });
     }
@@ -138,11 +143,6 @@ public class ApiAiModuleCrystalChan : MonoBehaviour
     {
         Debug.Log("StartListening");
 
-        if (answerTextField != null)
-        {
-            answerTextField.text = "Listening...";
-        }
-
         aud = GetComponent<AudioSource>();
         apiAiUnity.StartListening(aud);
 
@@ -155,11 +155,6 @@ public class ApiAiModuleCrystalChan : MonoBehaviour
         try
         {
             Debug.Log("StopListening");
-
-            if (answerTextField != null)
-            {
-                answerTextField.text = "";
-            }
 
             apiAiUnity.StopListening();
         }

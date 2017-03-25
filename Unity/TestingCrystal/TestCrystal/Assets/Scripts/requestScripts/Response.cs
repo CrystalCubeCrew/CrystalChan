@@ -5,7 +5,7 @@
 
 public class Response {
 
-	public string boii;
+	public string response;
   public string error;
 
   /**

@@ -17,7 +17,7 @@ public class HttpTest : MonoBehaviour {
     
     //Do something depended on return
     if(response.error == null){
-      Debug.Log("result is " + response.boii);
+      Debug.Log("result is " + response.response);
     }
     else{
       Debug.Log("result is " + response.error);

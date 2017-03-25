@@ -79,4 +79,81 @@ public class CrystalChanTest
         Assert.False((CrystalScript.playerAnimator.GetType()).Equals(new WeatherAnimation().GetType()));
 
     }
+
+
+    //parse intent method tests:
+
+    [Test]
+    public void jsonContainsWeatherThenOutputIsWeather()
+    {
+        string json = "weather animation";
+
+        Assert.AreEqual("weather", CrystalScript.parseIntent(json) );
+    }
+
+    [Test]
+    public void jsonContainsToDoThenOutputIsToDo()
+    {
+        string json = "todo animation";
+
+        Assert.AreEqual("todo", CrystalScript.parseIntent(json));
+    }
+
+    [Test]
+    public void jsonDoesntContainAnyCommandsThenOutputIsShrugged()
+    {
+        string json = "bleh animation";
+
+        Assert.AreEqual("shrug", CrystalScript.parseIntent(json));
+
+    }
+
+    [Test]
+    public void jsonNotRecognizedAsStringAndIsNULLThenOutputIsShrugged()
+    {
+        string json = null;
+
+        Assert.AreEqual("shrug", CrystalScript.parseIntent(json));
+    }
+
+
+    //isString method tests
+
+    [Test]
+    public void ifObjectCanBeconvertedToStringThenReturnTrue()
+    {
+        object obj = "i am a string";
+
+        Assert.True(CrystalScript.isString(obj));
+    }
+
+    [Test]
+    public void ifObjectIsNullIsStringThenReturnFalse()
+    {
+        object obj = null;
+
+        Assert.False(CrystalScript.isString(obj));
+    }
+
+    [Test]
+    public void ifObjectCannotBeConvertedToStringThenReturnFalse()
+    {
+        object obj = 1;
+
+        Assert.False(CrystalScript.isString(obj));
+    }
+
+    //TextToSpeech Test
+
+    [Test]
+    public void ifValidStringIsPassedCrystalAnimationIsNoShrugged()
+    {
+        string text = "hello";
+
+        CrystalScript.PlayTextToSpeechWithAnimation(text);
+
+        Assert.False((CrystalScript.playerAnimator.GetType()).Equals(new ShrugAnimation().GetType()));
+    }
+
+
 }

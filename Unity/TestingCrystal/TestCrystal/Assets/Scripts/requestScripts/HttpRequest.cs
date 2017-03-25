@@ -39,8 +39,8 @@ public class HttpRequest {
     try{
       myObject = (www.error == null)
         ? JsonUtility.FromJson<Response>(www.text) 
-        : new Response("There was an error");     
-    }
+        : new Response("There was an error");
+        }
     catch(System.ArgumentException e){
       Debug.Log(e); 
       myObject = new Response("There was an error");
