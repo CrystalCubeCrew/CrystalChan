@@ -11,6 +11,8 @@ public class CrystalChanPlayer : MonoBehaviour
     public ApiAiModuleCrystalChan cy;
     private GoogleTextToSpeech tts;
     public bool recordingStarted;
+    HttpRequest httpTest;
+
 
     // Use this for initialization, runs at beginning of game
     void Start()
@@ -18,6 +20,7 @@ public class CrystalChanPlayer : MonoBehaviour
         //playerAnimator = new IdleAnimation();
         crystal = gameObject.GetComponent<Animator>();
         tts = gameObject.GetComponent<GoogleTextToSpeech>();
+        httpTest = new HttpRequest();
         setAnimationStrategy("idle");
         StartCoroutine(cy.Start());
         recordingStarted = false;
@@ -28,24 +31,21 @@ public class CrystalChanPlayer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        //start listening timer if "hey crystal" was said
         if (recordingStarted == true)
             gameObject.GetComponent<Recognition>().currentTime = Time.realtimeSinceStartup;
 
+        //stop listening when we have listened for entime-current time about of seconds
         if (gameObject.GetComponent<Recognition>().currentTime > gameObject.GetComponent<Recognition>().endTime && recordingStarted == true)
         {
             cy.StopListening();
             recordingStarted = false;
         }
+        //display check to see how much time we have left to wait till we cannot speak anymore
         else if (recordingStarted == true)
         {
             Debug.LogAssertion("currentTime: " + gameObject.GetComponent<Recognition>().currentTime + " endtime " + gameObject.GetComponent<Recognition>().endTime);
         }
-    }
-
-    private bool informationChanged()
-    {
-        return true;
     }
 
     //set all non idle actions to false, so idle can only be played and other actions are locked
@@ -86,30 +86,65 @@ public class CrystalChanPlayer : MonoBehaviour
         }
 
     }
-    public JsonFile my;
-    internal void determineAction(string outText)
-    {
-        my = JsonUtility.FromJson<JsonFile>(outText);
-        if (outText.Contains("greeting"))
-        {
-            setAnimationStrategy("shrug");
-            playAnimation();
-        }
 
-        TextToSpeech(retrieveTextAudioFromCloudBasedOnIntent(outText));
+    //mehtod determine the animation action that should be played
+    public IEnumerator determineAction(string outText)
+    {
+
+        string actiontype = parseIntent(outText);
+        //determine the animation action that should be played
+        setAnimationStrategy(actiontype);
+
+        //send intent to crystal cloud
+        CoroutineWithData cd = new CoroutineWithData(this, getTextFromCloud("weather"));
+        yield return cd.coroutine;
+        //grab reponse speech fromcrystal cloud and play it
+        TextToSpeech((string)cd.result);
     }
 
-    private void TextToSpeech(string v)
+    //determine the itent based on the json string 
+    private string parseIntent(string outText)
     {
-        tts.words = v;
+        if (outText.Contains("weather"))
+        {
+            return "weather";
+        }
+        else
+        {
+            return "shrug";
+        }
+    }
+
+
+    //play audio of the string "text" allow in unity using rss api
+    private void TextToSpeech(string textToPlay)
+    {
+        tts.words = textToPlay;
         tts.playTTS();
     }
 
-    private string retrieveTextAudioFromCloudBasedOnIntent(string intent)
-    {
-        return "Hey John and Chet";
-    }
 
+    IEnumerator getTextFromCloud(string intent)
+    {
+        //Assign httpRequest Object intent 
+        httpTest.intent = intent;
+
+        //Get Response object from coroutine
+        CoroutineWithData cd = new CoroutineWithData(this, httpTest.httpCall());
+        yield return cd.coroutine;
+        Response response = (Response)cd.result;
+
+        //Do something depended on return
+        if (response.error == null)
+        {
+            Debug.Log("result is " + response.boii);
+            yield return response.boii;
+        }
+        else {
+            Debug.Log("result is " + response.error);
+        }
+
+    }
     //setter for the animator (for testing purposes)
     public void setAnimator(Animator animator)
     {

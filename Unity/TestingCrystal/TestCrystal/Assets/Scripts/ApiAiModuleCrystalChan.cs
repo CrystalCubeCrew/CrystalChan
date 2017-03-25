@@ -62,7 +62,7 @@ public class ApiAiModuleCrystalChan : MonoBehaviour
         {
             return true;
         };
-
+        //access for api.ai
         const string ACCESS_TOKEN = "3485a96fb27744db83e78b8c4bc9e7b7";
 
         var config = new AIConfiguration(ACCESS_TOKEN, SupportedLanguage.English);
@@ -74,6 +74,7 @@ public class ApiAiModuleCrystalChan : MonoBehaviour
         apiAiUnity.OnResult += HandleOnResult;
     }
 
+    //when we get return information from api call
     void HandleOnResult(object sender, AIResponseEventArgs e)
     {
         RunInMainThread(() => {
@@ -84,7 +85,8 @@ public class ApiAiModuleCrystalChan : MonoBehaviour
                 var outText = JsonConvert.SerializeObject(aiResponse, jsonSettings);
 
                 Debug.Log(outText);
-                crystal.determineAction(outText);
+                //notify crystal to send intent to claoud and determine and play animation ans response
+                StartCoroutine(crystal.determineAction(outText));
 
             }
             else
@@ -94,6 +96,7 @@ public class ApiAiModuleCrystalChan : MonoBehaviour
         });
     }
 
+    //if we encounter error, display and send error to determine action
     void HandleOnError(object sender, AIErrorEventArgs e)
     {
         RunInMainThread(() => {
@@ -129,6 +132,8 @@ public class ApiAiModuleCrystalChan : MonoBehaviour
 
     }
 
+
+    //begin listening to user
     public void StartListening()
     {
         Debug.Log("StartListening");
@@ -143,6 +148,7 @@ public class ApiAiModuleCrystalChan : MonoBehaviour
 
     }
 
+    //stop listening to what the user is saying
     public void StopListening()
     {
 
@@ -162,7 +168,8 @@ public class ApiAiModuleCrystalChan : MonoBehaviour
             Debug.LogException(ex);
         }
     }
-
+//--------------------------------------------------- might not need what is below ------------------------------------------------------
+    //send text to formulate intent to api.ai
     public void SendText()
     {
         var text = inputTextField.text;
