@@ -172,7 +172,7 @@ public class CrystalChanPlayer : MonoBehaviour
     public void PlayTextToSpeechWithAnimation(string textToPlay)
     {
         tts.words = textToPlay;
-        //tts.playTTS();
+        tts.playTTS();
     }
 
 
