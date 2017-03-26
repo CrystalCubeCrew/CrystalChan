@@ -41,6 +41,9 @@ public class ApiAiModuleCrystalChan : MonoBehaviour
     public AudioClip listeningSound;
     public CrystalChanPlayer crystal;
 
+    private ApiAiUnity apiAiUnity2;
+    public string global;
+
     private readonly JsonSerializerSettings jsonSettings = new JsonSerializerSettings
     {
         NullValueHandling = NullValueHandling.Ignore,
@@ -62,16 +65,27 @@ public class ApiAiModuleCrystalChan : MonoBehaviour
         {
             return true;
         };
-        //access for api.ai
+        //access for api.ai fro speech recognition
         const string ACCESS_TOKEN = "3485a96fb27744db83e78b8c4bc9e7b7";
 
-        var config = new AIConfiguration(ACCESS_TOKEN, SupportedLanguage.English);
+        var config = new AIConfiguration( ACCESS_TOKEN, SupportedLanguage.English);
 
         apiAiUnity = new ApiAiUnity();
         apiAiUnity.Initialize(config);
 
         apiAiUnity.OnError += HandleOnError;
         apiAiUnity.OnResult += HandleOnResult;
+
+        //crystal api.ai initialization
+        const string ACCESS_TOKEN2 = "de08ee3db8064a96b78aae533587369a";
+
+        var config2 = new AIConfiguration(ACCESS_TOKEN2, SupportedLanguage.English);
+
+        apiAiUnity2 = new ApiAiUnity();
+        apiAiUnity2.Initialize(config2);
+
+        apiAiUnity2.OnError += HandleOnError;
+        apiAiUnity2.OnResult += HandleOnResult;
     }
 
     //when we get return information from api call
@@ -83,13 +97,26 @@ public class ApiAiModuleCrystalChan : MonoBehaviour
             {
                 Debug.Log(aiResponse.Result.ResolvedQuery);
                 //test to grab actions from the intent json string <WHEN SUJEN IS DONE, ADD API.AI RESPONE TYPE PARSER HERE> -> aiResponse.Result.Action
-                Debug.Log("INTENT ACTION IS: " + aiResponse.Result.Action);
+                Debug.Log("INTENT ACTION IS: " + aiResponse.Result.ResolvedQuery);
 
-                var outText = JsonConvert.SerializeObject(aiResponse.Result.Action, jsonSettings);
+               
+                AIResponse response = apiAiUnity2.TextRequest(aiResponse.Result.ResolvedQuery);
+                var output = "";
+                if (response != null)
+                {
+                    Debug.Log("Resolved query: " + response.Result.ResolvedQuery);
+                    output = JsonConvert.SerializeObject(response, jsonSettings);
 
-                Debug.Log(outText);
+                    Debug.Log("Result: " + output);
+
+                }
+                else
+                {
+                    Debug.LogError("Response is null");
+                }
+
                 //notify crystal to send intent to cloud and determine and play animation ans response
-                StartCoroutine(crystal.determineAction(outText));
+                StartCoroutine(crystal.determineAction(output));
 
             }
             else
@@ -105,10 +132,12 @@ public class ApiAiModuleCrystalChan : MonoBehaviour
         RunInMainThread(() => {
             Debug.LogException(e.Exception);
             Debug.Log(e.ToString());
-            answerTextField.text = e.Exception.Message;
+            // answerTextField.text = e.Exception.Message;
 
             //if error occurs while getting intent, then let crystalknow error has occurred
-            crystal.determineAction("error");
+            crystal.setAnimationStrategy("shrug");
+            crystal.playAnimation();
+            Debug.Log("determine log");
         });
     }
 
@@ -180,7 +209,6 @@ public class ApiAiModuleCrystalChan : MonoBehaviour
 
             Debug.Log("Result: " + outText);
 
-            answerTextField.text = outText;
         }
         else
         {

@@ -85,7 +85,7 @@ public class CrystalChanTest
     [Test]
     public void jsonContainsWeatherThenOutputIsWeather()
     {
-        string json = "weather animation";
+        string json = "Weather Intent";
 
         Assert.AreEqual("weather", CrystalScript.parseIntent(json) );
     }

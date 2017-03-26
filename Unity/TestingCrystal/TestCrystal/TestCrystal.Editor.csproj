@@ -129,6 +129,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Editor\ApiapModuleTests.cs" />
     <Compile Include="Assets\Editor\CrystalChanTest.cs" />
     <Compile Include="Assets\Editor\VoiceRSSTests.cs" />
   </ItemGroup>

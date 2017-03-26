@@ -99,10 +99,12 @@ public class CrystalChanPlayer : MonoBehaviour
         //type of animation and intent to be voiced and animated by crystal
         string actiontype = parseIntent(json);
         //determine the animation action that should be played _> (Current;y action type is "weather" but should be changed to Actiontype when sujen done"
-        setAnimationStrategy("weather");
+        setAnimationStrategy(actiontype);
+
+        Debug.Log("IN DETERMINE ACTION");
 
         //send intent to crystal cloud -- dummy weather----> should be actionType passed when sujen gets apiai done.
-        CoroutineWithData cd = new CoroutineWithData(this, getTextFromCloud("weather"));
+        CoroutineWithData cd = new CoroutineWithData(this, getTextFromCloud(actiontype));
         yield return cd.coroutine;
         //grab reponse speech fromcrystal cloud and play it
         Debug.LogError("Return is of type" + cd.result); //ERROR CHECK HERE IF CD.RESULT IS OF TYPE COROUTINE WE GET ERROR SO SHRUG HERE
@@ -133,7 +135,7 @@ public class CrystalChanPlayer : MonoBehaviour
     {
         if(json != null)
         {
-             if (json.Contains("weather"))
+             if (json.Contains("Weather Intent"))
              {
                  return "weather";
              }else if (json.Contains("todo"))
