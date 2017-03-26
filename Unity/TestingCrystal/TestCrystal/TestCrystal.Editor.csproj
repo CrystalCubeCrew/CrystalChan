@@ -130,6 +130,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Editor\CrystalChanTest.cs" />
+    <Compile Include="Assets\Editor\VoiceRSSTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\ApiAi\Plugins\Android\AndroidManifest.xml" />

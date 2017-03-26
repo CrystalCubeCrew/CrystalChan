@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: a1b4ffc8f96c39641bec81ebf079132d
-timeCreated: 1490364774
+guid: f4348155b32aa81439b81ca5f011fd6d
+timeCreated: 1490553181
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
@@ -51,12 +51,15 @@ ModelImporter:
     400042: Stomach
     4300000: body
     7400000: Default Take
-    7400002: idle
-    7400004: mathAnimation
-    7400006: NewsFeedAnimation
-    7400008: Shrug
-    7400010: todoAnimation
-    7400012: Weather
+    7400002: Dance
+    7400004: Idle
+    7400006: idle_2
+    7400008: mathAnimation
+    7400010: NewsFeedAnimation
+    7400012: Shrug
+    7400014: todoAnimation
+    7400016: Wave
+    7400018: Weather
     9500000: //RootNode
     13700000: body
   materials:
@@ -70,16 +73,10 @@ ModelImporter:
     optimizeGameObjects: 0
     motionNodeName: 
     animationImportErrors: 
-    animationImportWarnings: "\nClip 'Default Take' has import animation warnings
-      that might lower retargeting quality:\nNote: Activate translation DOF on avatar
-      to improve retargeting quality.\n\t'Bone_005' is inbetween humanoid transforms
-      and has rotation animation that will be discarded.\n\nClip 'Weather' has import
-      animation warnings that might lower retargeting quality:\nNote: Activate translation
-      DOF on avatar to improve retargeting quality.\n\t'Bone_005' is inbetween humanoid
-      transforms and has rotation animation that will be discarded.\n"
+    animationImportWarnings: 
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
-    animationCompression: 3
+    animationCompression: 1
     animationRotationError: 0.5
     animationPositionError: 0.5
     animationScaleError: 0.5
@@ -154,13 +151,13 @@ ModelImporter:
       - path: Armature/Stomach/RightSchoulder/rightArm/rightForearm/RightHand
         weight: 1
       - path: body
-        weight: 0
+        weight: 1
       maskType: 3
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: idle
-      takeName: idle
+      name: Dance
+      takeName: Dance
       firstFrame: -1
       lastFrame: 159
       wrapMode: 0
@@ -169,8 +166,8 @@ ModelImporter:
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 1
-      loopBlend: 1
+      loopTime: 0
+      loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0
       loopBlendPositionXZ: 0
@@ -226,7 +223,151 @@ ModelImporter:
       - path: Armature/Stomach/RightSchoulder/rightArm/rightForearm/RightHand
         weight: 1
       - path: body
-        weight: 0
+        weight: 1
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Idle
+      takeName: Idle
+      firstFrame: -1
+      lastFrame: 159
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Armature
+        weight: 1
+      - path: Armature/Bone_005
+        weight: 1
+      - path: Armature/Bone_005/leftLeft
+        weight: 1
+      - path: Armature/Bone_005/leftLeft/Left_Shin
+        weight: 1
+      - path: Armature/Bone_005/leftLeft/Left_Shin/leftFoot
+        weight: 1
+      - path: Armature/rightHip
+        weight: 1
+      - path: Armature/rightHip/Bone_002
+        weight: 1
+      - path: Armature/rightHip/Bone_002/RightShin
+        weight: 1
+      - path: Armature/rightHip/Bone_002/RightShin/rightFoot
+        weight: 1
+      - path: Armature/Stomach
+        weight: 1
+      - path: Armature/Stomach/Bone_017
+        weight: 1
+      - path: Armature/Stomach/Bone_017/Head
+        weight: 1
+      - path: Armature/Stomach/leftShoulder
+        weight: 1
+      - path: Armature/Stomach/leftShoulder/leftarm
+        weight: 1
+      - path: Armature/Stomach/leftShoulder/leftarm/Bone_011
+        weight: 1
+      - path: Armature/Stomach/leftShoulder/leftarm/Bone_011/leftHand
+        weight: 1
+      - path: Armature/Stomach/RightSchoulder
+        weight: 1
+      - path: Armature/Stomach/RightSchoulder/rightArm
+        weight: 1
+      - path: Armature/Stomach/RightSchoulder/rightArm/rightForearm
+        weight: 1
+      - path: Armature/Stomach/RightSchoulder/rightArm/rightForearm/RightHand
+        weight: 1
+      - path: body
+        weight: 1
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: idle_2
+      takeName: idle_2
+      firstFrame: -1
+      lastFrame: 159
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Armature
+        weight: 1
+      - path: Armature/Bone_005
+        weight: 1
+      - path: Armature/Bone_005/leftLeft
+        weight: 1
+      - path: Armature/Bone_005/leftLeft/Left_Shin
+        weight: 1
+      - path: Armature/Bone_005/leftLeft/Left_Shin/leftFoot
+        weight: 1
+      - path: Armature/rightHip
+        weight: 1
+      - path: Armature/rightHip/Bone_002
+        weight: 1
+      - path: Armature/rightHip/Bone_002/RightShin
+        weight: 1
+      - path: Armature/rightHip/Bone_002/RightShin/rightFoot
+        weight: 1
+      - path: Armature/Stomach
+        weight: 1
+      - path: Armature/Stomach/Bone_017
+        weight: 1
+      - path: Armature/Stomach/Bone_017/Head
+        weight: 1
+      - path: Armature/Stomach/leftShoulder
+        weight: 1
+      - path: Armature/Stomach/leftShoulder/leftarm
+        weight: 1
+      - path: Armature/Stomach/leftShoulder/leftarm/Bone_011
+        weight: 1
+      - path: Armature/Stomach/leftShoulder/leftarm/Bone_011/leftHand
+        weight: 1
+      - path: Armature/Stomach/RightSchoulder
+        weight: 1
+      - path: Armature/Stomach/RightSchoulder/rightArm
+        weight: 1
+      - path: Armature/Stomach/RightSchoulder/rightArm/rightForearm
+        weight: 1
+      - path: Armature/Stomach/RightSchoulder/rightArm/rightForearm/RightHand
+        weight: 1
+      - path: body
+        weight: 1
       maskType: 3
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
@@ -298,7 +439,7 @@ ModelImporter:
       - path: Armature/Stomach/RightSchoulder/rightArm/rightForearm/RightHand
         weight: 1
       - path: body
-        weight: 0
+        weight: 1
       maskType: 3
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
@@ -370,7 +511,7 @@ ModelImporter:
       - path: Armature/Stomach/RightSchoulder/rightArm/rightForearm/RightHand
         weight: 1
       - path: body
-        weight: 0
+        weight: 1
       maskType: 3
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
@@ -442,7 +583,7 @@ ModelImporter:
       - path: Armature/Stomach/RightSchoulder/rightArm/rightForearm/RightHand
         weight: 1
       - path: body
-        weight: 0
+        weight: 1
       maskType: 3
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
@@ -514,15 +655,15 @@ ModelImporter:
       - path: Armature/Stomach/RightSchoulder/rightArm/rightForearm/RightHand
         weight: 1
       - path: body
-        weight: 0
+        weight: 1
       maskType: 3
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Weather
-      takeName: Weather
+      name: Wave
+      takeName: Wave
       firstFrame: -1
-      lastFrame: 159
+      lastFrame: 119
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -586,7 +727,79 @@ ModelImporter:
       - path: Armature/Stomach/RightSchoulder/rightArm/rightForearm/RightHand
         weight: 1
       - path: body
-        weight: 0
+        weight: 1
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Weather
+      takeName: Weather
+      firstFrame: -1
+      lastFrame: 249
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Armature
+        weight: 1
+      - path: Armature/Bone_005
+        weight: 1
+      - path: Armature/Bone_005/leftLeft
+        weight: 1
+      - path: Armature/Bone_005/leftLeft/Left_Shin
+        weight: 1
+      - path: Armature/Bone_005/leftLeft/Left_Shin/leftFoot
+        weight: 1
+      - path: Armature/rightHip
+        weight: 1
+      - path: Armature/rightHip/Bone_002
+        weight: 1
+      - path: Armature/rightHip/Bone_002/RightShin
+        weight: 1
+      - path: Armature/rightHip/Bone_002/RightShin/rightFoot
+        weight: 1
+      - path: Armature/Stomach
+        weight: 1
+      - path: Armature/Stomach/Bone_017
+        weight: 1
+      - path: Armature/Stomach/Bone_017/Head
+        weight: 1
+      - path: Armature/Stomach/leftShoulder
+        weight: 1
+      - path: Armature/Stomach/leftShoulder/leftarm
+        weight: 1
+      - path: Armature/Stomach/leftShoulder/leftarm/Bone_011
+        weight: 1
+      - path: Armature/Stomach/leftShoulder/leftarm/Bone_011/leftHand
+        weight: 1
+      - path: Armature/Stomach/RightSchoulder
+        weight: 1
+      - path: Armature/Stomach/RightSchoulder/rightArm
+        weight: 1
+      - path: Armature/Stomach/RightSchoulder/rightArm/rightForearm
+        weight: 1
+      - path: Armature/Stomach/RightSchoulder/rightArm/rightForearm/RightHand
+        weight: 1
+      - path: body
+        weight: 1
       maskType: 3
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
@@ -616,262 +829,8 @@ ModelImporter:
   copyAvatar: 0
   humanDescription:
     serializedVersion: 2
-    human:
-    - boneName: Armature
-      humanName: Hips
-      limit:
-        min: {x: 0, y: 0, z: 0}
-        max: {x: 0, y: 0, z: 0}
-        value: {x: 0, y: 0, z: 0}
-        length: 0
-        modified: 0
-    - boneName: leftLeft
-      humanName: LeftUpperLeg
-      limit:
-        min: {x: 0, y: 0, z: 0}
-        max: {x: 0, y: 0, z: 0}
-        value: {x: 0, y: 0, z: 0}
-        length: 0
-        modified: 0
-    - boneName: Bone_002
-      humanName: RightUpperLeg
-      limit:
-        min: {x: 0, y: 0, z: 0}
-        max: {x: 0, y: 0, z: 0}
-        value: {x: 0, y: 0, z: 0}
-        length: 0
-        modified: 0
-    - boneName: Left_Shin
-      humanName: LeftLowerLeg
-      limit:
-        min: {x: 0, y: 0, z: 0}
-        max: {x: 0, y: 0, z: 0}
-        value: {x: 0, y: 0, z: 0}
-        length: 0
-        modified: 0
-    - boneName: RightShin
-      humanName: RightLowerLeg
-      limit:
-        min: {x: 0, y: 0, z: 0}
-        max: {x: 0, y: 0, z: 0}
-        value: {x: 0, y: 0, z: 0}
-        length: 0
-        modified: 0
-    - boneName: leftFoot
-      humanName: LeftFoot
-      limit:
-        min: {x: 0, y: 0, z: 0}
-        max: {x: 0, y: 0, z: 0}
-        value: {x: 0, y: 0, z: 0}
-        length: 0
-        modified: 0
-    - boneName: rightFoot
-      humanName: RightFoot
-      limit:
-        min: {x: 0, y: 0, z: 0}
-        max: {x: 0, y: 0, z: 0}
-        value: {x: 0, y: 0, z: 0}
-        length: 0
-        modified: 0
-    - boneName: Stomach
-      humanName: Spine
-      limit:
-        min: {x: 0, y: 0, z: 0}
-        max: {x: 0, y: 0, z: 0}
-        value: {x: 0, y: 0, z: 0}
-        length: 0
-        modified: 0
-    - boneName: Bone_017
-      humanName: Neck
-      limit:
-        min: {x: 0, y: 0, z: 0}
-        max: {x: 0, y: 0, z: 0}
-        value: {x: 0, y: 0, z: 0}
-        length: 0
-        modified: 0
-    - boneName: Head
-      humanName: Head
-      limit:
-        min: {x: 0, y: 0, z: 0}
-        max: {x: 0, y: 0, z: 0}
-        value: {x: 0, y: 0, z: 0}
-        length: 0
-        modified: 0
-    - boneName: leftShoulder
-      humanName: LeftShoulder
-      limit:
-        min: {x: 0, y: 0, z: 0}
-        max: {x: 0, y: 0, z: 0}
-        value: {x: 0, y: 0, z: 0}
-        length: 0
-        modified: 0
-    - boneName: RightSchoulder
-      humanName: RightShoulder
-      limit:
-        min: {x: 0, y: 0, z: 0}
-        max: {x: 0, y: 0, z: 0}
-        value: {x: 0, y: 0, z: 0}
-        length: 0
-        modified: 0
-    - boneName: leftarm
-      humanName: LeftUpperArm
-      limit:
-        min: {x: 0, y: 0, z: 0}
-        max: {x: 0, y: 0, z: 0}
-        value: {x: 0, y: 0, z: 0}
-        length: 0
-        modified: 0
-    - boneName: rightArm
-      humanName: RightUpperArm
-      limit:
-        min: {x: 0, y: 0, z: 0}
-        max: {x: 0, y: 0, z: 0}
-        value: {x: 0, y: 0, z: 0}
-        length: 0
-        modified: 0
-    - boneName: Bone_011
-      humanName: LeftLowerArm
-      limit:
-        min: {x: 0, y: 0, z: 0}
-        max: {x: 0, y: 0, z: 0}
-        value: {x: 0, y: 0, z: 0}
-        length: 0
-        modified: 0
-    - boneName: rightForearm
-      humanName: RightLowerArm
-      limit:
-        min: {x: 0, y: 0, z: 0}
-        max: {x: 0, y: 0, z: 0}
-        value: {x: 0, y: 0, z: 0}
-        length: 0
-        modified: 0
-    - boneName: leftHand
-      humanName: LeftHand
-      limit:
-        min: {x: 0, y: 0, z: 0}
-        max: {x: 0, y: 0, z: 0}
-        value: {x: 0, y: 0, z: 0}
-        length: 0
-        modified: 0
-    - boneName: RightHand
-      humanName: RightHand
-      limit:
-        min: {x: 0, y: 0, z: 0}
-        max: {x: 0, y: 0, z: 0}
-        value: {x: 0, y: 0, z: 0}
-        length: 0
-        modified: 0
-    skeleton:
-    - name: CrystalChan_07_01(Clone)
-      parentName: 
-      position: {x: 0, y: 0, z: 0}
-      rotation: {x: 0, y: 0, z: 0, w: 1}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Armature
-      parentName: CrystalChan_07_01(Clone)
-      position: {x: 0.0047114193, y: 0.64567214, z: 0.023475917}
-      rotation: {x: -0.41568306, y: 0.54169357, z: 0.57811797, w: 0.44671607}
-      scale: {x: 0.24873894, y: 0.24873894, z: 0.24873894}
-    - name: Stomach
-      parentName: Armature
-      position: {x: -0.022801075, y: 0, z: 0}
-      rotation: {x: 0.4969597, y: 0.49726585, z: -0.5030236, w: 0.5027176}
-      scale: {x: 1, y: 1, z: 1}
-    - name: leftShoulder
-      parentName: Stomach
-      position: {x: -1.3379873, y: 0.00000010138619, z: 0.000000002084754}
-      rotation: {x: 0.21054822, y: -0.68876624, z: -0.19447687, w: 0.6659199}
-      scale: {x: 1.0000001, y: 1.0000001, z: 1}
-    - name: leftarm
-      parentName: leftShoulder
-      position: {x: -0.3155809, y: 0.000000014901161, z: -0.00000004058529}
-      rotation: {x: 0.08758058, y: 0.017951459, z: 0.15945369, w: 0.98314905}
-      scale: {x: 0.99999994, y: 1, z: 1}
-    - name: Bone_011
-      parentName: leftarm
-      position: {x: -0.651503, y: 0.000000052154064, z: 0.000000029802322}
-      rotation: {x: 0.27445567, y: -0.0005276277, z: 0.024570247, w: 0.9612857}
-      scale: {x: 0.9999999, y: 1, z: 0.99999994}
-    - name: leftHand
-      parentName: Bone_011
-      position: {x: -0.51925844, y: 0.00000006426126, z: -0.000000022351742}
-      rotation: {x: 0.4148696, y: 0.09136135, z: 0.14587995, w: 0.8934514}
-      scale: {x: 0.99999994, y: 1, z: 1}
-    - name: RightSchoulder
-      parentName: Stomach
-      position: {x: -1.3379873, y: 0.00000010138619, z: 0.000000002084754}
-      rotation: {x: -0.68637896, y: 0.0034225285, z: 0.72607505, w: -0.04107768}
-      scale: {x: 0.9999998, y: 1, z: 0.9999999}
-    - name: rightArm
-      parentName: RightSchoulder
-      position: {x: -0.28072107, y: 0.000000014901161, z: -0.000000030966476}
-      rotation: {x: 0.0028908327, y: 0.013273201, z: -0.16185385, w: 0.98672134}
-      scale: {x: 0.9999998, y: 0.99999994, z: 0.9999998}
-    - name: rightForearm
-      parentName: rightArm
-      position: {x: -0.6261285, y: 0.000000039115548, z: 0.000000052154064}
-      rotation: {x: -0.23731513, y: -0.0031358579, z: -0.021279166, w: 0.97119457}
-      scale: {x: 0.9999999, y: 1, z: 0.99999994}
-    - name: RightHand
-      parentName: rightForearm
-      position: {x: -0.58967876, y: 0.000000052154064, z: -0.000000014901161}
-      rotation: {x: -0.41512233, y: -0.018361792, z: -0.18327142, w: 0.89092535}
-      scale: {x: 0.99999994, y: 0.9999999, z: 0.9999999}
-    - name: Bone_017
-      parentName: Stomach
-      position: {x: -1.3379873, y: 0.00000010138619, z: 0.000000002084754}
-      rotation: {x: -0.000026290858, y: 0.0057073915, z: -0.0050474894, w: 0.999971}
-      scale: {x: 0.99999994, y: 1, z: 1}
-    - name: Head
-      parentName: Bone_017
-      position: {x: -0.22302414, y: 0.000000016694187, z: -1.31408e-10}
-      rotation: {x: -0.0000004715202, y: 0.0002623423, z: 0.0053695193, w: 0.9999856}
-      scale: {x: 1, y: 0.9999999, z: 0.9999998}
-    - name: rightHip
-      parentName: Armature
-      position: {x: -0.022801075, y: 0, z: 0}
-      rotation: {x: -0.0380225, y: 0.038022652, z: 0.7061983, w: 0.7059693}
-      scale: {x: 0.99999976, y: 1, z: 0.99998415}
-    - name: Bone_002
-      parentName: rightHip
-      position: {x: -0.21998836, y: 0.00000001659538, z: -0.000000001223867}
-      rotation: {x: 0.6820191, y: -0.00014499616, z: 0.7313343, w: 0.0000805729}
-      scale: {x: 1, y: 1, z: 0.99999994}
-    - name: RightShin
-      parentName: Bone_002
-      position: {x: -0.8337539, y: 0.00000006293206, z: 2.59973e-10}
-      rotation: {x: -0.00014429486, y: 0.018916741, z: -0.0076631424, w: 0.9997917}
-      scale: {x: 1.0000001, y: 1, z: 1}
-    - name: rightFoot
-      parentName: RightShin
-      position: {x: -1.4972467, y: 0.00000011377591, z: 0.0000000265107}
-      rotation: {x: 0.5262716, y: 0.47318298, z: 0.48455647, w: 0.51414114}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Bone_005
-      parentName: Armature
-      position: {x: -0.022801075, y: 0, z: 0}
-      rotation: {x: 0.012509407, y: 0.008147596, z: -0.8316978, w: 0.5550279}
-      scale: {x: 0.99999994, y: 1, z: 1}
-    - name: leftLeft
-      parentName: Bone_005
-      position: {x: -0.26361933, y: 0.000000005361244, z: 3.20142e-10}
-      rotation: {x: -0.001099738, y: -0.7105724, z: -0.0017113704, w: 0.70362115}
-      scale: {x: 1, y: 1.0000001, z: 1}
-    - name: Left_Shin
-      parentName: leftLeft
-      position: {x: -0.7879738, y: 0.000000049825758, z: 0.000000023283064}
-      rotation: {x: 0.00000927027, y: -0.030755844, z: 0.00048802633, w: 0.9995268}
-      scale: {x: 1, y: 0.99999994, z: 1}
-    - name: leftFoot
-      parentName: Left_Shin
-      position: {x: -1.5203956, y: 0.00000012171222, z: 0.000000011175871}
-      rotation: {x: 0.5359628, y: 0.4830275, z: 0.46125296, w: 0.51640487}
-      scale: {x: 0.9999996, y: 0.9999999, z: 0.99999994}
-    - name: body
-      parentName: CrystalChan_07_01(Clone)
-      position: {x: -0.014799714, y: 0.0024119709, z: -2.6413994}
-      rotation: {x: 0.0020145073, y: -0.0056317216, z: -0.70874304, w: 0.70544136}
-      scale: {x: 4.0202794, y: 4.020279, z: 4.0202794}
+    human: []
+    skeleton: []
     armTwist: 0.5
     foreArmTwist: 0.5
     upperLegTwist: 0.5
@@ -882,10 +841,10 @@ ModelImporter:
     rootMotionBoneName: 
     rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
     hasTranslationDoF: 0
-    hasExtraRoot: 1
+    hasExtraRoot: 0
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
-  animationType: 3
+  animationType: 2
   humanoidOversampling: 1
   additionalBone: 0
   userData: 

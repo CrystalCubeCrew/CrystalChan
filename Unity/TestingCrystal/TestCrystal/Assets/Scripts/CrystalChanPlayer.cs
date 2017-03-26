@@ -9,7 +9,7 @@ public class CrystalChanPlayer : MonoBehaviour
     private Animator crystal = null;
     public IPlayerAnimator playerAnimator = null;
     public ApiAiModuleCrystalChan cy;
-    private VoiceRSSTextToSpeech tts;
+    public VoiceRSSTextToSpeech tts;
     public bool recordingStarted;
     HttpRequest httpTest;
 

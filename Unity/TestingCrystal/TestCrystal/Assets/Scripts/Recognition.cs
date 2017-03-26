@@ -25,6 +25,10 @@ public class Recognition : MonoBehaviour {
              currentTime = Time.realtimeSinceStartup;
              endTime = (float)(currentTime + 3);
              gameObject.GetComponent<CrystalChanPlayer>().recordingStarted = true;
+
+             //when hey crystal is said, play wave animation
+             gameObject.GetComponent<CrystalChanPlayer>().setAnimationStrategy("wave");
+             gameObject.GetComponent<CrystalChanPlayer>().playAnimation();
          });
 
 

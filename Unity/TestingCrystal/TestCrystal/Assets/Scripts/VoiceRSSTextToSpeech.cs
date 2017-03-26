@@ -12,8 +12,9 @@ public class VoiceRSSTextToSpeech : MonoBehaviour
 {
 
     public string words = "Hello";
+    public CrystalChanPlayer ccp;
 
-    IEnumerator playTextToSpeech()
+    public IEnumerator playTextToSpeech()
     {
         AudioSource myAudio = gameObject.GetComponent<AudioSource>();
         // Remove the "spaces" in excess
@@ -29,16 +30,17 @@ public class VoiceRSSTextToSpeech : MonoBehaviour
             myAudio.clip = www.GetAudioClip(false, true, AudioType.WAV);
             //myAudio.Play();
             myAudio.Play();
-            gameObject.GetComponent<CrystalChanPlayer>().playAnimation();
+            ccp.playAnimation();
         }catch(Exception e){
             Debug.Log("Error: Connect connect to text to speech api - "+ e.ToString());
-            gameObject.GetComponent<CrystalChanPlayer>().playError();
+            words = "";
+            ccp.playError();
         }
        
 
     }
 
-    internal void playTTS()
+    public void playTTS()
     {
         StartCoroutine(playTextToSpeech());
     }

@@ -22,7 +22,6 @@ public class CrystalChanTest
 
         CrystalScript.setAnimator(CrystalAnimator);
         CrystalScript.setAnimationStrategy("idle");
-        
 
     }
 
@@ -141,18 +140,6 @@ public class CrystalChanTest
         object obj = 1;
 
         Assert.False(CrystalScript.isString(obj));
-    }
-
-    //TextToSpeech Test
-
-    [Test]
-    public void ifValidStringIsPassedCrystalAnimationIsNoShrugged()
-    {
-        string text = "hello";
-
-        CrystalScript.PlayTextToSpeechWithAnimation(text);
-
-        Assert.False((CrystalScript.playerAnimator.GetType()).Equals(new ShrugAnimation().GetType()));
     }
 
 

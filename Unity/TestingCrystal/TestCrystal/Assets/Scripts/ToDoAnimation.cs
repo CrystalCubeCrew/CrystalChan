@@ -6,7 +6,7 @@ public class ToDoAnimation : IPlayerAnimator {
 
     public void playAnimation(Animator crystalChan)
     {
-        crystalChan.Play("ToDoAnimation", 0);
+        crystalChan.Play("TodoAnimation", 0);
 
     }
 }
