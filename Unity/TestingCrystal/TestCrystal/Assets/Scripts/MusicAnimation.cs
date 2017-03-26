@@ -7,6 +7,6 @@ public class MusicAnimation : IPlayerAnimator
 {
     public void playAnimation(Animator crystalChan)
     {
-        crystalChan.Play("Dancing", 0);
+        crystalChan.Play("Dance", 0);
     }
 }
