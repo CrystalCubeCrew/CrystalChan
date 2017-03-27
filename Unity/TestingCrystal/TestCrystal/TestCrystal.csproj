@@ -109,6 +109,14 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\ApiAi\Plugins\Android\AndroidManifest.xml" />
+    <None Include="Assets\StreamingAssets\GoogleStreamingSpeechToTextProgram\Google.Apis.Auth.PlatformServices.xml" />
+    <None Include="Assets\StreamingAssets\GoogleStreamingSpeechToTextProgram\Google.Apis.Auth.xml" />
+    <None Include="Assets\StreamingAssets\GoogleStreamingSpeechToTextProgram\Google.Apis.Core.xml" />
+    <None Include="Assets\StreamingAssets\GoogleStreamingSpeechToTextProgram\Google.Protobuf.xml" />
+    <None Include="Assets\StreamingAssets\GoogleStreamingSpeechToTextProgram\Grpc.Auth.xml" />
+    <None Include="Assets\StreamingAssets\GoogleStreamingSpeechToTextProgram\Grpc.Core.xml" />
+    <None Include="Assets\StreamingAssets\GoogleStreamingSpeechToTextProgram\Newtonsoft.Json.xml" />
+    <None Include="Assets\StreamingAssets\GoogleStreamingSpeechToTextProgram\System.Interactive.Async.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />
