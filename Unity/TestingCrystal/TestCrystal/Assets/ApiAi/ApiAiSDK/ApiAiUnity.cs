@@ -147,9 +147,9 @@ namespace ApiAiSDK.Unity
 				lock (thisLock) {
 					if (recordingActive) {
 						StopRecording();
-						samples = new float[audioSource.clip.samples];
+                        samples = new float[audioSource.clip.samples];
 						audioSource.clip.GetData(samples, 0);
-						audioSource = null;
+                        audioSource = null;
 					}
 				}
 

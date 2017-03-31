@@ -116,7 +116,7 @@ public class ApiAiModuleCrystalChan : MonoBehaviour
                 }
 
                 //notify crystal to send intent to cloud and determine and play animation ans response
-                StartCoroutine(crystal.determineAction(output));
+                StartCoroutine(crystal.playRequiredReaction(output));
 
             }
             else
@@ -184,6 +184,7 @@ public class ApiAiModuleCrystalChan : MonoBehaviour
         try
         {
             Debug.Log("StopListening");
+            Debug.Log("Audio is currently"+aud.clip);
 
             apiAiUnity.StopListening();
         }

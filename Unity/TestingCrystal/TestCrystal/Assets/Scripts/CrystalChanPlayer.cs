@@ -93,11 +93,15 @@ public class CrystalChanPlayer : MonoBehaviour
 
     }
 
+
+
+
+
     //mehtod determine the animation action that should be played
-    public IEnumerator determineAction(string json)
+    public IEnumerator playRequiredReaction(string json)
     {
         //type of animation and intent to be voiced and animated by crystal
-        string actiontype = parseIntent(json);
+        string actiontype = determineAction(json);
         //determine the animation action that should be played _> (Current;y action type is "weather" but should be changed to Actiontype when sujen done"
         setAnimationStrategy(actiontype);
 
@@ -112,7 +116,7 @@ public class CrystalChanPlayer : MonoBehaviour
         if (isString(cd.result))
         {
             PlayTextToSpeechWithAnimation((string)cd.result);
-        }
+        }  
         else
         {
             playError();
@@ -131,18 +135,19 @@ public class CrystalChanPlayer : MonoBehaviour
     }
 
     //determine the itent based on the json string 
-    public string parseIntent(string json)
+    public string determineAction(string json)
     {
+        json = json.ToLower();
         if(json != null)
         {
-             if (json.Contains("Weather Intent"))
+             if (json.Contains("weather intent"))
              {
                  return "weather";
              }else if (json.Contains("todo"))
             {
                  return "todo";
              }
-            else if (json.Contains("music"))
+            else if (json.Contains("music intent"))
             {
                 return "music";
             }
@@ -209,6 +214,7 @@ public class CrystalChanPlayer : MonoBehaviour
     {
         //crystal.SetBool("isIdle", false);
         playerAnimator.playAnimation(crystal);
+        setIdleAction();
     }
 
     public void stopAnimation()
