@@ -36,13 +36,14 @@ public class ApiAiModuleCrystalChan : MonoBehaviour
 
     public Text answerTextField;
     public Text inputTextField;
-    private ApiAiUnity apiAiUnity;
+    private ApiAiUnity apiAiUnity = new ApiAiUnity();
     private AudioSource aud;
     public AudioClip listeningSound;
     public CrystalChanPlayer crystal;
 
     private ApiAiUnity apiAiUnity2;
     public string global;
+
 
     private readonly JsonSerializerSettings jsonSettings = new JsonSerializerSettings
     {
@@ -86,6 +87,7 @@ public class ApiAiModuleCrystalChan : MonoBehaviour
 
         apiAiUnity2.OnError += HandleOnError;
         apiAiUnity2.OnResult += HandleOnResult;
+
     }
 
     //when we get return information from api call
@@ -98,8 +100,8 @@ public class ApiAiModuleCrystalChan : MonoBehaviour
                 Debug.Log(aiResponse.Result.ResolvedQuery);
                 //test to grab actions from the intent json string <WHEN SUJEN IS DONE, ADD API.AI RESPONE TYPE PARSER HERE> -> aiResponse.Result.Action
                 Debug.Log("INTENT ACTION IS: " + aiResponse.Result.ResolvedQuery);
-
-               
+                writeResponseToFile(aiResponse.Result.ResolvedQuery);
+                               
                 AIResponse response = apiAiUnity2.TextRequest(aiResponse.Result.ResolvedQuery);
                 var output = "";
                 if (response != null)
@@ -126,6 +128,21 @@ public class ApiAiModuleCrystalChan : MonoBehaviour
         });
     }
 
+    void writeResponseToFile(String response)
+    {
+         try{
+            using (System.IO.StreamWriter file =
+           new System.IO.StreamWriter(@"Desktop\crystalFile.txt", true))
+            {
+                file.WriteLine(response);
+            }
+        }
+        catch (Exception e)
+        {
+
+        }
+    }
+
     //if we encounter error, display and send error to determine action
     void HandleOnError(object sender, AIErrorEventArgs e)
     {
@@ -133,7 +150,8 @@ public class ApiAiModuleCrystalChan : MonoBehaviour
             Debug.LogException(e.Exception);
             Debug.Log(e.ToString());
             // answerTextField.text = e.Exception.Message;
-
+            Debug.Log("error");
+            writeResponseToFile("error on handle");
             //if error occurs while getting intent, then let crystalknow error has occurred
             crystal.setAnimationStrategy("shrug");
             crystal.playAnimation();
@@ -223,10 +241,13 @@ public class ApiAiModuleCrystalChan : MonoBehaviour
         try
         {
             apiAiUnity.StartNativeRecognition();
+            writeResponseToFile("started");
         }
         catch (Exception ex)
         {
             Debug.LogException(ex);
+            writeResponseToFile("error in native recogn");
+
         }
     }
 }

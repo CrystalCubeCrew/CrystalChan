@@ -11,8 +11,14 @@ public class CrystalChanPlayer : MonoBehaviour
     public ApiAiModuleCrystalChan cy;
     public VoiceRSSTextToSpeech tts;
     public bool recordingStarted;
+    public SpeechRecognizerDemo srd;
     HttpRequest httpTest;
+    public bool haveWaited;
+    public AudioClip beep;
 
+
+    //timer things
+    float startTime, endtime;
 
     // Use this for initialization, runs at beginning of game
     void Start()
@@ -23,29 +29,57 @@ public class CrystalChanPlayer : MonoBehaviour
         httpTest = new HttpRequest();
         setAnimationStrategy("idle");
         StartCoroutine(cy.Start());
-        recordingStarted = false;
-
+        recordingStarted = haveWaited= false;
+        //StartCoroutine(cy.Start());
+        startTime = Time.realtimeSinceStartup;
+        endtime = startTime + 2;
+        gameObject.GetComponent<AudioSource>().mute = false;
+        //srd.Start();
+        //srd.StartListening();
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        //start listening timer if "hey crystal" was said
-        if (recordingStarted == true)
-            gameObject.GetComponent<Recognition>().currentTime = Time.realtimeSinceStartup;
-
-        //stop listening when we have listened for entime-current time about of seconds
-        if (gameObject.GetComponent<Recognition>().currentTime > gameObject.GetComponent<Recognition>().endTime && recordingStarted == true)
+        //srd.StartListening();
+        //start listening timer if "hey crystal" was said        
+        //stop listening when we have listened for entime-current time about of secondss
+        startTime = Time.realtimeSinceStartup;
+        Debug.Log("start: " + startTime +"end: "+ endtime);
+        if (startTime > endtime && !recordingStarted)
         {
-            cy.StopListening();
+            startTime = Time.realtimeSinceStartup;
+            endtime = startTime + 4;
+            srd.StartListeningNoBeep();
+            //recordingStarted = true;
+        }else if(recordingStarted && haveWaited)
+        {
+            startTime = Time.realtimeSinceStartup;
+            endtime = startTime + 4;
             recordingStarted = false;
+            haveWaited = false;
+            
         }
-        //display check to see how much time we have left to wait till we cannot speak anymore
-        else if (recordingStarted == true)
-        {
-            Debug.LogAssertion("currentTime: " + gameObject.GetComponent<Recognition>().currentTime + " endtime " + gameObject.GetComponent<Recognition>().endTime);
-        }
+
+
+    }
+
+    public void waitToRecord(float timeToWait)
+    {
+        startTime = Time.realtimeSinceStartup;
+         endtime = startTime + timeToWait;
+
+         while(startTime < endtime)
+         {
+             Debug.Log("WAITING__________start: " + startTime + "end: " + endtime+"_____________________");
+
+             startTime = Time.realtimeSinceStartup;
+         }
+        haveWaited = true;
+        Debug.Log("SHOULD BEEEP NOWWW!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        srd.StartListening();
+         AudioSource.PlayClipAtPoint(beep, gameObject.GetComponent<Transform>().position);
     }
 
     internal void playError()

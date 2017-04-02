@@ -1,14 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Windows.Speech;
 using System.Linq;
 using System;
 
 public class Recognition : MonoBehaviour {
 
     //listens for specific words
-    KeywordRecognizer keywordRecog;
+   // KeywordRecognizer keywordRecog;
     Dictionary<string, System.Action> keywords = new Dictionary<string, System.Action>();
     public ApiAiModuleCrystalChan cy;
 
@@ -19,8 +18,9 @@ public class Recognition : MonoBehaviour {
     {
         currentTime = endTime = 0;
 
+        cy.StartNativeRecognition();
         //initilize stuff
-        keywords.Add("Hey Crystal", () =>
+       /* keywords.Add("Hey Crystal", () =>
           {
               //add animation to play when you say hey crystal
               cy.StartListening();
@@ -33,15 +33,15 @@ public class Recognition : MonoBehaviour {
               gameObject.GetComponent<CrystalChanPlayer>().playAnimation();
           });
 
-
+  
          keywordRecog = new KeywordRecognizer(keywords.Keys.ToArray());
          keywordRecog.OnPhraseRecognized += keywordRecognOnPhraseRecog;
          keywordRecog.Start(); 
 
-
+  */
     }
 
-
+/*
     void keywordRecognOnPhraseRecog(PhraseRecognizedEventArgs args)
     {
         System.Action keywordAction;
@@ -52,5 +52,5 @@ public class Recognition : MonoBehaviour {
         }
     }
 
-
+    */
 }
