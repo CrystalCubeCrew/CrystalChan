@@ -15,6 +15,7 @@ public class SpeechRecognizerDemo : MonoBehaviour {
 	private Dispatcher dispatcher;
     public CrystalChanPlayer crystal;
     private bool saidHey;
+    public ApiAiModuleCrystalChan cloudService;
 
 
 
@@ -29,6 +30,7 @@ public class SpeechRecognizerDemo : MonoBehaviour {
 		AddSpeechPluginListener();
         crystal = gameObject.GetComponent<CrystalChanPlayer>();
         saidHey = false;
+        cloudService = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<ApiAiModuleCrystalChan>();
 	}
 
 	private void OnEnable(){
@@ -248,10 +250,8 @@ public class SpeechRecognizerDemo : MonoBehaviour {
                     {
                         saidHey = false;
                         Debug.Log("WHAT TO PARSE your result is " + whatToSay);
+                        cloudService.SendText(whatToSay);
 
-
-                        //closing beep
-                        gameObject.GetComponent<AudioSource>().Play();
                     }
 					}
 					

@@ -9,13 +9,14 @@ public class CrystalChanPlayer : MonoBehaviour
     private Animator crystal = null;
     public IPlayerAnimator playerAnimator = null;
     public ApiAiModuleCrystalChan cy;
-    public VoiceRSSTextToSpeech tts;
+    //public VoiceRSSTextToSpeech tts;
     public bool recordingStarted;
     public SpeechRecognizerDemo srd;
+    public TextToSpeechDemo tts;
     HttpRequest httpTest;
     public bool haveWaited;
     public AudioClip beep;
-
+    private string whatToSay;
 
     //timer things
     float startTime, endtime;
@@ -25,7 +26,8 @@ public class CrystalChanPlayer : MonoBehaviour
     {
         //playerAnimator = new IdleAnimation();
         crystal = gameObject.GetComponent<Animator>();
-        tts = gameObject.GetComponent<VoiceRSSTextToSpeech>();
+        // tts = gameObject.GetComponent<VoiceRSSTextToSpeech>();
+        tts = gameObject.GetComponent<TextToSpeechDemo>();
         httpTest = new HttpRequest();
         setAnimationStrategy("idle");
         StartCoroutine(cy.Start());
@@ -57,7 +59,6 @@ public class CrystalChanPlayer : MonoBehaviour
         {
             startTime = Time.realtimeSinceStartup;
             endtime = startTime + 4;
-            recordingStarted = false;
             haveWaited = false;
             
         }
@@ -67,7 +68,7 @@ public class CrystalChanPlayer : MonoBehaviour
 
     public void waitToRecord(float timeToWait)
     {
-        startTime = Time.realtimeSinceStartup;
+        /*startTime = Time.realtimeSinceStartup;
          endtime = startTime + timeToWait;
 
          while(startTime < endtime)
@@ -75,17 +76,32 @@ public class CrystalChanPlayer : MonoBehaviour
              Debug.Log("WAITING__________start: " + startTime + "end: " + endtime+"_____________________");
 
              startTime = Time.realtimeSinceStartup;
-         }
+         }*/
         haveWaited = true;
         Debug.Log("SHOULD BEEEP NOWWW!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         srd.StartListening();
-         AudioSource.PlayClipAtPoint(beep, gameObject.GetComponent<Transform>().position);
+        // AudioSource.PlayClipAtPoint(beep, gameObject.GetComponent<Transform>().position);
+    }
+
+    public void waitSomeTime(float time)
+    {
+        startTime = Time.realtimeSinceStartup;
+        endtime = startTime + time;
+
+        while (startTime < endtime)
+        {
+            Debug.Log("SHE IS SPEAKING___________: " + startTime + "end: " + endtime + "_____________________");
+
+            startTime = Time.realtimeSinceStartup;
+        }
     }
 
     internal void playError()
     {
         setAnimationStrategy("shrug");
         playAnimation();
+        whatToSay = "Sorry, I don't know what that means.";
+        tts.SpeakOut();
     }
 
     //set all non idle actions to false, so idle can only be played and other actions are locked
@@ -212,10 +228,18 @@ public class CrystalChanPlayer : MonoBehaviour
     //play audio of the string "text" allow in unity using rss api
     public void PlayTextToSpeechWithAnimation(string textToPlay)
     {
-        tts.words = textToPlay;
-        tts.playTTS();
+        whatToSay = textToPlay;
+        Debug.Log("RESULT TO SPEAK TTS IS " + textToPlay);
+        tts.SpeakOut();
+        // tts.words = textToPlay;
+        //tts.playTTS();
+       // waitSomeTime(2);
     }
 
+    public string getWhatToSay()
+    {
+        return whatToSay;
+    }
 
     IEnumerator getTextFromCloud(string intent)
     {

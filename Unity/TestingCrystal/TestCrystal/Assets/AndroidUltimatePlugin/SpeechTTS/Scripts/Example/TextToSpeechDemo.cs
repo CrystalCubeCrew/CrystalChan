@@ -8,7 +8,7 @@ public class TextToSpeechDemo : MonoBehaviour {
 
 	private const string TAG = "[TextToSpeechDemo]: ";
 
-	public InputField inputField;
+	/*public InputField inputField;
 
 	public Text statusText;
 	public Text ttsDataActivityStatusText;
@@ -22,11 +22,12 @@ public class TextToSpeechDemo : MonoBehaviour {
 	public Slider speechRateSlider;
 
 	public Text volumeText;
-	public Slider volumeSlider;
+	public Slider volumeSlider;*/
 
 	private SpeechPlugin speechPlugin;
 	private TextToSpeechPlugin textToSpeechPlugin;
 	private float waitingInterval = 2f;
+    public CrystalChanPlayer crystal;
 
 	private Dispatcher dispatcher;
 
@@ -51,6 +52,7 @@ public class TextToSpeechDemo : MonoBehaviour {
 	void Start (){
 		CheckTTSDataActivity();
 		UpdateSettingsValue();
+        crystal = GameObject.FindGameObjectWithTag("CrystalModel").GetComponent<CrystalChanPlayer>();
 	}
 
 	private void OnApplicationPause(bool val){
@@ -78,48 +80,59 @@ public class TextToSpeechDemo : MonoBehaviour {
 	}
 
 	private void UpdateStatus(string status){
-		if(statusText!=null){
+		/*if(statusText!=null){
 			statusText.text = String.Format("Status: {0}",status);	
-		}
+		}*/
+        Debug.Log("status: " + status);
 	}
 
 	private void UpdateTTSDataActivityStatus(string status){
-		if(ttsDataActivityStatusText!=null){
+        /*if(ttsDataActivityStatusText!=null){
 			ttsDataActivityStatusText.text = String.Format("TTS Data Activity Status: {0}",status);
-		}
-	}
+		}*/
+        Debug.Log("tts data activity status: " + status);
 
-	private void UpdateLocale(SpeechLocale locale){
-		if(localeText!=null){
+    }
+
+    private void UpdateLocale(SpeechLocale locale){
+        /*if(localeText!=null){
 			localeText.text = String.Format("Locale: {0}",locale);
 			textToSpeechPlugin.SetLocale(locale);
-		}
-	}
+		}*/
+        Debug.Log("locale text: " + locale);
 
-	private void UpdatePitch(float pitch){
-		if(pitchText!=null){
-			pitchText.text = String.Format("Pitch: {0}",pitch);
-			textToSpeechPlugin.SetPitch(pitch);
-		}
+    }
+
+    private void UpdatePitch(float pitch){
+        //if(pitchText!=null){
+        //pitchText.text = String.Format("Pitch: {0}",pitch);
+        Debug.Log("pitch: " + pitch);
+
+        textToSpeechPlugin.SetPitch(pitch);
+		//}
 	}
 
 	private void UpdateSpeechRate(float speechRate){
-		if(speechRateText!=null){
-			speechRateText.text = String.Format("Speech Rate: {0}",speechRate);
+		//if(speechRateText!=null){
+			//speechRateText.text = String.Format("Speech Rate: {0}",speechRate);
 			textToSpeechPlugin.SetSpeechRate(speechRate);
-		}
-	}
+        Debug.Log("speech rate: " + speechRate);
 
-	private void UpdateVolume(int volume){
-		if(volumeText!=null){
-			volumeText.text = String.Format("Volume: {0}",volume);
+        //}
+    }
+
+    private void UpdateVolume(int volume){
+		//if(volumeText!=null){
+			//volumeText.text = String.Format("Volume: {0}",volume);
 			textToSpeechPlugin.IncreaseMusicVolumeByValue(volume);
-		}
-	}
+        Debug.Log("volume: " + volume);
 
-	public void SpeakOut(){
-		if(inputField!=null){
-			string whatToSay = inputField.text;
+        //}
+    }
+
+    public void SpeakOut(){
+        //if(inputField!=null){
+        string whatToSay = crystal.getWhatToSay();
 			string utteranceId  = "test-utteranceId";
 
 			if(textToSpeechPlugin.isInitialized()){
@@ -127,7 +140,7 @@ public class TextToSpeechDemo : MonoBehaviour {
 				Debug.Log(TAG + "SpeakOut whatToSay: " + whatToSay  + " utteranceId " + utteranceId);
 				textToSpeechPlugin.SpeakOut(whatToSay,utteranceId);	
 			}
-		}
+		//}
 	}
 
 	//checks if speaking
@@ -177,17 +190,17 @@ public class TextToSpeechDemo : MonoBehaviour {
 	}
 
 	private void UpdateSpeechLocaleSetting(){
-		if(localeSlider!=null){
-			SpeechLocale locale = (SpeechLocale)localeSlider.value;
-			UpdateLocale(locale);
-		}
+		//if(localeSlider!=null){
+		//	SpeechLocale locale = (SpeechLocale)localeSlider.value;
+		//	UpdateLocale(locale);
+		//}
 	}
 
 	private void UpdatePitchSetting(){
-		if(pitchSlider!=null){
-			float pitch = pitchSlider.value;
-			UpdatePitch(pitch);
-		}
+		//if(pitchSlider!=null){
+		//	float pitch = pitchSlider.value;
+		//	UpdatePitch(pitch);
+		//}
 	}
 	
 	public void OnPitchSliderChange(){
@@ -201,10 +214,10 @@ public class TextToSpeechDemo : MonoBehaviour {
 	}
 	
 	private void UpdateSpeechRateSetting(){
-		if(speechRateSlider!=null){
-			float speechRate = speechRateSlider.value;
-			UpdateSpeechRate(speechRate);
-		}
+		//if(speechRateSlider!=null){
+		///	float speechRate = speechRateSlider.value;
+		//	UpdateSpeechRate(speechRate);
+		//}
 	}
 	
 	public void OnVolumeSliderChange(){
@@ -213,10 +226,10 @@ public class TextToSpeechDemo : MonoBehaviour {
 	}
 	
 	private void UpdateVolumeSetting(){
-		if(volumeSlider!=null){
-			int volume = (int)volumeSlider.value;
-			UpdateVolume(volume);
-		}
+		//if(volumeSlider!=null){
+		//	int volume = (int)volumeSlider.value;
+		//	UpdateVolume(volume);
+		//}
 	}
 
 	private void OnInit(int status){
@@ -276,7 +289,7 @@ public class TextToSpeechDemo : MonoBehaviour {
 			()=>{
 				UpdateStatus("Done Speech...");
 				Debug.Log(TAG + "OnDoneSpeech utteranceId: " + utteranceId);
-
+                crystal.recordingStarted = false;
 				CancelInvoke("WaitingMode");
 				Invoke("WaitingMode",waitingInterval);
 			}
@@ -287,8 +300,8 @@ public class TextToSpeechDemo : MonoBehaviour {
 		dispatcher.InvokeAction(
 			()=>{
 				UpdateStatus("Error Speech...");
-
-				CancelInvoke("WaitingMode");
+                crystal.recordingStarted = false;
+                CancelInvoke("WaitingMode");
 				Invoke("WaitingMode",waitingInterval);
 
 				Debug.Log(TAG + "OnErrorSpeech utteranceId: " + utteranceId);

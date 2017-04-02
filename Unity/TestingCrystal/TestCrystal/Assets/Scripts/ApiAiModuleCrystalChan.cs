@@ -213,18 +213,17 @@ public class ApiAiModuleCrystalChan : MonoBehaviour
     }
 //--------------------------------------------------- might not need what is below ------------------------------------------------------
     //send text to formulate intent to api.ai
-    public void SendText()
+    public void SendText(string text)
     {
-        var text = inputTextField.text;
-
         Debug.Log(text);
 
-        AIResponse response = apiAiUnity.TextRequest(text);
-
+        AIResponse response = apiAiUnity2.TextRequest(text);
+        var output = "";
         if (response != null)
         {
-            Debug.Log("Resolved query: " + response.Result.ResolvedQuery);
+            Debug.Log(">>>>>>>>>>>>>>Resolved query: " + response.Result.ResolvedQuery);
             var outText = JsonConvert.SerializeObject(response, jsonSettings);
+            output = JsonConvert.SerializeObject(response, jsonSettings);
 
             Debug.Log("Result: " + outText);
 
@@ -233,6 +232,9 @@ public class ApiAiModuleCrystalChan : MonoBehaviour
         {
             Debug.LogError("Response is null");
         }
+
+        //notify crystal to send intent to cloud and determine and play animation ans response
+        StartCoroutine(crystal.playRequiredReaction(output));
 
     }
 
