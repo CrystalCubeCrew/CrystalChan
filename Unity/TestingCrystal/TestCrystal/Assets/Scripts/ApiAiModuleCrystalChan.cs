@@ -30,6 +30,7 @@ using ApiAiSDK.Unity;
 using Newtonsoft.Json;
 using System.Net;
 using System.Collections.Generic;
+using System.Threading;
 
 public class ApiAiModuleCrystalChan : MonoBehaviour
 {
@@ -43,6 +44,7 @@ public class ApiAiModuleCrystalChan : MonoBehaviour
 
     private ApiAiUnity apiAiUnity2;
     public string global;
+    Thread thread;
 
 
     private readonly JsonSerializerSettings jsonSettings = new JsonSerializerSettings
@@ -118,8 +120,12 @@ public class ApiAiModuleCrystalChan : MonoBehaviour
                 }
 
                 //notify crystal to send intent to cloud and determine and play animation ans response
-                StartCoroutine(crystal.playRequiredReaction(output, response.Result.ResolvedQuery));
+                //StartCoroutine(crystal.playRequiredReaction(output, response.Result.ResolvedQuery));
 
+                //start thread to communicate to cloud
+                var thread = new Thread(
+            () => playRequiredActionOnCrystal(output, response.Result.ResolvedQuery));
+                thread.Start();
             }
             else
             {
@@ -127,6 +133,12 @@ public class ApiAiModuleCrystalChan : MonoBehaviour
             }
         });
     }
+
+    public void playRequiredActionOnCrystal(string output, string res)
+    {
+        StartCoroutine(crystal.playRequiredReaction(output, res));
+    }
+
 
     void writeResponseToFile(String response)
     {
@@ -213,7 +225,7 @@ public class ApiAiModuleCrystalChan : MonoBehaviour
     }
 //--------------------------------------------------- might not need what is below ------------------------------------------------------
     //send text to formulate intent to api.ai
-    public void SendText(string text)
+    public IEnumerator SendText(string text)
     {
         Debug.Log(text);
 
@@ -235,7 +247,29 @@ public class ApiAiModuleCrystalChan : MonoBehaviour
 
         //notify crystal to send intent to cloud and determine and play animation ans response
         StartCoroutine(crystal.playRequiredReaction(output, response.Result.ResolvedQuery));
+        yield return 0;
+    }
 
+    public void initializeSendText()
+    {
+        string text = "test";
+        Debug.Log(text);
+
+        AIResponse response = apiAiUnity2.TextRequest(text);
+        var output = "";
+        if (response != null)
+        {
+            Debug.Log(">>>>>>>>>>>>>>Resolved query: " + response.Result.ResolvedQuery);
+            var outText = JsonConvert.SerializeObject(response, jsonSettings);
+            output = JsonConvert.SerializeObject(response, jsonSettings);
+
+            Debug.Log("Result: " + outText);
+
+        }
+        else
+        {
+            Debug.LogError("Response is null");
+        }
     }
 
     public void StartNativeRecognition()

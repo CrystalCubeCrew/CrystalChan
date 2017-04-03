@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using System.Collections;
 using System;
 using AUP;
+using System.Threading;
 
 public class SpeechRecognizerDemo : MonoBehaviour {
 
@@ -250,7 +251,13 @@ public class SpeechRecognizerDemo : MonoBehaviour {
                     {
                         saidHey = false;
                         Debug.Log("WHAT TO PARSE your result is " + whatToSay);
-                        cloudService.SendText(whatToSay);
+
+
+                        var thread = new Thread(
+           () => sendToCloud(whatToSay));
+                        thread.Start();
+                    
+                    //StartCoroutine(cloudService.SendText(whatToSay));
 
                     }
 					}
@@ -264,6 +271,11 @@ public class SpeechRecognizerDemo : MonoBehaviour {
 			}
 		);
 	}
+
+    public void sendToCloud(string whatToSay)
+    {
+        StartCoroutine(cloudService.SendText(whatToSay));
+    }
 
 	private void onPartialResults( string data ){
 		dispatcher.InvokeAction(

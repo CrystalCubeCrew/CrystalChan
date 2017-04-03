@@ -31,10 +31,11 @@ public class CrystalChanPlayer : MonoBehaviour
         httpTest = new HttpRequest();
         setAnimationStrategy("idle");
         StartCoroutine(cy.Start());
+        cy.initializeSendText();  //make sentext run once so cloud is initialized
         recordingStarted = haveWaited= false;
         //StartCoroutine(cy.Start());
         startTime = Time.realtimeSinceStartup;
-        endtime = startTime + 2;
+        endtime = startTime + 1;
         gameObject.GetComponent<AudioSource>().mute = false;
         //srd.Start();
         //srd.StartListening();
@@ -68,33 +69,13 @@ public class CrystalChanPlayer : MonoBehaviour
 
     public void waitToRecord(float timeToWait)
     {
-        /*startTime = Time.realtimeSinceStartup;
-         endtime = startTime + timeToWait;
 
-         while(startTime < endtime)
-         {
-             Debug.Log("WAITING__________start: " + startTime + "end: " + endtime+"_____________________");
-
-             startTime = Time.realtimeSinceStartup;
-         }*/
         haveWaited = true;
         Debug.Log("SHOULD BEEEP NOWWW!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         srd.StartListening();
         // AudioSource.PlayClipAtPoint(beep, gameObject.GetComponent<Transform>().position);
     }
 
-    public void waitSomeTime(float time)
-    {
-        startTime = Time.realtimeSinceStartup;
-        endtime = startTime + time;
-
-        while (startTime < endtime)
-        {
-            Debug.Log("SHE IS SPEAKING___________: " + startTime + "end: " + endtime + "_____________________");
-
-            startTime = Time.realtimeSinceStartup;
-        }
-    }
 
     internal void playError()
     {
@@ -245,6 +226,7 @@ public class CrystalChanPlayer : MonoBehaviour
     {
         whatToSay = textToPlay;
         Debug.Log("RESULT TO SPEAK TTS IS " + textToPlay);
+        playAnimation();
         tts.SpeakOut();
         // tts.words = textToPlay;
         //tts.playTTS();

@@ -64,7 +64,8 @@ public class MathCommand : MonoBehaviour
         {
             if(Array.IndexOf(wordsUserSaid, "plus") > -1 || Array.IndexOf(wordsUserSaid, "minus") > -1
                 || Array.IndexOf(wordsUserSaid, "divided") > -1 || Array.IndexOf(wordsUserSaid, "times") > -1
-                || Array.IndexOf(wordsUserSaid, "multiplied") > -1 || Array.IndexOf(wordsUserSaid, "subtracted") > -1)
+                || Array.IndexOf(wordsUserSaid, "multiplied") > -1 || Array.IndexOf(wordsUserSaid, "subtracted") > -1
+                || Array.IndexOf(wordsUserSaid, "-") > -1)
             {
                 result = true;
             }
@@ -118,6 +119,13 @@ public class MathCommand : MonoBehaviour
         string crystalResponse = "";
         string[] wordsUserSaid = whatUserSaid.Split(null);
 
+        //crystal cannot say '-' so music convert to 'minus'
+        if (wordsUserSaid[3].Equals("-"))
+        {
+            wordsUserSaid[3] = "minus";
+        }
+
+
         if(wordsUserSaid.Length == 5)
         {
             crystalResponse = "" + wordsUserSaid[2] + " " + wordsUserSaid[3] + " " + wordsUserSaid[4] + " is " + calculate(wordsUserSaid[3], wordsUserSaid[2], wordsUserSaid[4]);
@@ -152,6 +160,7 @@ public class MathCommand : MonoBehaviour
                 result = firstNum * secondNum;
                 break;
             case "minus":
+            case "-":
             case "subtracted":
                 result = firstNum - secondNum;
                 break;
