@@ -41,7 +41,6 @@ public class CrystalChanTest
     {
 
         CrystalScript.setAnimationStrategy("news");
-        CrystalScript.playAnimation();
 
         Assert.True((CrystalScript.playerAnimator.GetType()).Equals(new NewsFeedAnimation().GetType()));
     }
@@ -49,7 +48,6 @@ public class CrystalChanTest
     public void ifSetAnimationIstodoThenToDoAnimationIsPlayed()
     {
         CrystalScript.setAnimationStrategy("todo");
-        CrystalScript.playAnimation();
 
         Assert.True((CrystalScript.playerAnimator.GetType()).Equals(new ToDoAnimation().GetType()));
 
@@ -87,7 +85,7 @@ public class CrystalChanTest
     {
         string json = "Weather Intent";
 
-        Assert.AreEqual("weather", CrystalScript.determineAction(json) );
+        Assert.AreEqual("weather", CrystalScript.determineAction(json, null) );
     }
 
     [Test]
@@ -95,7 +93,7 @@ public class CrystalChanTest
     {
         string json = "todo animation";
 
-        Assert.AreEqual("todo", CrystalScript.determineAction(json));
+        Assert.AreEqual("todo", CrystalScript.determineAction(json, null));
     }
 
     [Test]
@@ -103,7 +101,7 @@ public class CrystalChanTest
     {
         string json = "bleh animation";
 
-        Assert.AreEqual("shrug", CrystalScript.determineAction(json));
+        Assert.AreEqual("shrug", CrystalScript.determineAction(json,null));
 
     }
 
@@ -112,7 +110,7 @@ public class CrystalChanTest
     {
         string json = null;
 
-        Assert.AreEqual("shrug", CrystalScript.determineAction(json));
+        Assert.AreEqual("shrug", CrystalScript.determineAction(json,null));
     }
 
 

@@ -118,7 +118,7 @@ public class ApiAiModuleCrystalChan : MonoBehaviour
                 }
 
                 //notify crystal to send intent to cloud and determine and play animation ans response
-                StartCoroutine(crystal.playRequiredReaction(output));
+                StartCoroutine(crystal.playRequiredReaction(output, response.Result.ResolvedQuery));
 
             }
             else
@@ -234,7 +234,7 @@ public class ApiAiModuleCrystalChan : MonoBehaviour
         }
 
         //notify crystal to send intent to cloud and determine and play animation ans response
-        StartCoroutine(crystal.playRequiredReaction(output));
+        StartCoroutine(crystal.playRequiredReaction(output, response.Result.ResolvedQuery));
 
     }
 

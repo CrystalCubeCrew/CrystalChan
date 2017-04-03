@@ -148,28 +148,37 @@ public class CrystalChanPlayer : MonoBehaviour
 
 
     //mehtod determine the animation action that should be played
-    public IEnumerator playRequiredReaction(string json)
+    public IEnumerator playRequiredReaction(string json, string whatUserSaid)
     {
         //type of animation and intent to be voiced and animated by crystal
-        string actiontype = determineAction(json);
+        string actiontype = determineAction(json, whatUserSaid);
         //determine the animation action that should be played _> (Current;y action type is "weather" but should be changed to Actiontype when sujen done"
         setAnimationStrategy(actiontype);
 
         Debug.Log("IN DETERMINE ACTION");
 
-        //send intent to crystal cloud -- dummy weather----> should be actionType passed when sujen gets apiai done.
-        CoroutineWithData cd = new CoroutineWithData(this, getTextFromCloud(actiontype));
-        yield return cd.coroutine;
-        //grab reponse speech fromcrystal cloud and play it
-        Debug.LogError("Return is of type" + cd.result); //ERROR CHECK HERE IF CD.RESULT IS OF TYPE COROUTINE WE GET ERROR SO SHRUG HERE
-
-        if (isString(cd.result))
+        if (!actiontype.Equals("math"))
         {
-            PlayTextToSpeechWithAnimation((string)cd.result);
-        }  
+            //send intent to crystal cloud -- dummy weather----> should be actionType passed when sujen gets apiai done.
+            CoroutineWithData cd = new CoroutineWithData(this, getTextFromCloud(actiontype));
+            yield return cd.coroutine;
+            //grab reponse speech fromcrystal cloud and play it
+            Debug.LogError("Return is of type" + cd.result); //ERROR CHECK HERE IF CD.RESULT IS OF TYPE COROUTINE WE GET ERROR SO SHRUG HERE
+
+            if (isString(cd.result))
+            {
+                PlayTextToSpeechWithAnimation((string)cd.result);
+            }
+            else
+            {
+                playError();
+            }
+
+        }
         else
         {
-            playError();
+            string answer = MathCommand.getResultOf(whatUserSaid);
+            PlayTextToSpeechWithAnimation(answer);
         }
 
 
@@ -185,12 +194,12 @@ public class CrystalChanPlayer : MonoBehaviour
     }
 
     //determine the itent based on the json string 
-    public string determineAction(string json)
+    public string determineAction(string json, string whatUserSaid)
     {
-        json = json.ToLower();
         if(json != null)
         {
-             if (json.Contains("weather intent"))
+            json = json.ToLower();
+            if (json.Contains("weather intent"))
              {
                  return "weather";
              }else if (json.Contains("todo"))
@@ -209,13 +218,19 @@ public class CrystalChanPlayer : MonoBehaviour
             {
                 return "wave";
             }
-            else if (json.Contains("math"))
-            {
-                return "math";
-            }
+           // else if (json.Contains("math"))
+           // {
+           //     return "math";
+            //}
             else if (json.Contains("idle"))
             {
                 return "idle";
+            }
+            else {
+                if (MathCommand.userSayMathOperation(whatUserSaid))
+                {
+                    return "math";
+                }
             }
         }
        
