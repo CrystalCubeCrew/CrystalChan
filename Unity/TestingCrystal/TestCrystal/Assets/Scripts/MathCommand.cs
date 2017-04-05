@@ -12,7 +12,7 @@ public class MathCommand : MonoBehaviour
         {
             whatUserSaid = whatUserSaid.ToLower();
             string[] wordsUserSaid = whatUserSaid.Split(null);
-            if (commandContainsFiveOrSixWords(wordsUserSaid)&&commandContainWhatIs(wordsUserSaid) && commandHasTwoNumbers(wordsUserSaid) && commandHasOneOperation(wordsUserSaid) && commandIsInCorrectFormat(wordsUserSaid))
+            if (commandContainsFourFiveOrSixWords(wordsUserSaid)&&commandContainsWhatIsOrWhats(wordsUserSaid) && commandHasTwoNumbers(wordsUserSaid) && commandHasOneOperation(wordsUserSaid) && commandIsInCorrectFormat(wordsUserSaid))
             {
                 result = true;
             }
@@ -21,10 +21,10 @@ public class MathCommand : MonoBehaviour
         return result;
     }
 
-    public static bool commandContainsFiveOrSixWords(string[] wordsUserSaid)
+    public static bool commandContainsFourFiveOrSixWords(string[] wordsUserSaid)
     {
 
-        return (wordsUserSaid != null && (wordsUserSaid.Length == 5 || wordsUserSaid.Length == 6));
+        return (wordsUserSaid != null && (wordsUserSaid.Length == 5 || wordsUserSaid.Length == 6 || wordsUserSaid.Length == 4));
     }
 
     public static bool commandIsInCorrectFormat(string[] wordsUserSaid)
@@ -32,12 +32,30 @@ public class MathCommand : MonoBehaviour
         bool result = false;
         if(wordsUserSaid != null)
         {
-            if(wordsUserSaid.Length == 5)
+            if (wordsUserSaid.Length == 4)
             {
-                if(wordsUserSaid[0].Equals("what") && wordsUserSaid[1].Equals("is") && isNumber(wordsUserSaid[2]) && isNumber(wordsUserSaid[4]))
+                if (wordsUserSaid[0].Equals("what's") && isNumber(wordsUserSaid[1]) && isNumber(wordsUserSaid[3]))
                 {
                     result = true;
                 }
+            }
+            else if(wordsUserSaid.Length == 5)
+            {
+                if (wordsUserSaid[0].Equals("what"))
+                {
+                        if(wordsUserSaid[1].Equals("is") && isNumber(wordsUserSaid[2]) && isNumber(wordsUserSaid[4]))
+                         {
+                                            result = true;
+                         }
+                }
+                else if (wordsUserSaid[0].Equals("what's"))
+                {
+                    if (isNumber(wordsUserSaid[1]) && isNumber(wordsUserSaid[4]))
+                    {
+                        result = true;
+                    }
+                }
+                
             }
             else
             {
@@ -97,7 +115,7 @@ public class MathCommand : MonoBehaviour
         return result;
     }
 
-    public static bool commandContainWhatIs(string[] wordsUserSaid)
+    public static bool commandContainsWhatIsOrWhats(string[] wordsUserSaid)
     {
         bool result = false;
         if(wordsUserSaid != null)
@@ -106,6 +124,9 @@ public class MathCommand : MonoBehaviour
             string secondWord = wordsUserSaid[1].ToLower();
 
             if (firstWord.Equals("what") && secondWord.Equals("is"))
+            {
+                result = true;
+            }else if (firstWord.Equals("what's"))
             {
                 result = true;
             }
@@ -120,13 +141,20 @@ public class MathCommand : MonoBehaviour
         string[] wordsUserSaid = whatUserSaid.Split(null);
 
         //crystal cannot say '-' so music convert to 'minus'
-        if (wordsUserSaid[3].Equals("-"))
+        if (wordsUserSaid[3].Equals("-") || wordsUserSaid[2].Equals("-"))
         {
             wordsUserSaid[3] = "minus";
         }
 
+        if (wordsUserSaid.Length == 4)
+        {
+            crystalResponse = "" + wordsUserSaid[1] + " " + wordsUserSaid[2] + " " + wordsUserSaid[3] + " is " + calculate(wordsUserSaid[2], wordsUserSaid[1], wordsUserSaid[3]);
+        }else if (wordsUserSaid.Length == 5 && wordsUserSaid[0].Equals("what's"))
+        {
+            crystalResponse = "" + wordsUserSaid[1] + " " + wordsUserSaid[2] + " " + wordsUserSaid[4] + " is " + calculate(wordsUserSaid[2], wordsUserSaid[1], wordsUserSaid[4]);
+        }
 
-        if(wordsUserSaid.Length == 5)
+        else if(wordsUserSaid.Length == 5 && wordsUserSaid[0].Equals("what"))
         {
             crystalResponse = "" + wordsUserSaid[2] + " " + wordsUserSaid[3] + " " + wordsUserSaid[4] + " is " + calculate(wordsUserSaid[3], wordsUserSaid[2], wordsUserSaid[4]);
         }

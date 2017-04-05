@@ -24,32 +24,28 @@ public class CrystalChanPlayer : MonoBehaviour
     // Use this for initialization, runs at beginning of game
     void Start()
     {
-        //playerAnimator = new IdleAnimation();
         crystal = gameObject.GetComponent<Animator>();
-        // tts = gameObject.GetComponent<VoiceRSSTextToSpeech>();
         tts = gameObject.GetComponent<TextToSpeechDemo>();
         httpTest = new HttpRequest();
         setAnimationStrategy("idle");
         StartCoroutine(cy.Start());
-        cy.initializeSendText();  //make sentext run once so cloud is initialized
+       // cy.initializeSendText();  //make sentext run once so cloud is initialized
         recordingStarted = haveWaited= false;
         //StartCoroutine(cy.Start());
         startTime = Time.realtimeSinceStartup;
         endtime = startTime + 1;
         gameObject.GetComponent<AudioSource>().mute = false;
-        //srd.Start();
-        //srd.StartListening();
+
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        //srd.StartListening();
         //start listening timer if "hey crystal" was said        
         //stop listening when we have listened for entime-current time about of secondss
         startTime = Time.realtimeSinceStartup;
-        Debug.Log("start: " + startTime +"end: "+ endtime);
+        //Debug.Log("start: " + startTime +"end: "+ endtime);
         if (startTime > endtime && !recordingStarted)
         {
             startTime = Time.realtimeSinceStartup;
@@ -69,7 +65,6 @@ public class CrystalChanPlayer : MonoBehaviour
 
     public void waitToRecord(float timeToWait)
     {
-
         haveWaited = true;
         Debug.Log("SHOULD BEEEP NOWWW!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         srd.StartListening();

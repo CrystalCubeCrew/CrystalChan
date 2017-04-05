@@ -121,8 +121,8 @@ public class ApiAiModuleCrystalChan : MonoBehaviour
 
                 //notify crystal to send intent to cloud and determine and play animation ans response
                 //StartCoroutine(crystal.playRequiredReaction(output, response.Result.ResolvedQuery));
-
                 //start thread to communicate to cloud
+
                 var thread = new Thread(
             () => playRequiredActionOnCrystal(output, response.Result.ResolvedQuery));
                 thread.Start();
@@ -223,12 +223,11 @@ public class ApiAiModuleCrystalChan : MonoBehaviour
             Debug.LogException(ex);
         }
     }
-//--------------------------------------------------- might not need what is below ------------------------------------------------------
     //send text to formulate intent to api.ai
     public IEnumerator SendText(string text)
     {
         Debug.Log(text);
-
+        Debug.Log("Api2 is {" + apiAiUnity2+"}");
         AIResponse response = apiAiUnity2.TextRequest(text);
         var output = "";
         if (response != null)

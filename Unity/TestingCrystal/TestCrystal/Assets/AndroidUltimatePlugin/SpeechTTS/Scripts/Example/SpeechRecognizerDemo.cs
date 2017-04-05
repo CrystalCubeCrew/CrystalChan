@@ -10,9 +10,6 @@ public class SpeechRecognizerDemo : MonoBehaviour {
 	private const string TAG = "[SpeechRecognizerDemo]: ";
 
 	private SpeechPlugin speechPlugin;	
-	//public Text resultText;
-	//public Text partialResultText;
-	//public Text statusText;
 	private Dispatcher dispatcher;
     public CrystalChanPlayer crystal;
     private bool saidHey;
@@ -233,11 +230,12 @@ public class SpeechRecognizerDemo : MonoBehaviour {
                 //check the other index
 
                 string whatToSay  = results.GetValue(0).ToString();
-					
-					//sample on checking other results
-					foreach( string possibleResults in results ){
-						Debug.Log( TAG + " possibleResults " + possibleResults );
-                    if(possibleResults.ToLower().Equals("hey crystal"))
+
+                //sample on checking other results
+                foreach (string possibleResults in results)
+                {
+                    Debug.Log(TAG + " possibleResults " + possibleResults);
+                    if (possibleResults.ToLower().Equals("hey crystal"))
                     {
                         crystal.setAnimationStrategy("wave");
                         crystal.playAnimation();
@@ -253,28 +251,22 @@ public class SpeechRecognizerDemo : MonoBehaviour {
                         Debug.Log("WHAT TO PARSE your result is " + whatToSay);
 
 
-                        var thread = new Thread(
-           () => sendToCloud(whatToSay));
-                        thread.Start();
-                    
-                    //StartCoroutine(cloudService.SendText(whatToSay));
+                        /* var thread = new Thread(
+            () => sendToCloud(whatToSay));
+                         thread.Start();*/
+
+                        StartCoroutine(cloudService.SendText(whatToSay));
 
                     }
-					}
-					
-					//sample showing the nearest result
-					
-                   
-                    Debug.LogError("animation played...");
-					//resultText.text =  string.Format("Result: {0}",whatToSay);
-				
+                }
 			}
 		);
 	}
 
     public void sendToCloud(string whatToSay)
     {
-        StartCoroutine(cloudService.SendText(whatToSay));
+        cloudService.SendText(whatToSay);
+        //StartCoroutine(cloudService.SendText(whatToSay)); - makes error!
     }
 
 	private void onPartialResults( string data ){
