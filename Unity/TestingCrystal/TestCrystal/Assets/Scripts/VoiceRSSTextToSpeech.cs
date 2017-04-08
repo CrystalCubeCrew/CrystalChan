@@ -8,21 +8,22 @@ using System;
 /// <explanation>Works only on Android. To test, change the platform to Android.</explanation>
 /// </summary>
 
-public class VoiceRSSTextToSpeech : MonoBehaviour
+public class PlayMusic : MonoBehaviour
 {
 
     public string words = "Hello";
     public CrystalChanPlayer ccp;
 
-    public IEnumerator playTextToSpeech()
+    public IEnumerator playSong(String link)
     {
-        AudioSource myAudio = gameObject.GetComponent<AudioSource>();
+        AudioSource myAudio = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<AudioSource>();
         // Remove the "spaces" in excess
         Regex rgx = new Regex("\\s+");
         // Replace the "spaces" with "% 20" for the link Can be interpreted
         string result = rgx.Replace(words, "%20");
-        string url = "http://api.voicerss.org/?key=476c0791e4894892bd699c016d788668&hl=en-us&c=wav&src=\"" + result+"\"";
+        string url = link;
         WWW www = new WWW(url);
+        Debug.Log("got url");
         yield return www;
         try
         {
@@ -40,8 +41,8 @@ public class VoiceRSSTextToSpeech : MonoBehaviour
 
     }
 
-    public void playTTS()
+    public void playASong()
     {
-        StartCoroutine(playTextToSpeech());
+        StartCoroutine(playSong("http://d2xb16qkudqwc7.cloudfront.net/you_and_i.m4a"));
     }
 }//closes the class

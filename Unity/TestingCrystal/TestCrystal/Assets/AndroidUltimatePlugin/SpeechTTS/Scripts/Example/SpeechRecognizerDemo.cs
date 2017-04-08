@@ -104,6 +104,7 @@ public class SpeechRecognizerDemo : MonoBehaviour {
 	}
 
 	public void StartListeningNoBeep(){
+        Debug.Log("Speech Plug in is: " + speechPlugin);
 		bool isSupported = speechPlugin.CheckSpeechRecognizerSupport();
         Debug.Log("started listening -----------------------------------------------------------------------------------");
 		if(isSupported){
@@ -250,11 +251,9 @@ public class SpeechRecognizerDemo : MonoBehaviour {
                         saidHey = false;
                         Debug.Log("WHAT TO PARSE your result is " + whatToSay);
 
-
                         /* var thread = new Thread(
             () => sendToCloud(whatToSay));
                          thread.Start();*/
-
                         StartCoroutine(cloudService.SendText(whatToSay));
 
                     }
@@ -270,7 +269,46 @@ public class SpeechRecognizerDemo : MonoBehaviour {
     }
 
 	private void onPartialResults( string data ){
-		dispatcher.InvokeAction(
+       /* dispatcher.InvokeAction(
+        () => {
+
+            string[] results = data.Split(',');
+            Debug.Log(TAG + " result length " + results.Length);
+
+                //when you set morethan 1 results index zero is always the closest to the words the you said
+                //but it's not always the case so if you are not happy with index zero result you can always 
+                //check the other index
+
+                string whatToSay = results.GetValue(0).ToString();
+
+            //sample on checking other results
+            foreach (string possibleResults in results)
+            {
+                Debug.Log(TAG + " possibleResults " + possibleResults + " ,");
+            }
+            results[0] = "";
+                if (whatToSay.ToLower().Equals("hey crystal"))
+                {
+                    crystal.setAnimationStrategy("wave");
+                    crystal.playAnimation();
+                    saidHey = true;
+                    crystal.recordingStarted = true;
+
+                    crystal.waitToRecord(.3f);
+
+                }
+                else if (saidHey)
+                {
+                    saidHey = false;
+                    Debug.Log("WHAT TO PARSE your result is " + whatToSay);
+                    StartCoroutine(cloudService.SendText(whatToSay));
+
+                }
+            
+                
+        }
+    );*/
+        dispatcher.InvokeAction(
 			()=>{
 				//if(partialResultText!=null){
 					string[] results =  data.Split(',');
@@ -293,7 +331,7 @@ public class SpeechRecognizerDemo : MonoBehaviour {
 				//}
 			}
 		);
-	}
+    }
 
 	//SpeechRecognizer Events
 }

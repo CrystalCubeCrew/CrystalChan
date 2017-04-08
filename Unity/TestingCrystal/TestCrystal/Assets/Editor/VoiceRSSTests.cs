@@ -4,12 +4,12 @@ using NUnit.Framework;
 
 public class VoiceRSSTests {
 
-    VoiceRSSTextToSpeech tts;
+    PlayMusic tts;
 
     [SetUp]
     public void SetUp()
     {
-        tts = new VoiceRSSTextToSpeech();
+        tts = new PlayMusic();
 
     }
 
@@ -17,7 +17,7 @@ public class VoiceRSSTests {
     public void ifValidStringIsPassedCrystalAnimationIsNoShrugged()
     {
         tts.words = "hello";
-        tts.playTextToSpeech();
+       // tts.playSong();
 
         Assert.False(tts.words.Equals(""));
     }

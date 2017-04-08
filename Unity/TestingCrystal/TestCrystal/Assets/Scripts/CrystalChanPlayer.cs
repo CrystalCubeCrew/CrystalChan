@@ -17,6 +17,8 @@ public class CrystalChanPlayer : MonoBehaviour
     public bool haveWaited;
     public AudioClip beep;
     private string whatToSay;
+    public PlaySongs music;
+    public AudioSource myAudio;
 
     //timer things
     float startTime, endtime;
@@ -24,17 +26,20 @@ public class CrystalChanPlayer : MonoBehaviour
     // Use this for initialization, runs at beginning of game
     void Start()
     {
+        myAudio = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<AudioSource>();
         crystal = gameObject.GetComponent<Animator>();
         tts = gameObject.GetComponent<TextToSpeechDemo>();
+        music = gameObject.GetComponent<PlaySongs>();
         httpTest = new HttpRequest();
         setAnimationStrategy("idle");
         StartCoroutine(cy.Start());
-       // cy.initializeSendText();  //make sentext run once so cloud is initialized
+        cy.initializeSendText();  //make sentext run once so cloud is initialized
         recordingStarted = haveWaited= false;
-        //StartCoroutine(cy.Start());
         startTime = Time.realtimeSinceStartup;
         endtime = startTime + 1;
         gameObject.GetComponent<AudioSource>().mute = false;
+        //PlaySongs music = gameObject.GetComponentInChildren<PlaySongs>();
+        //music.playASong();
 
 
     }
@@ -42,11 +47,12 @@ public class CrystalChanPlayer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
         //start listening timer if "hey crystal" was said        
         //stop listening when we have listened for entime-current time about of secondss
         startTime = Time.realtimeSinceStartup;
         //Debug.Log("start: " + startTime +"end: "+ endtime);
-        if (startTime > endtime && !recordingStarted)
+       if (startTime > endtime && !recordingStarted && !myAudio.isPlaying)
         {
             startTime = Time.realtimeSinceStartup;
             endtime = startTime + 4;
@@ -59,13 +65,13 @@ public class CrystalChanPlayer : MonoBehaviour
             haveWaited = false;
             
         }
-
+        
 
     }
 
     public void waitToRecord(float timeToWait)
     {
-        haveWaited = true;
+        haveWaited= true;
         Debug.Log("SHOULD BEEEP NOWWW!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         srd.StartListening();
         // AudioSource.PlayClipAtPoint(beep, gameObject.GetComponent<Transform>().position);
@@ -133,9 +139,11 @@ public class CrystalChanPlayer : MonoBehaviour
 
         Debug.Log("IN DETERMINE ACTION");
 
-        if (!actiontype.Equals("math"))
+        if (!actiontype.Equals("math") )
         {
-            //send intent to crystal cloud -- dummy weather----> should be actionType passed when sujen gets apiai done.
+            if (!actiontype.Equals("music"))
+            {
+ //send intent to crystal cloud -- dummy weather----> should be actionType passed when sujen gets apiai done.
             CoroutineWithData cd = new CoroutineWithData(this, getTextFromCloud(actiontype));
             yield return cd.coroutine;
             //grab reponse speech fromcrystal cloud and play it
@@ -149,6 +157,9 @@ public class CrystalChanPlayer : MonoBehaviour
             {
                 playError();
             }
+            }
+            
+
 
         }
         else
@@ -156,8 +167,6 @@ public class CrystalChanPlayer : MonoBehaviour
             string answer = MathCommand.getResultOf(whatUserSaid);
             PlayTextToSpeechWithAnimation(answer);
         }
-
-
        
     }
 
@@ -186,7 +195,7 @@ public class CrystalChanPlayer : MonoBehaviour
             {
                 return "music";
             }
-            else if (json.Contains("news"))
+            else if (json.Contains("news intent"))
             {
                 return "news";
             }
@@ -194,10 +203,7 @@ public class CrystalChanPlayer : MonoBehaviour
             {
                 return "wave";
             }
-           // else if (json.Contains("math"))
-           // {
-           //     return "math";
-            //}
+
             else if (json.Contains("idle"))
             {
                 return "idle";
@@ -206,6 +212,12 @@ public class CrystalChanPlayer : MonoBehaviour
                 if (MathCommand.userSayMathOperation(whatUserSaid))
                 {
                     return "math";
+                }
+                whatUserSaid = whatUserSaid.ToLower();
+                if (whatUserSaid.Equals("play music"))
+                {
+                    music.playASong();
+                    return "music";
                 }
             }
         }

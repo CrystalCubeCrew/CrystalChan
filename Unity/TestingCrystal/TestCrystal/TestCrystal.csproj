@@ -106,6 +106,7 @@
     <Compile Include="Assets\ApiAi\ApiAiSDK\ApiAiUnity.cs" />
     <Compile Include="Assets\ApiAi\ApiAiSDK\ResultWrapper.cs" />
     <Compile Include="Assets\ApiAi\Examples\ApiAiModule.cs" />
+    <Compile Include="Assets\PlaySongs.cs" />
     <Compile Include="Assets\Scripts\ApiAiModuleCrystalChan.cs" />
     <Compile Include="Assets\Scripts\BasicMathAnimation.cs" />
     <Compile Include="Assets\Scripts\CrystalChanPlayer.cs" />

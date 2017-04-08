@@ -226,26 +226,29 @@ public class ApiAiModuleCrystalChan : MonoBehaviour
     //send text to formulate intent to api.ai
     public IEnumerator SendText(string text)
     {
-        Debug.Log(text);
-        Debug.Log("Api2 is {" + apiAiUnity2+"}");
-        AIResponse response = apiAiUnity2.TextRequest(text);
-        var output = "";
-        if (response != null)
+        if (text != null)
         {
-            Debug.Log(">>>>>>>>>>>>>>Resolved query: " + response.Result.ResolvedQuery);
-            var outText = JsonConvert.SerializeObject(response, jsonSettings);
-            output = JsonConvert.SerializeObject(response, jsonSettings);
+            Debug.Log(text);
+            Debug.Log("Api2 is {" + apiAiUnity2 + "}");
+            AIResponse response = apiAiUnity2.TextRequest(text);
+            var output = "";
+            if (response != null)
+            {
+                Debug.Log(">>>>>>>>>>>>>>Resolved query: " + response.Result.ResolvedQuery);
+                var outText = JsonConvert.SerializeObject(response, jsonSettings);
+                output = JsonConvert.SerializeObject(response, jsonSettings);
 
-            Debug.Log("Result: " + outText);
+                Debug.Log("Result: " + outText);
 
+            }
+            else
+            {
+                Debug.LogError("Response is null");
+            }
+
+            //notify crystal to send intent to cloud and determine and play animation ans response
+            StartCoroutine(crystal.playRequiredReaction(output, response.Result.ResolvedQuery));
         }
-        else
-        {
-            Debug.LogError("Response is null");
-        }
-
-        //notify crystal to send intent to cloud and determine and play animation ans response
-        StartCoroutine(crystal.playRequiredReaction(output, response.Result.ResolvedQuery));
         yield return 0;
     }
 
@@ -253,6 +256,7 @@ public class ApiAiModuleCrystalChan : MonoBehaviour
     {
         string text = "test";
         Debug.Log(text);
+        Debug.Log("Is this null? ApiApUnity2? " + apiAiUnity2);
 
         AIResponse response = apiAiUnity2.TextRequest(text);
         var output = "";
