@@ -12,7 +12,7 @@ public class SpeechRecognizerDemo : MonoBehaviour {
 	private SpeechPlugin speechPlugin;	
 	private Dispatcher dispatcher;
     public CrystalChanPlayer crystal;
-    private bool saidHey;
+    public bool saidHey;
     public ApiAiModuleCrystalChan cloudService;
 
 
@@ -48,6 +48,7 @@ public class SpeechRecognizerDemo : MonoBehaviour {
 			speechPlugin.onError+=onError;
 			speechPlugin.onResults+=onResults;
 			speechPlugin.onPartialResults+=onPartialResults;
+
 		}
 	}
 
@@ -74,25 +75,28 @@ public class SpeechRecognizerDemo : MonoBehaviour {
 	}
 
 	public void StartListening(){
-		bool isSupported = speechPlugin.CheckSpeechRecognizerSupport();
+        crystal.startedListening = true;
+
+        bool isSupported = speechPlugin.CheckSpeechRecognizerSupport();
         Debug.Log("BEEP:  started listening -----------------------------------------------------------------------------------");
 
         if (isSupported){
+            Debug.Log("It is supposrted");
             //number of possible results
             //Note: sometimes even you put 5 numberOfResults, there's a chance that it will be only 3 or 2
             //it is not constant.
 
             // enable beep
             speechPlugin.EnableBeep(true);
-            speechPlugin.IncreaseMusicVolumeByValue(100);
+            speechPlugin.IncreaseMusicVolumeByValue(50);
 
 			// enable offline
-			speechPlugin.EnableOffline(true);
+			//speechPlugin.EnableOffline(true);
 
 			// enable partial Results
-			speechPlugin.EnablePartialResult(true);
+			speechPlugin.EnablePartialResult(false);
 			
-			int numberOfResults = 5;
+			int numberOfResults = 1;  //was 5
 			speechPlugin.StartListening(numberOfResults);
 			
 			//by activating this, the Speech Recognizer will start and you can start Speaking or saying something 
@@ -104,6 +108,8 @@ public class SpeechRecognizerDemo : MonoBehaviour {
 	}
 
 	public void StartListeningNoBeep(){
+        crystal.startedListening = true;
+
         Debug.Log("Speech Plug in is: " + speechPlugin);
 		bool isSupported = speechPlugin.CheckSpeechRecognizerSupport();
         Debug.Log("started listening -----------------------------------------------------------------------------------");
@@ -117,12 +123,12 @@ public class SpeechRecognizerDemo : MonoBehaviour {
             speechPlugin.DecreaseMusicVolumeByValue(100);
 
 			// enable offline
-			speechPlugin.EnableOffline(true);
+			//speechPlugin.EnableOffline(true);
 
 			// enable partial Results
-			speechPlugin.EnablePartialResult(true);
+			speechPlugin.EnablePartialResult(false);
 			
-			int numberOfResults = 5;
+			int numberOfResults = 1; //was 5
 			speechPlugin.StartListening(numberOfResults);
 			///speechPlugin.StartListeningNoBeep(numberOfResults,true);
 			
@@ -169,14 +175,41 @@ public class SpeechRecognizerDemo : MonoBehaviour {
 	private void UpdateStatus(string status){
 
         Debug.LogError("status currently is ."+status);
-/*
-        if (statusText!=null){
-			statusText.text = String.Format("Status: {0}",status);	
-		}*/
-	}
 
-	//SpeechRecognizer Events
-	private void onReadyForSpeech(string data){
+        if (status.ToLower().Equals("error_recognizer_busy") || status.ToLower().Equals("error_speech_timeout")||
+            status.ToLower().Equals("error_no_match"))
+        {
+             speechPlugin.Cancel();
+            speechPlugin.CancelInvoke();
+            saidHey = false;
+            crystal.startedListening = false;
+            crystal.recordingStarted = false;
+
+            if (status.ToLower().Equals("error_speech_timeout") || status.ToLower().Equals("error_no_match"))
+            {
+                crystal.endtime = Time.realtimeSinceStartup + 1;  //wait a few before you record again
+               // speechPlugin.CancelInvoke();
+                crystal.timeOut = true;
+            }
+          
+            
+            /*   speechPlugin.Cancel();
+               speechPlugin.DestroySpeechController();
+
+               saidHey = false;
+               crystal.startedListening = false;
+               crystal.recordingStarted = false;*/
+
+        }
+
+        /*
+                if (statusText!=null){
+                    statusText.text = String.Format("Status: {0}",status);	
+                }*/
+    }
+
+    //SpeechRecognizer Events
+    private void onReadyForSpeech(string data){
 		dispatcher.InvokeAction(
 			()=>{
 				if(speechPlugin!=null){
@@ -224,41 +257,54 @@ public class SpeechRecognizerDemo : MonoBehaviour {
 			()=>{
 				
 					string[] results =  data.Split(',');
-					Debug.Log( TAG + " result length " + results.Length);
+					Debug.Log( TAG + " nom result length " + results.Length);
+                Debug.Log("saidhey is " + saidHey);
 
                 //when you set morethan 1 results index zero is always the closest to the words the you said
                 //but it's not always the case so if you are not happy with index zero result you can always 
                 //check the other index
 
                 string whatToSay  = results.GetValue(0).ToString();
-
+                bool crystalWasSpokenOf = false; // user said hey crystal
                 //sample on checking other results
                 foreach (string possibleResults in results)
                 {
                     Debug.Log(TAG + " possibleResults " + possibleResults);
-                    if (possibleResults.ToLower().Equals("hey crystal"))
+                    if (saidHey == false && (possibleResults.ToLower().Equals("hey crystal") || possibleResults.ToLower().Equals("crystal")))
                     {
+                        crystalWasSpokenOf = true;
+                    }
+                  }
+
+                    if (saidHey == false && crystalWasSpokenOf)
+                    {
+                         crystalWasSpokenOf = false;
                         crystal.setAnimationStrategy("wave");
                         crystal.playAnimation();
                         saidHey = true;
                         crystal.recordingStarted = true;
-
+                        crystal.startedListening = true;
                         crystal.waitToRecord(.3f);
 
                     }
                     else if (saidHey)
                     {
-                        saidHey = false;
+                        
                         Debug.Log("WHAT TO PARSE your result is " + whatToSay);
-
-                        /* var thread = new Thread(
-            () => sendToCloud(whatToSay));
-                         thread.Start();*/
+                        saidHey = false;
+                        crystal.startedListening = true;
                         StartCoroutine(cloudService.SendText(whatToSay));
 
                     }
+                    else
+                    {
+                       
+                            crystal.startedListening = false;
+                    crystal.recordingStarted = false; //added
+
                 }
-			}
+
+            }
 		);
 	}
 
@@ -269,68 +315,7 @@ public class SpeechRecognizerDemo : MonoBehaviour {
     }
 
 	private void onPartialResults( string data ){
-       /* dispatcher.InvokeAction(
-        () => {
 
-            string[] results = data.Split(',');
-            Debug.Log(TAG + " result length " + results.Length);
-
-                //when you set morethan 1 results index zero is always the closest to the words the you said
-                //but it's not always the case so if you are not happy with index zero result you can always 
-                //check the other index
-
-                string whatToSay = results.GetValue(0).ToString();
-
-            //sample on checking other results
-            foreach (string possibleResults in results)
-            {
-                Debug.Log(TAG + " possibleResults " + possibleResults + " ,");
-            }
-            results[0] = "";
-                if (whatToSay.ToLower().Equals("hey crystal"))
-                {
-                    crystal.setAnimationStrategy("wave");
-                    crystal.playAnimation();
-                    saidHey = true;
-                    crystal.recordingStarted = true;
-
-                    crystal.waitToRecord(.3f);
-
-                }
-                else if (saidHey)
-                {
-                    saidHey = false;
-                    Debug.Log("WHAT TO PARSE your result is " + whatToSay);
-                    StartCoroutine(cloudService.SendText(whatToSay));
-
-                }
-            
-                
-        }
-    );*/
-        dispatcher.InvokeAction(
-			()=>{
-				//if(partialResultText!=null){
-					string[] results =  data.Split(',');
-					Debug.Log( TAG + " partial result length " + results.Length);
-
-					//when you set morethan 1 results index zero is always the closest to the words the you said
-					//but it's not always the case so if you are not happy with index zero result you can always 
-					//check the other index
-
-					//sample on checking other results
-					foreach( string possibleResults in results ){
-						Debug.Log( TAG + "partial possibleResults " + possibleResults );
-					}
-
-					//sample showing the nearest result
-					string whatToSay  = results.GetValue(0).ToString();
-                    Debug.LogError("animation on partial played...");
-
-                    //partialResultText.text =  string.Format("Partial Result: {0}",whatToSay);
-				//}
-			}
-		);
     }
 
 	//SpeechRecognizer Events

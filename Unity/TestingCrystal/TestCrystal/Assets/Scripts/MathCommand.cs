@@ -80,10 +80,11 @@ public class MathCommand : MonoBehaviour
         bool result = false;
         if(wordsUserSaid != null)
         {
-            if(Array.IndexOf(wordsUserSaid, "plus") > -1 || Array.IndexOf(wordsUserSaid, "minus") > -1
+            if(Array.IndexOf(wordsUserSaid, "plus") > -1 || Array.IndexOf(wordsUserSaid, "+") > -1 || Array.IndexOf(wordsUserSaid, "minus") > -1
                 || Array.IndexOf(wordsUserSaid, "divided") > -1 || Array.IndexOf(wordsUserSaid, "times") > -1
                 || Array.IndexOf(wordsUserSaid, "multiplied") > -1 || Array.IndexOf(wordsUserSaid, "subtracted") > -1
-                || Array.IndexOf(wordsUserSaid, "-") > -1)
+                || Array.IndexOf(wordsUserSaid, "-") > -1 || Array.IndexOf(wordsUserSaid, "-") > -1 || Array.IndexOf(wordsUserSaid, "/") > -1
+                 || Array.IndexOf(wordsUserSaid, "*") > -1 || Array.IndexOf(wordsUserSaid, "x") > -1)
             {
                 result = true;
             }
@@ -177,12 +178,16 @@ public class MathCommand : MonoBehaviour
 
         switch (typeOfCalculation.ToLower())
         {
+            case "+":
             case "plus":
                 result = firstNum + secondNum;
                 break;
+            case "/":
             case "divided":
                 result = (float)firstNum / secondNum;
                 break;
+            case "*":
+            case "x":
             case "multiplied":
             case "times":
                 result = firstNum * secondNum;

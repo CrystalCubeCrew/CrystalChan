@@ -35,6 +35,7 @@ public class PlaySongs : MonoBehaviour
             ccp.setAnimationStrategy("music");
             ccp.playAnimation();
             ccp.recordingStarted = false;
+            ccp.startedListening = false;
         }
         catch (Exception e)
         {

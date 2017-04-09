@@ -14,14 +14,14 @@ public class CrystalChanPlayer : MonoBehaviour
     public SpeechRecognizerDemo srd;
     public TextToSpeechDemo tts;
     HttpRequest httpTest;
-    public bool haveWaited;
+    public bool haveWaited, startedListening, timeOut;
     public AudioClip beep;
     private string whatToSay;
     public PlaySongs music;
     public AudioSource myAudio;
 
     //timer things
-    float startTime, endtime;
+    public float startTime, endtime;
 
     // Use this for initialization, runs at beginning of game
     void Start()
@@ -33,13 +33,11 @@ public class CrystalChanPlayer : MonoBehaviour
         httpTest = new HttpRequest();
         setAnimationStrategy("idle");
         StartCoroutine(cy.Start());
-        cy.initializeSendText();  //make sentext run once so cloud is initialized
-        recordingStarted = haveWaited= false;
+        //cy.initializeSendText();  //make send text run once so cloud is initialized
+        recordingStarted = haveWaited= startedListening = timeOut = false;
         startTime = Time.realtimeSinceStartup;
         endtime = startTime + 1;
         gameObject.GetComponent<AudioSource>().mute = false;
-        //PlaySongs music = gameObject.GetComponentInChildren<PlaySongs>();
-        //music.playASong();
 
 
     }
@@ -52,20 +50,32 @@ public class CrystalChanPlayer : MonoBehaviour
         //stop listening when we have listened for entime-current time about of secondss
         startTime = Time.realtimeSinceStartup;
         //Debug.Log("start: " + startTime +"end: "+ endtime);
-       if (startTime > endtime && !recordingStarted && !myAudio.isPlaying)
+       // Debug.Log("We have "+ (startTime > endtime)+" "+ !recordingStarted+" "+" "+!myAudio.isPlaying+" "+ !startedListening );
+       if (startTime > endtime && !recordingStarted && !myAudio.isPlaying && !startedListening)
         {
+            Debug.Log("Listening once again...");
             startTime = Time.realtimeSinceStartup;
             endtime = startTime + 4;
+            startedListening = true;
             srd.StartListeningNoBeep();
+          
             //recordingStarted = true;
         }else if(recordingStarted && haveWaited)
         {
             startTime = Time.realtimeSinceStartup;
             endtime = startTime + 4;
             haveWaited = false;
-            
+
+        }else
+        {
+            if ( timeOut)
+            {
+                Debug.Log("We have " + (startTime > endtime) + " " + !recordingStarted + " " + " " + !myAudio.isPlaying + " " + !startedListening);
+                timeOut = false;
+                startedListening = false;
+            }
         }
-        
+
 
     }
 
@@ -74,7 +84,6 @@ public class CrystalChanPlayer : MonoBehaviour
         haveWaited= true;
         Debug.Log("SHOULD BEEEP NOWWW!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         srd.StartListening();
-        // AudioSource.PlayClipAtPoint(beep, gameObject.GetComponent<Transform>().position);
     }
 
 
@@ -143,8 +152,10 @@ public class CrystalChanPlayer : MonoBehaviour
         {
             if (!actiontype.Equals("music"))
             {
- //send intent to crystal cloud -- dummy weather----> should be actionType passed when sujen gets apiai done.
-            CoroutineWithData cd = new CoroutineWithData(this, getTextFromCloud(actiontype));
+                //send intent to crystal cloud -- dummy weather----> should be actionType passed when sujen gets apiai done.
+                 Debug.Log("action type is " + actiontype);
+                CoroutineWithData cd = new CoroutineWithData(this, getTextFromCloud(actiontype));
+         
             yield return cd.coroutine;
             //grab reponse speech fromcrystal cloud and play it
             Debug.LogError("Return is of type" + cd.result); //ERROR CHECK HERE IF CD.RESULT IS OF TYPE COROUTINE WE GET ERROR SO SHRUG HERE
@@ -167,7 +178,7 @@ public class CrystalChanPlayer : MonoBehaviour
             string answer = MathCommand.getResultOf(whatUserSaid);
             PlayTextToSpeechWithAnimation(answer);
         }
-       
+        
     }
 
 
@@ -235,9 +246,7 @@ public class CrystalChanPlayer : MonoBehaviour
         Debug.Log("RESULT TO SPEAK TTS IS " + textToPlay);
         playAnimation();
         tts.SpeakOut();
-        // tts.words = textToPlay;
-        //tts.playTTS();
-       // waitSomeTime(2);
+
     }
 
     public string getWhatToSay()
@@ -261,7 +270,7 @@ public class CrystalChanPlayer : MonoBehaviour
             yield return res.response;
         }
         else {
-            Debug.Log("result is " + res.error);
+            Debug.Log("result error is " + res.error);
         }
 
     }

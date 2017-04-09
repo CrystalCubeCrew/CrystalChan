@@ -289,11 +289,12 @@ public class TextToSpeechDemo : MonoBehaviour {
 			()=>{
 				UpdateStatus("Done Speech...");
 				Debug.Log(TAG + "OnDoneSpeech utteranceId: " + utteranceId);
-                crystal.recordingStarted = false;
 				CancelInvoke("WaitingMode");
 				Invoke("WaitingMode",waitingInterval);
-			}
-		);
+                crystal.startedListening = crystal.recordingStarted = false;
+                crystal.endtime = Time.realtimeSinceStartup+2;  //wait a few before you record again
+            }
+        );
 	}
 	
 	private void OnErrorSpeech(string utteranceId){

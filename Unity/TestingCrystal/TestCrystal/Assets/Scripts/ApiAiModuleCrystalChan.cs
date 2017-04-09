@@ -31,6 +31,7 @@ using Newtonsoft.Json;
 using System.Net;
 using System.Collections.Generic;
 using System.Threading;
+using Newtonsoft.Json.Linq;
 
 public class ApiAiModuleCrystalChan : MonoBehaviour
 {
@@ -42,6 +43,8 @@ public class ApiAiModuleCrystalChan : MonoBehaviour
     public AudioClip listeningSound;
     public CrystalChanPlayer crystal;
 
+
+    public SpeechRecognizerDemo srd;
     private ApiAiUnity apiAiUnity2;
     public string global;
     Thread thread;
@@ -226,18 +229,18 @@ public class ApiAiModuleCrystalChan : MonoBehaviour
     //send text to formulate intent to api.ai
     public IEnumerator SendText(string text)
     {
-        if (text != null)
+        if (text != null && text != "" && text != " ")
         {
             Debug.Log(text);
             Debug.Log("Api2 is {" + apiAiUnity2 + "}");
             AIResponse response = apiAiUnity2.TextRequest(text);
             var output = "";
+            srd.saidHey = false;
             if (response != null)
             {
                 Debug.Log(">>>>>>>>>>>>>>Resolved query: " + response.Result.ResolvedQuery);
                 var outText = JsonConvert.SerializeObject(response, jsonSettings);
                 output = JsonConvert.SerializeObject(response, jsonSettings);
-
                 Debug.Log("Result: " + outText);
 
             }
