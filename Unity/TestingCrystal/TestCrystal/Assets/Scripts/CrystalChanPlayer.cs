@@ -19,6 +19,10 @@ public class CrystalChanPlayer : MonoBehaviour
     private string whatToSay;
     public PlaySongs music;
     public AudioSource myAudio;
+    private const String ID = "crystal_chan_6";
+    public camer crystalCam;
+
+    public User currentUser;
 
     //timer things
     public float startTime, endtime;
@@ -38,7 +42,7 @@ public class CrystalChanPlayer : MonoBehaviour
         startTime = Time.realtimeSinceStartup;
         endtime = startTime + 1;
         gameObject.GetComponent<AudioSource>().mute = false;
-
+        currentUser = new User("none");
 
     }
 
@@ -122,6 +126,7 @@ public class CrystalChanPlayer : MonoBehaviour
                 playerAnimator = new NewsFeedAnimation();
                 break;
             case "wave":
+            case "login":
                 playerAnimator = new WaveAnimation();
                 break;
             case "math":
@@ -150,24 +155,27 @@ public class CrystalChanPlayer : MonoBehaviour
 
         if (!actiontype.Equals("math") )
         {
-            if (!actiontype.Equals("music"))
+            if (!actiontype.Equals("music") && !actiontype.Equals("wave") )
             {
-                //send intent to crystal cloud -- dummy weather----> should be actionType passed when sujen gets apiai done.
+               
+                 //send intent to crystal cloud -- dummy weather----> should be actionType passed when sujen gets apiai done.
                  Debug.Log("action type is " + actiontype);
-                CoroutineWithData cd = new CoroutineWithData(this, getTextFromCloud(actiontype));
+                 CoroutineWithData cd = new CoroutineWithData(this, getTextFromCloud(actiontype));
          
-            yield return cd.coroutine;
-            //grab reponse speech fromcrystal cloud and play it
-            Debug.LogError("Return is of type" + cd.result); //ERROR CHECK HERE IF CD.RESULT IS OF TYPE COROUTINE WE GET ERROR SO SHRUG HERE
+                     yield return cd.coroutine;
+                    //grab reponse speech fromcrystal cloud and play it
+                     Debug.LogError("Return is of type" + cd.result); //ERROR CHECK HERE IF CD.RESULT IS OF TYPE COROUTINE WE GET ERROR SO SHRUG HERE
 
-            if (isString(cd.result))
-            {
-                PlayTextToSpeechWithAnimation((string)cd.result);
-            }
-            else
-            {
-                playError();
-            }
+                 if (isString(cd.result))
+                     {
+                      PlayTextToSpeechWithAnimation((string)cd.result);
+                  }
+                     else
+                     {
+                       playError();
+                     }
+               
+               
             }
             
 
@@ -218,6 +226,12 @@ public class CrystalChanPlayer : MonoBehaviour
             else if (json.Contains("idle"))
             {
                 return "idle";
+            }else if(json.Contains("log in") || json.Contains("login") || json.Contains("log me in"))
+            {
+                crystalCam.setLogin(true);
+                
+                //send to cloud and recieve json info, play tts of crystal saying "hellom USERNAME"
+                return "wave";
             }
             else {
                 if (MathCommand.userSayMathOperation(whatUserSaid))

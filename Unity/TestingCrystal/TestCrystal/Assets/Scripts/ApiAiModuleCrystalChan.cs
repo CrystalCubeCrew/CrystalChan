@@ -236,7 +236,8 @@ public class ApiAiModuleCrystalChan : MonoBehaviour
             AIResponse response = apiAiUnity2.TextRequest(text);
             var output = "";
             srd.saidHey = false;
-            if (response != null)
+            //was: if (response != null)
+            if (response != null && response.Result != null && response.Result.ResolvedQuery!= null)
             {
                 Debug.Log(">>>>>>>>>>>>>>Resolved query: " + response.Result.ResolvedQuery);
                 var outText = JsonConvert.SerializeObject(response, jsonSettings);
@@ -247,6 +248,9 @@ public class ApiAiModuleCrystalChan : MonoBehaviour
             else
             {
                 Debug.LogError("Response is null");
+                //added 4/10/17
+                crystal.setAnimationStrategy("shrug");
+                crystal.PlayTextToSpeechWithAnimation("Sorry, didn't quite catch that.");
             }
 
             //notify crystal to send intent to cloud and determine and play animation ans response

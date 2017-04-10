@@ -109,6 +109,7 @@
     <Compile Include="Assets\PlaySongs.cs" />
     <Compile Include="Assets\Scripts\ApiAiModuleCrystalChan.cs" />
     <Compile Include="Assets\Scripts\BasicMathAnimation.cs" />
+    <Compile Include="Assets\Scripts\CrystalCam.cs" />
     <Compile Include="Assets\Scripts\CrystalChanPlayer.cs" />
     <Compile Include="Assets\Scripts\ICrystalChanPlayer.cs" />
     <Compile Include="Assets\Scripts\IPlayerAnimator.cs" />
@@ -119,9 +120,11 @@
     <Compile Include="Assets\Scripts\Recognition.cs" />
     <Compile Include="Assets\Scripts\ShrugAnimation.cs" />
     <Compile Include="Assets\Scripts\ToDoAnimation.cs" />
+    <Compile Include="Assets\Scripts\User.cs" />
     <Compile Include="Assets\Scripts\VoiceRSSTextToSpeech.cs" />
     <Compile Include="Assets\Scripts\WaveAnimation.cs" />
     <Compile Include="Assets\Scripts\WeatherAnimation.cs" />
+    <Compile Include="Assets\Scripts\camer.cs" />
     <Compile Include="Assets\Scripts\debug.cs" />
     <Compile Include="Assets\Scripts\requestScripts\CoroutineWithData.cs" />
     <Compile Include="Assets\Scripts\requestScripts\HttpRequest.cs" />
