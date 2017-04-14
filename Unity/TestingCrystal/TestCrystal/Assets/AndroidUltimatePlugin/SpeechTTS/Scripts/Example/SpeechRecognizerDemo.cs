@@ -293,9 +293,10 @@ public class SpeechRecognizerDemo : MonoBehaviour {
                         Debug.Log("WHAT TO PARSE your result is " + whatToSay);
                         saidHey = false;
                         crystal.startedListening = true;
-                        StartCoroutine(cloudService.SendText(whatToSay));
+                    StartCoroutine(crystal.playRequiredReaction(whatToSay));
+                    //StartCoroutine(cloudService.SendText(whatToSay));
 
-                    }
+                }
                     else
                     {
                        
@@ -310,7 +311,8 @@ public class SpeechRecognizerDemo : MonoBehaviour {
 
     public void sendToCloud(string whatToSay)
     {
-        cloudService.SendText(whatToSay);
+        //cloudService.SendText(whatToSay);
+        crystal.playRequiredReaction(whatToSay);
         //StartCoroutine(cloudService.SendText(whatToSay)); - makes error!
     }
 

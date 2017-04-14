@@ -21,8 +21,10 @@ public class CrystalChanPlayer : MonoBehaviour
     public AudioSource myAudio;
     private const String ID = "crystal_chan_6";
     public camer crystalCam;
+    public CrystalCloud cloud;
 
     public User currentUser;
+    public CloudResponseObject currentResponse;
 
     //timer things
     public float startTime, endtime;
@@ -43,6 +45,10 @@ public class CrystalChanPlayer : MonoBehaviour
         endtime = startTime + 1;
         gameObject.GetComponent<AudioSource>().mute = false;
         currentUser = new User("none");
+        currentResponse = new CloudResponseObject("no response has been given");
+
+        //added  -- for testing purposes only ---
+        StartCoroutine(playRequiredReaction("what is the weather"));
 
     }
 
@@ -79,6 +85,7 @@ public class CrystalChanPlayer : MonoBehaviour
                 startedListening = false;
             }
         }
+    
 
 
     }
@@ -139,8 +146,90 @@ public class CrystalChanPlayer : MonoBehaviour
 
     }
 
+//revised classes -----------------------------------------------------------------------
+    public IEnumerator playRequiredReaction(string whatUserSaid)
+    {
+
+        Debug.Log("Called " + whatUserSaid);
+        CoroutineWithData cd = new CoroutineWithData(this, cloud.sendTextToCrystalCloud(whatUserSaid));
+
+        yield return cd.coroutine;
 
 
+        //grab reponse speech fromcrystal cloud and play it
+        //Debug.LogError("Return is of type" + cd.result); //ERROR CHECK HERE IF CD.RESULT IS OF TYPE COROUTINE WE GET ERROR SO SHRUG HERE
+
+        if (currentResponse != null
+            && currentResponse.intent != null && currentResponse.response != null)
+        {
+            Debug.Log("Response is : " + currentResponse.response + " whilst intent is " + currentResponse.intent);
+            setAnimationStrategy(determineAction((currentResponse.intent)));
+            PlayTextToSpeechWithAnimation(currentResponse.response);
+            currentResponse.setAllFieldsToNull();
+        }
+        else
+        {
+            playError();
+        }
+
+
+
+    }
+
+    //determine the itent based on the json string 
+    public string determineAction(string action)
+    {
+        if (action != null)
+        {
+            action = action.ToLower();
+            if (action.Contains("weather intent"))
+            {
+                return "weather";
+            }
+            else if (action.Contains("todo"))
+            {
+                return "todo";
+            }
+            else if (action.Contains("music intent"))
+            {
+                music.playASong();
+
+                return "music";
+            }
+            else if (action.Contains("news intent"))
+            {
+                return "news";
+            }
+            else if (action.Contains("wave"))
+            {
+                return "wave";
+            }
+
+            else if (action.Contains("idle"))
+            {
+                return "idle";
+            }
+            else if (action.Contains("log in") || action.Contains("login") || action.Contains("log me in"))
+            {
+                crystalCam.setLogin(true);
+
+                //send to cloud and recieve json info, play tts of crystal saying "hellom USERNAME"
+                return "wave";
+            }
+            else if(action.Contains("math")) {
+
+                    return "math";
+
+                }
+            }
+        
+
+
+        return "shrug";
+
+    }
+
+    //-----------------------------------------------------------------------------------------------------------
 
 
     //mehtod determine the animation action that should be played

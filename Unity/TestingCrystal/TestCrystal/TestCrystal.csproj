@@ -109,8 +109,10 @@
     <Compile Include="Assets\PlaySongs.cs" />
     <Compile Include="Assets\Scripts\ApiAiModuleCrystalChan.cs" />
     <Compile Include="Assets\Scripts\BasicMathAnimation.cs" />
+    <Compile Include="Assets\Scripts\CloudResponseObject.cs" />
     <Compile Include="Assets\Scripts\CrystalCam.cs" />
     <Compile Include="Assets\Scripts\CrystalChanPlayer.cs" />
+    <Compile Include="Assets\Scripts\CrystalCloud.cs" />
     <Compile Include="Assets\Scripts\ICrystalChanPlayer.cs" />
     <Compile Include="Assets\Scripts\IPlayerAnimator.cs" />
     <Compile Include="Assets\Scripts\IdleAnimation.cs" />

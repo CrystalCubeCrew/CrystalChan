@@ -134,7 +134,7 @@ public class TextToSpeechDemo : MonoBehaviour {
         //if(inputField!=null){
         string whatToSay = crystal.getWhatToSay();
 			string utteranceId  = "test-utteranceId";
-
+        UpdateVolume(50); //added to make volume 50%
 			if(textToSpeechPlugin.isInitialized()){
 				UpdateStatus("Trying to speak...");
 				Debug.Log(TAG + "SpeakOut whatToSay: " + whatToSay  + " utteranceId " + utteranceId);
@@ -292,7 +292,7 @@ public class TextToSpeechDemo : MonoBehaviour {
 				CancelInvoke("WaitingMode");
 				Invoke("WaitingMode",waitingInterval);
                 crystal.startedListening = crystal.recordingStarted = false;
-                crystal.endtime = Time.realtimeSinceStartup+2;  //wait a few before you record again
+                crystal.endtime = Time.realtimeSinceStartup+1;  //wait a few before you record again [changes to +1 from +2
             }
         );
 	}
