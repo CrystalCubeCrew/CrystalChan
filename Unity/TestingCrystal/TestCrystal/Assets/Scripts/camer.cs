@@ -51,7 +51,7 @@ public class camer : MonoBehaviour {
 
         WWWForm form = new WWWForm();
         form.AddField("file", encodedText);
-        form.AddField("fileName", "testImage");
+        form.AddField("fileName", "testImage.png");
         form.AddField("machineId", id);
         // Upload to a cgi script
         WWW w = new WWW(URL, form);
