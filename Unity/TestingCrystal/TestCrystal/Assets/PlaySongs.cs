@@ -47,8 +47,10 @@ public class PlaySongs : MonoBehaviour
 
     }
 
-    public void playASong()
+    //StartCoroutine(playSong("http://d2xb16qkudqwc7.cloudfront.net/starboy2.wav"));
+
+    public void playASong(string link)
     {
-        StartCoroutine(playSong("http://d2xb16qkudqwc7.cloudfront.net/starboy2.wav"));
+        StartCoroutine(playSong(link));
     }
 }//closes the class

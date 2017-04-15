@@ -8,7 +8,7 @@ public class CrystalChanPlayer : MonoBehaviour
 
     private Animator crystal = null;
     public IPlayerAnimator playerAnimator = null;
-    public ApiAiModuleCrystalChan cy;
+   // public ApiAiModuleCrystalChan cy;
     //public VoiceRSSTextToSpeech tts;
     public bool recordingStarted;
     public SpeechRecognizerDemo srd;
@@ -38,7 +38,7 @@ public class CrystalChanPlayer : MonoBehaviour
         music = gameObject.GetComponent<PlaySongs>();
         httpTest = new HttpRequest();
         setAnimationStrategy("idle");
-        StartCoroutine(cy.Start());
+       // StartCoroutine(cy.Start());
         //cy.initializeSendText();  //make send text run once so cloud is initialized
         recordingStarted = haveWaited= startedListening = timeOut = false;
         startTime = Time.realtimeSinceStartup;
@@ -48,7 +48,7 @@ public class CrystalChanPlayer : MonoBehaviour
         currentResponse = new CloudResponseObject("no response has been given");
 
         //added  -- for testing purposes only ---
-        StartCoroutine(playRequiredReaction("what is the weather"));
+        StartCoroutine(playRequiredReaction("text mom what is up"));
 
     }
 
@@ -164,7 +164,7 @@ public class CrystalChanPlayer : MonoBehaviour
         {
             Debug.Log("Response is : " + currentResponse.response + " whilst intent is " + currentResponse.intent);
             setAnimationStrategy(determineAction((currentResponse.intent)));
-            PlayTextToSpeechWithAnimation(currentResponse.response);
+            completeRequiredActionBasedOnResponse(currentResponse);
             currentResponse.setAllFieldsToNull();
         }
         else
@@ -173,6 +173,21 @@ public class CrystalChanPlayer : MonoBehaviour
         }
 
 
+
+    }
+
+    private void completeRequiredActionBasedOnResponse(CloudResponseObject currentResponse)
+    {
+
+        if(currentResponse.intent.ToLower().Equals("math intent"))
+        {
+            currentResponse.response = MathCommand.getResultOf(currentResponse.response);
+        }else if(currentResponse.intent.ToLower().Equals("music intent"))
+        {
+            //play music 
+            music.playASong(currentResponse.response);
+        }
+        PlayTextToSpeechWithAnimation(currentResponse.response);
 
     }
 
@@ -186,14 +201,12 @@ public class CrystalChanPlayer : MonoBehaviour
             {
                 return "weather";
             }
-            else if (action.Contains("todo"))
+            else if (action.Contains("todo intent"))
             {
                 return "todo";
             }
             else if (action.Contains("music intent"))
             {
-                music.playASong();
-
                 return "music";
             }
             else if (action.Contains("news intent"))
@@ -216,7 +229,7 @@ public class CrystalChanPlayer : MonoBehaviour
                 //send to cloud and recieve json info, play tts of crystal saying "hellom USERNAME"
                 return "wave";
             }
-            else if(action.Contains("math")) {
+            else if(action.Contains("math intent")) {
 
                     return "math";
 
@@ -231,7 +244,7 @@ public class CrystalChanPlayer : MonoBehaviour
 
     //-----------------------------------------------------------------------------------------------------------
 
-
+/*
     //mehtod determine the animation action that should be played
     public IEnumerator playRequiredReaction(string json, string whatUserSaid)
     {
@@ -264,10 +277,7 @@ public class CrystalChanPlayer : MonoBehaviour
                        playError();
                      }
                
-               
             }
-            
-
 
         }
         else
@@ -277,7 +287,7 @@ public class CrystalChanPlayer : MonoBehaviour
         }
         
     }
-
+    */
 
     //checks to see if return response is a string type that crystal can say
     public bool isString(object result)
@@ -285,7 +295,7 @@ public class CrystalChanPlayer : MonoBehaviour
         var objectConversion = result as string;
         return (objectConversion != null);
     }
-
+    /*
     //determine the itent based on the json string 
     public string determineAction(string json, string whatUserSaid)
     {
@@ -340,7 +350,7 @@ public class CrystalChanPlayer : MonoBehaviour
             return "shrug";
     
     }
-
+    */
 
     //play audio of the string "text" allow in unity using rss api
     public void PlayTextToSpeechWithAnimation(string textToPlay)

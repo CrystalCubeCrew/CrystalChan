@@ -85,15 +85,15 @@ public class CrystalChanTest
     {
         string json = "Weather Intent";
 
-        Assert.AreEqual("weather", CrystalScript.determineAction(json, null) );
+        Assert.AreEqual("weather", CrystalScript.determineAction(json) );
     }
 
     [Test]
     public void jsonContainsToDoThenOutputIsToDo()
     {
-        string json = "todo animation";
+        string json = "todo intent";
 
-        Assert.AreEqual("todo", CrystalScript.determineAction(json, null));
+        Assert.AreEqual("todo", CrystalScript.determineAction(json));
     }
 
     [Test]
@@ -101,7 +101,7 @@ public class CrystalChanTest
     {
         string json = "bleh animation";
 
-        Assert.AreEqual("shrug", CrystalScript.determineAction(json,null));
+        Assert.AreEqual("shrug", CrystalScript.determineAction(json));
 
     }
 
@@ -110,7 +110,7 @@ public class CrystalChanTest
     {
         string json = null;
 
-        Assert.AreEqual("shrug", CrystalScript.determineAction(json,null));
+        Assert.AreEqual("shrug", CrystalScript.determineAction(json));
     }
 
 

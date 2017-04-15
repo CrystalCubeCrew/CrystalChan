@@ -36,7 +36,7 @@ using Newtonsoft.Json.Linq;
 public class ApiAiModuleCrystalChan : MonoBehaviour
 {
 
-    public Text answerTextField;
+   /* public Text answerTextField;
     public Text inputTextField;
     private ApiAiUnity apiAiUnity = new ApiAiUnity();
     private AudioSource aud;
@@ -295,5 +295,5 @@ public class ApiAiModuleCrystalChan : MonoBehaviour
             writeResponseToFile("error in native recogn");
 
         }
-    }
+    }*/
 }

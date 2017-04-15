@@ -11,6 +11,7 @@ public class MathCommand : MonoBehaviour
         if(whatUserSaid != null)
         {
             whatUserSaid = whatUserSaid.ToLower();
+            whatUserSaid = ifPlusCommandConvertToCorrectFormat(whatUserSaid);
             string[] wordsUserSaid = whatUserSaid.Split(null);
             if (commandContainsFourFiveOrSixWords(wordsUserSaid)&&commandContainsWhatIsOrWhats(wordsUserSaid) && commandHasTwoNumbers(wordsUserSaid) && commandHasOneOperation(wordsUserSaid) && commandIsInCorrectFormat(wordsUserSaid))
             {
@@ -19,6 +20,23 @@ public class MathCommand : MonoBehaviour
         }
 
         return result;
+    }
+
+    public static String ifPlusCommandConvertToCorrectFormat(string whatUserSaid)
+    {
+        string[] wordsUserSaid = whatUserSaid.Split(null);
+        if (wordsUserSaid.Length == 3 && whatUserSaid.Contains("+"))
+            //it is a plus command
+        {
+            String convertedPlusText = "";
+
+            convertedPlusText = whatUserSaid.Replace("+", " + ");
+            return convertedPlusText;
+        }
+        else
+        {
+            return whatUserSaid;
+        }
     }
 
     public static bool commandContainsFourFiveOrSixWords(string[] wordsUserSaid)

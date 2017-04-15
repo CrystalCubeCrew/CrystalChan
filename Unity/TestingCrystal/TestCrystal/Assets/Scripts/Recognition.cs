@@ -18,7 +18,7 @@ public class Recognition : MonoBehaviour {
     {
         currentTime = endTime = 0;
 
-        cy.StartNativeRecognition();
+       // cy.StartNativeRecognition();
         //initilize stuff
        /* keywords.Add("Hey Crystal", () =>
           {

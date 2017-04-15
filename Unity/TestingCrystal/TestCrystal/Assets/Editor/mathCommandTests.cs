@@ -256,4 +256,28 @@ public class mathCommandTests {
         Debug.Log(MathCommand.calculate("divided", "5", "2"));
         Assert.True(MathCommand.calculate("divided", "5", "2").Equals("2.5"));
     }
+
+    [Test]
+    public void ifPlusInIncorrectPlusFormatChangeToCorrectFormat()
+    {
+        Debug.Log(MathCommand.ifPlusCommandConvertToCorrectFormat("what is 2+2"));
+
+        Assert.True(MathCommand.ifPlusCommandConvertToCorrectFormat("what is 2+2").Equals("what is 2 + 2"));
+    }
+
+    [Test]
+    public void ifPlusCorrectPlusFormatDoNotChangeFormat()
+    {
+        Debug.Log(MathCommand.ifPlusCommandConvertToCorrectFormat("what is 2 + 2"));
+
+        Assert.True(MathCommand.ifPlusCommandConvertToCorrectFormat("what is 2 + 2").Equals("what is 2 + 2"));
+    }
+
+    [Test]
+    public void ifDividedCorrectPlusFormatDoNotChangeFormat()
+    {
+        Debug.Log(MathCommand.ifPlusCommandConvertToCorrectFormat("what is 2 divided by 2"));
+
+        Assert.True(MathCommand.ifPlusCommandConvertToCorrectFormat("what is 2 divided by 2").Equals("what is 2 divided by 2"));
+    }
 }
