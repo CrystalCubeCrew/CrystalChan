@@ -48,7 +48,7 @@ public class CrystalChanPlayer : MonoBehaviour
         currentResponse = new CloudResponseObject("no response has been given");
 
         //added  -- for testing purposes only ---
-        StartCoroutine(playRequiredReaction("text mom what is up"));
+        StartCoroutine(playRequiredReaction("login"));
 
     }
 
@@ -158,20 +158,24 @@ public class CrystalChanPlayer : MonoBehaviour
 
         //grab reponse speech fromcrystal cloud and play it
         //Debug.LogError("Return is of type" + cd.result); //ERROR CHECK HERE IF CD.RESULT IS OF TYPE COROUTINE WE GET ERROR SO SHRUG HERE
+        if((whatUserSaid.Contains("log in") || whatUserSaid.Contains("login") || whatUserSaid.Contains("log me in")))
+        {
+            setAnimationStrategy(determineAction("login"));
+            crystalCam.setLogin(true);
 
-        if (currentResponse != null
-            && currentResponse.intent != null && currentResponse.response != null)
+        }
+        else if ((currentResponse != null
+            && currentResponse.intent != null && currentResponse.response != null))
         {
             Debug.Log("Response is : " + currentResponse.response + " whilst intent is " + currentResponse.intent);
             setAnimationStrategy(determineAction((currentResponse.intent)));
             completeRequiredActionBasedOnResponse(currentResponse);
-            currentResponse.setAllFieldsToNull();
         }
         else
         {
             playError();
         }
-
+        currentResponse.setAllFieldsToNull();
 
 
     }
@@ -224,8 +228,6 @@ public class CrystalChanPlayer : MonoBehaviour
             }
             else if (action.Contains("log in") || action.Contains("login") || action.Contains("log me in"))
             {
-                crystalCam.setLogin(true);
-
                 //send to cloud and recieve json info, play tts of crystal saying "hellom USERNAME"
                 return "wave";
             }
@@ -244,50 +246,6 @@ public class CrystalChanPlayer : MonoBehaviour
 
     //-----------------------------------------------------------------------------------------------------------
 
-/*
-    //mehtod determine the animation action that should be played
-    public IEnumerator playRequiredReaction(string json, string whatUserSaid)
-    {
-        //type of animation and intent to be voiced and animated by crystal
-        string actiontype = determineAction(json, whatUserSaid);
-        //determine the animation action that should be played _> (Current;y action type is "weather" but should be changed to Actiontype when sujen done"
-        setAnimationStrategy(actiontype);
-
-        Debug.Log("IN DETERMINE ACTION");
-
-        if (!actiontype.Equals("math") )
-        {
-            if (!actiontype.Equals("music") && !actiontype.Equals("wave") )
-            {
-               
-                 //send intent to crystal cloud -- dummy weather----> should be actionType passed when sujen gets apiai done.
-                 Debug.Log("action type is " + actiontype);
-                 CoroutineWithData cd = new CoroutineWithData(this, getTextFromCloud(actiontype));
-         
-                     yield return cd.coroutine;
-                    //grab reponse speech fromcrystal cloud and play it
-                     Debug.LogError("Return is of type" + cd.result); //ERROR CHECK HERE IF CD.RESULT IS OF TYPE COROUTINE WE GET ERROR SO SHRUG HERE
-
-                 if (isString(cd.result))
-                     {
-                      PlayTextToSpeechWithAnimation((string)cd.result);
-                  }
-                     else
-                     {
-                       playError();
-                     }
-               
-            }
-
-        }
-        else
-        {
-            string answer = MathCommand.getResultOf(whatUserSaid);
-            PlayTextToSpeechWithAnimation(answer);
-        }
-        
-    }
-    */
 
     //checks to see if return response is a string type that crystal can say
     public bool isString(object result)
@@ -295,62 +253,6 @@ public class CrystalChanPlayer : MonoBehaviour
         var objectConversion = result as string;
         return (objectConversion != null);
     }
-    /*
-    //determine the itent based on the json string 
-    public string determineAction(string json, string whatUserSaid)
-    {
-        if(json != null)
-        {
-            json = json.ToLower();
-            if (json.Contains("weather intent"))
-             {
-                 return "weather";
-             }else if (json.Contains("todo"))
-            {
-                 return "todo";
-             }
-            else if (json.Contains("music intent"))
-            {
-                return "music";
-            }
-            else if (json.Contains("news intent"))
-            {
-                return "news";
-            }
-            else if (json.Contains("wave"))
-            {
-                return "wave";
-            }
-
-            else if (json.Contains("idle"))
-            {
-                return "idle";
-            }else if(json.Contains("log in") || json.Contains("login") || json.Contains("log me in"))
-            {
-                crystalCam.setLogin(true);
-                
-                //send to cloud and recieve json info, play tts of crystal saying "hellom USERNAME"
-                return "wave";
-            }
-            else {
-                if (MathCommand.userSayMathOperation(whatUserSaid))
-                {
-                    return "math";
-                }
-                whatUserSaid = whatUserSaid.ToLower();
-                if (whatUserSaid.Equals("play music"))
-                {
-                    music.playASong();
-                    return "music";
-                }
-            }
-        }
-       
-        
-            return "shrug";
-    
-    }
-    */
 
     //play audio of the string "text" allow in unity using rss api
     public void PlayTextToSpeechWithAnimation(string textToPlay)

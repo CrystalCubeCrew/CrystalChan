@@ -51,6 +51,7 @@ public class camer : MonoBehaviour {
 
         WWWForm form = new WWWForm();
         form.AddField("file", encodedText);
+        form.AddField("fileName", "testImage");
         form.AddField("machineId", id);
         // Upload to a cgi script
         WWW w = new WWW(URL, form);
@@ -80,7 +81,7 @@ public class camer : MonoBehaviour {
 
                 Debug.Log("response is -> " + myObject.firstName );
                 crystal.setAnimationStrategy("wave");
-                crystal.PlayTextToSpeechWithAnimation("Hello " + myObject.firstName + " " + myObject.lastName + ". Welcome to your"
+                crystal.PlayTextToSpeechWithAnimation("Hello " + myObject.firstName + " " + myObject.lastName + ". Welcome to your "
                     + "Crystal Cube!");
             }
             catch (System.ArgumentException e)
