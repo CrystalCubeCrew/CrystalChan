@@ -46,10 +46,6 @@ public class CrystalChanPlayer : MonoBehaviour
         gameObject.GetComponent<AudioSource>().mute = false;
         currentUser = new User("none");
         currentResponse = new CloudResponseObject("no response has been given");
-
-        //added  -- for testing purposes only ---
-        StartCoroutine(playRequiredReaction("login"));
-
     }
 
     // Update is called once per frame
@@ -65,7 +61,7 @@ public class CrystalChanPlayer : MonoBehaviour
         {
             Debug.Log("Listening once again...");
             startTime = Time.realtimeSinceStartup;
-            endtime = startTime + 4;
+            endtime = startTime + 2;
             startedListening = true;
             srd.StartListeningNoBeep();
           
@@ -73,7 +69,7 @@ public class CrystalChanPlayer : MonoBehaviour
         }else if(recordingStarted && haveWaited)
         {
             startTime = Time.realtimeSinceStartup;
-            endtime = startTime + 4;
+            endtime = startTime + 2;
             haveWaited = false;
 
         }else
@@ -186,12 +182,18 @@ public class CrystalChanPlayer : MonoBehaviour
         if(currentResponse.intent.ToLower().Equals("math intent"))
         {
             currentResponse.response = MathCommand.getResultOf(currentResponse.response);
-        }else if(currentResponse.intent.ToLower().Equals("music intent"))
+            PlayTextToSpeechWithAnimation(currentResponse.response);
+        }
+        else if(currentResponse.intent.ToLower().Equals("music intent"))
         {
             //play music 
             music.playASong(currentResponse.response);
         }
-        PlayTextToSpeechWithAnimation(currentResponse.response);
+        else
+        {
+            PlayTextToSpeechWithAnimation(currentResponse.response);
+        }
+        
 
     }
 

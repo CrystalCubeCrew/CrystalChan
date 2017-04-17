@@ -4,7 +4,8 @@ using UnityEngine;
 using System.IO;
 using System;
 
-public class camer : MonoBehaviour {
+public class camer : MonoBehaviour
+{
     WebCamTexture back;
     WebCamTexture _webcamtex;
     public string URL = "http://ec2-34-207-95-183.compute-1.amazonaws.com/findUser";
@@ -79,7 +80,7 @@ public class camer : MonoBehaviour {
                 crystal.currentUser.lastName = myObject.lastName;
                 Debug.Log("object is -> " + myObject);
 
-                Debug.Log("response is -> " + myObject.firstName );
+                Debug.Log("response is -> " + myObject.firstName);
                 crystal.setAnimationStrategy("wave");
                 crystal.PlayTextToSpeechWithAnimation("Hello " + myObject.firstName + " " + myObject.lastName + ". Welcome to your "
                     + "Crystal Cube!");
