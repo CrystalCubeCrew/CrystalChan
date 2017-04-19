@@ -8,8 +8,6 @@ public class CrystalChanPlayer : MonoBehaviour
 
     private Animator crystal = null;
     public IPlayerAnimator playerAnimator = null;
-   // public ApiAiModuleCrystalChan cy;
-    //public VoiceRSSTextToSpeech tts;
     public bool recordingStarted;
     public SpeechRecognizerDemo srd;
     public TextToSpeechDemo tts;
@@ -38,8 +36,6 @@ public class CrystalChanPlayer : MonoBehaviour
         music = gameObject.GetComponent<PlaySongs>();
         httpTest = new HttpRequest();
         setAnimationStrategy("idle");
-       // StartCoroutine(cy.Start());
-        //cy.initializeSendText();  //make send text run once so cloud is initialized
         recordingStarted = haveWaited= startedListening = timeOut = false;
         startTime = Time.realtimeSinceStartup;
         endtime = startTime + 1;
@@ -142,7 +138,6 @@ public class CrystalChanPlayer : MonoBehaviour
 
     }
 
-//revised classes -----------------------------------------------------------------------
     public IEnumerator playRequiredReaction(string whatUserSaid)
     {
 

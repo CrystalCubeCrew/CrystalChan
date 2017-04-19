@@ -132,7 +132,6 @@
     <Compile Include="Assets\AndroidUltimatePlugin\Common\Extension\UGUI\Editor\uGUITools.cs" />
     <Compile Include="Assets\Editor\ApiapModuleTests.cs" />
     <Compile Include="Assets\Editor\CrystalChanTest.cs" />
-    <Compile Include="Assets\Editor\VoiceRSSTests.cs" />
     <Compile Include="Assets\Editor\mathCommandTests.cs" />
   </ItemGroup>
   <ItemGroup>

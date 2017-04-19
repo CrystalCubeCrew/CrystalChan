@@ -119,11 +119,9 @@
     <Compile Include="Assets\Scripts\MathCommand.cs" />
     <Compile Include="Assets\Scripts\MusicAnimation.cs" />
     <Compile Include="Assets\Scripts\NewsFeedAnimation.cs" />
-    <Compile Include="Assets\Scripts\Recognition.cs" />
     <Compile Include="Assets\Scripts\ShrugAnimation.cs" />
     <Compile Include="Assets\Scripts\ToDoAnimation.cs" />
     <Compile Include="Assets\Scripts\User.cs" />
-    <Compile Include="Assets\Scripts\VoiceRSSTextToSpeech.cs" />
     <Compile Include="Assets\Scripts\WaveAnimation.cs" />
     <Compile Include="Assets\Scripts\WeatherAnimation.cs" />
     <Compile Include="Assets\Scripts\camer.cs" />

@@ -8,22 +8,6 @@ public class TextToSpeechDemo : MonoBehaviour {
 
 	private const string TAG = "[TextToSpeechDemo]: ";
 
-	/*public InputField inputField;
-
-	public Text statusText;
-	public Text ttsDataActivityStatusText;
-	public Text localeText;
-	public Slider localeSlider;
-
-	public Text pitchText;
-	public Slider pitchSlider;
-
-	public Text speechRateText;
-	public Slider speechRateSlider;
-
-	public Text volumeText;
-	public Slider volumeSlider;*/
-
 	private SpeechPlugin speechPlugin;
 	private TextToSpeechPlugin textToSpeechPlugin;
 	private float waitingInterval = 2f;

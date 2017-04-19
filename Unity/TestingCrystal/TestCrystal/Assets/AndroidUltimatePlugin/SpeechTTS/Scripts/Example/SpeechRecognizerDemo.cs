@@ -175,9 +175,9 @@ public class SpeechRecognizerDemo : MonoBehaviour {
 	private void UpdateStatus(string status){
 
         Debug.LogError("status currently is ."+status);
-
+        //added error_server
         if (status.ToLower().Equals("error_recognizer_busy") || status.ToLower().Equals("error_speech_timeout")||
-            status.ToLower().Equals("error_no_match") || status.ToLower().Equals("error_network"))
+            status.ToLower().Equals("error_no_match") || status.ToLower().Equals("error_network") || status.ToLower().Equals("error_server"))
         {
              speechPlugin.Cancel();
             speechPlugin.CancelInvoke();
@@ -186,7 +186,7 @@ public class SpeechRecognizerDemo : MonoBehaviour {
             crystal.recordingStarted = false;
 
             if (status.ToLower().Equals("error_speech_timeout") || status.ToLower().Equals("error_no_match")
-                || status.ToLower().Equals("error_network"))
+                || status.ToLower().Equals("error_network") || status.ToLower().Equals("error_server"))
             {
                 crystal.endtime = Time.realtimeSinceStartup + 1;  //wait a few before you record again
                // speechPlugin.CancelInvoke();
