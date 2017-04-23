@@ -75,9 +75,13 @@ public class camer : MonoBehaviour
                 myObject = (w.error == null)
                   ? JsonUtility.FromJson<User>(w.text)
                   : new User("There was an error");
-
+                if ( myObject.firstName == null || myObject.firstName.ToLower().Equals(""))
+                {
+                    throw new System.ArgumentException();
+                }
                 crystal.currentUser.firstName = myObject.firstName;
                 crystal.currentUser.lastName = myObject.lastName;
+                crystal.currentUser.userId = myObject.userId;
                 Debug.Log("object is -> " + myObject);
 
                 Debug.Log("response is -> " + myObject.firstName);
@@ -89,6 +93,9 @@ public class camer : MonoBehaviour
             {
                 Debug.Log(e);
                 myObject = new User("There was an error");
+
+                crystal.setAnimationStrategy("shrug");
+                crystal.PlayTextToSpeechWithAnimation("Sorry, I am not sure who you are.");
             }
 
             yield return myObject;

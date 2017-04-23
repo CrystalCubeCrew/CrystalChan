@@ -20,6 +20,8 @@ public class CrystalCloud : MonoBehaviour {
         form.AddField("speech", whatUserSaid);
         //form.AddField("machineId", id);
         // Upload to a cgi script
+        form.AddField("userId", crystal.currentUser.userId); //added
+        form.AddField("machineId", ID);  //added
         WWW w = new WWW(URL, form);
         yield return w;
         if (!string.IsNullOrEmpty(w.error))

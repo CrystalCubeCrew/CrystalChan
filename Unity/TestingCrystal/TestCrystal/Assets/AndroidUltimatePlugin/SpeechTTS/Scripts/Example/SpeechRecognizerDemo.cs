@@ -191,22 +191,13 @@ public class SpeechRecognizerDemo : MonoBehaviour {
                 crystal.endtime = Time.realtimeSinceStartup + 1;  //wait a few before you record again
                // speechPlugin.CancelInvoke();
                 crystal.timeOut = true;
+                if(status.ToLower().Equals("error_network") || status.ToLower().Equals("error_server")) //added
+                    crystal.networkFail = true; //added
             }
           
-            
-            /*   speechPlugin.Cancel();
-               speechPlugin.DestroySpeechController();
-
-               saidHey = false;
-               crystal.startedListening = false;
-               crystal.recordingStarted = false;*/
 
         }
 
-        /*
-                if (statusText!=null){
-                    statusText.text = String.Format("Status: {0}",status);	
-                }*/
     }
 
     //SpeechRecognizer Events

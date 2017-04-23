@@ -26,6 +26,7 @@ public class CrystalChanPlayer : MonoBehaviour
 
     //timer things
     public float startTime, endtime;
+    public bool networkFail;
 
     // Use this for initialization, runs at beginning of game
     void Start()
@@ -38,10 +39,11 @@ public class CrystalChanPlayer : MonoBehaviour
         setAnimationStrategy("idle");
         recordingStarted = haveWaited= startedListening = timeOut = false;
         startTime = Time.realtimeSinceStartup;
-        endtime = startTime + 1;
+        endtime = startTime + 2; //was +1 now +2
         gameObject.GetComponent<AudioSource>().mute = false;
         currentUser = new User("none");
         currentResponse = new CloudResponseObject("no response has been given");
+        networkFail = false;
     }
 
     // Update is called once per frame
@@ -52,12 +54,13 @@ public class CrystalChanPlayer : MonoBehaviour
         //stop listening when we have listened for entime-current time about of secondss
         startTime = Time.realtimeSinceStartup;
         //Debug.Log("start: " + startTime +"end: "+ endtime);
-       // Debug.Log("We have "+ (startTime > endtime)+" "+ !recordingStarted+" "+" "+!myAudio.isPlaying+" "+ !startedListening );
-       if (startTime > endtime && !recordingStarted && !myAudio.isPlaying && !startedListening)
+        // Debug.Log("We have "+ (startTime > endtime)+" "+ !recordingStarted+" "+" "+!myAudio.isPlaying+" "+ !startedListening );
+        if (startTime > endtime && !recordingStarted && !myAudio.isPlaying && !startedListening)
         {
+
             Debug.Log("Listening once again...");
             startTime = Time.realtimeSinceStartup;
-            endtime = startTime + 2;
+            endtime = startTime + 3;  // was +2 now +3
             startedListening = true;
             srd.StartListeningNoBeep();
           
@@ -65,7 +68,7 @@ public class CrystalChanPlayer : MonoBehaviour
         }else if(recordingStarted && haveWaited)
         {
             startTime = Time.realtimeSinceStartup;
-            endtime = startTime + 2;
+            endtime = startTime + 3; // was +2 now +3
             haveWaited = false;
 
         }else
@@ -74,7 +77,14 @@ public class CrystalChanPlayer : MonoBehaviour
             {
                 Debug.Log("We have " + (startTime > endtime) + " " + !recordingStarted + " " + " " + !myAudio.isPlaying + " " + !startedListening);
                 timeOut = false;
-                startedListening = false;
+                if (networkFail)
+                {
+                    networkFail = false;
+                    setAnimationStrategy("shrug");
+                    PlayTextToSpeechWithAnimation("Sorry, your internet is too slow bro");
+                }else
+                    startedListening = false; 
+               
             }
         }
     
@@ -142,52 +152,72 @@ public class CrystalChanPlayer : MonoBehaviour
     {
 
         Debug.Log("Called " + whatUserSaid);
-        CoroutineWithData cd = new CoroutineWithData(this, cloud.sendTextToCrystalCloud(whatUserSaid));
-
-        yield return cd.coroutine;
-
-
-        //grab reponse speech fromcrystal cloud and play it
-        //Debug.LogError("Return is of type" + cd.result); //ERROR CHECK HERE IF CD.RESULT IS OF TYPE COROUTINE WE GET ERROR SO SHRUG HERE
-        if((whatUserSaid.Contains("log in") || whatUserSaid.Contains("login") || whatUserSaid.Contains("log me in")))
+        if ((whatUserSaid.Contains("log in") || whatUserSaid.Contains("login") || whatUserSaid.Contains("log me in")))
         {
             setAnimationStrategy(determineAction("login"));
             crystalCam.setLogin(true);
 
         }
-        else if ((currentResponse != null
-            && currentResponse.intent != null && currentResponse.response != null))
+        else if((currentUser.userId != null && !currentUser.userId.Equals("none")))
         {
-            Debug.Log("Response is : " + currentResponse.response + " whilst intent is " + currentResponse.intent);
-            setAnimationStrategy(determineAction((currentResponse.intent)));
-            completeRequiredActionBasedOnResponse(currentResponse);
+            CoroutineWithData cd = new CoroutineWithData(this, cloud.sendTextToCrystalCloud(whatUserSaid));
+
+                    yield return cd.coroutine;
+
+
+                    //grab reponse speech fromcrystal cloud and play it
+                    //Debug.LogError("Return is of type" + cd.result); //ERROR CHECK HERE IF CD.RESULT IS OF TYPE COROUTINE WE GET ERROR SO SHRUG HERE
+                    if ((currentResponse != null
+                        && currentResponse.intent != null && currentResponse.response != null))
+                    {
+                        Debug.Log("Response is : " + currentResponse.response + " whilst intent is " + currentResponse.intent);
+                        setAnimationStrategy(determineAction((currentResponse.intent)));
+                        completeRequiredActionBasedOnResponse(currentResponse);
+                    }
+                    else
+                    {
+                        playError();
+                    }
+                    currentResponse.setAllFieldsToNull();
         }
         else
         {
-            playError();
+            setAnimationStrategy("shrug");
+            PlayTextToSpeechWithAnimation("Sorry I don't know who you are. Please login first");
         }
-        currentResponse.setAllFieldsToNull();
+        
 
 
     }
 
     private void completeRequiredActionBasedOnResponse(CloudResponseObject currentResponse)
     {
+   //     if (currentUser.userId != null && !currentUser.userId.Equals("none")) { //added
+            if (currentResponse.intent.ToLower().Equals("math intent"))
+            {
+                currentResponse.response = MathCommand.getResultOf(currentResponse.response);
+                PlayTextToSpeechWithAnimation("I found this out "+currentUser.firstName+","+currentResponse.response);
+            }
+            else if (currentResponse.intent.ToLower().Equals("music intent"))
+            {
+                //play music 
+                music.playASong(currentResponse.response);
+            }else if(currentResponse.intent.ToLower().Equals("todolist intent"))
+            {
 
-        if(currentResponse.intent.ToLower().Equals("math intent"))
-        {
-            currentResponse.response = MathCommand.getResultOf(currentResponse.response);
-            PlayTextToSpeechWithAnimation(currentResponse.response);
-        }
-        else if(currentResponse.intent.ToLower().Equals("music intent"))
-        {
-            //play music 
-            music.playASong(currentResponse.response);
-        }
-        else
-        {
-            PlayTextToSpeechWithAnimation(currentResponse.response);
-        }
+                PlayTextToSpeechWithAnimation("Hey " + currentUser.firstName + ", your to do list contains the following, " + ((currentResponse.response.Length == 0)? "absolutely nothing. Good job son": currentResponse.response));
+            }
+            else
+            {
+                PlayTextToSpeechWithAnimation("Well "+currentUser.firstName+", "+currentResponse.response);
+            }
+     //   }
+       // else
+        //{
+          //  setAnimationStrategy("shrug");
+            //PlayTextToSpeechWithAnimation("Sorry I don't know who you are. Please login first");
+        //}
+       
         
 
     }
@@ -202,7 +232,7 @@ public class CrystalChanPlayer : MonoBehaviour
             {
                 return "weather";
             }
-            else if (action.Contains("todo intent"))
+            else if (action.Contains("todolist intent"))
             {
                 return "todo";
             }

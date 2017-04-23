@@ -8,6 +8,7 @@ public class User
     public string lastName;
     public string response;
     public string error;
+    public string userId;
 
     /**
     * Constructor 
@@ -15,6 +16,8 @@ public class User
     public User(string error)
     {
         this.error = error;
+        userId = "none";
+        firstName = lastName = response = null;
     }
 
 
