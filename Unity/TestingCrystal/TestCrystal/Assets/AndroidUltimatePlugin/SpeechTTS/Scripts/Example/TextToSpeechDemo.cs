@@ -12,7 +12,6 @@ public class TextToSpeechDemo : MonoBehaviour {
 	private TextToSpeechPlugin textToSpeechPlugin;
 	private float waitingInterval = 2f;
     public CrystalChanPlayer crystal;
-
 	private Dispatcher dispatcher;
 
 	private void Awake(){
@@ -277,6 +276,7 @@ public class TextToSpeechDemo : MonoBehaviour {
 				Invoke("WaitingMode",waitingInterval);
                 crystal.startedListening = crystal.recordingStarted = false;
                 crystal.endtime = Time.realtimeSinceStartup+1;  //wait a few before you record again [changes to +1 from +2
+
             }
         );
 	}

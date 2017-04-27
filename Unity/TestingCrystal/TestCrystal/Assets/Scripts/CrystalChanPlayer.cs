@@ -25,7 +25,7 @@ public class CrystalChanPlayer : MonoBehaviour
     public CloudResponseObject currentResponse;
 
     //timer things
-    public float startTime, endtime;
+    public float startTime, endtime, s, e;
     public bool networkFail;
 
     // Use this for initialization, runs at beginning of game
@@ -44,11 +44,15 @@ public class CrystalChanPlayer : MonoBehaviour
         currentUser = new User("none");
         currentResponse = new CloudResponseObject("no response has been given");
         networkFail = false;
+
     }
 
     // Update is called once per frame
     void Update()
     {
+        //added
+
+
         
         //start listening timer if "hey crystal" was said        
         //stop listening when we have listened for entime-current time about of secondss
@@ -60,20 +64,20 @@ public class CrystalChanPlayer : MonoBehaviour
 
             Debug.Log("Listening once again...");
             startTime = Time.realtimeSinceStartup;
-            endtime = startTime + 3;  // was +2 now +3
+            endtime = startTime + .7f;  // was +2 now .7f
             startedListening = true;
             srd.StartListeningNoBeep();
-          
+
             //recordingStarted = true;
-        }else if(recordingStarted && haveWaited)
+        } else if (recordingStarted && haveWaited)
         {
             startTime = Time.realtimeSinceStartup;
-            endtime = startTime + 3; // was +2 now +3
+            //endtime = startTime + 2; // was +2 now +3
             haveWaited = false;
 
-        }else
+        }  else
         {
-            if ( timeOut)
+            if (timeOut)
             {
                 Debug.Log("We have " + (startTime > endtime) + " " + !recordingStarted + " " + " " + !myAudio.isPlaying + " " + !startedListening);
                 timeOut = false;
@@ -82,9 +86,9 @@ public class CrystalChanPlayer : MonoBehaviour
                     networkFail = false;
                     setAnimationStrategy("shrug");
                     PlayTextToSpeechWithAnimation("Sorry, your internet is too slow bro");
-                }else
-                    startedListening = false; 
-               
+                } else
+                    startedListening = false;
+
             }
         }
     

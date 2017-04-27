@@ -12,7 +12,7 @@ public class SpeechRecognizerDemo : MonoBehaviour {
 	private SpeechPlugin speechPlugin;	
 	private Dispatcher dispatcher;
     public CrystalChanPlayer crystal;
-    public bool saidHey;
+    public bool saidHey ;
     public ApiAiModuleCrystalChan cloudService;
 
 
@@ -27,7 +27,7 @@ public class SpeechRecognizerDemo : MonoBehaviour {
 
 		AddSpeechPluginListener();
         crystal = gameObject.GetComponent<CrystalChanPlayer>();
-        saidHey = false;
+        saidHey  = false;
         cloudService = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<ApiAiModuleCrystalChan>();
 	}
 
@@ -172,12 +172,12 @@ public class SpeechRecognizerDemo : MonoBehaviour {
 		speechPlugin.StopListening();
 	}
 
-	private void UpdateStatus(string status){
+    private void UpdateStatus(string status) {
 
-        Debug.LogError("status currently is ."+status);
+        Debug.LogError("status currently is ." + status);
         //added error_server
-        if (status.ToLower().Equals("error_recognizer_busy") || status.ToLower().Equals("error_speech_timeout")||
-            status.ToLower().Equals("error_no_match") || status.ToLower().Equals("error_network") || status.ToLower().Equals("error_server"))
+        if (status.ToLower().Equals("error_recognizer_busy") || status.ToLower().Equals("error_speech_timeout")
+             || status.ToLower().Equals("error_network") || status.ToLower().Equals("error_server") || status.ToLower().Equals("error_no_match"))
         {
              speechPlugin.Cancel();
             speechPlugin.CancelInvoke();
@@ -194,8 +194,6 @@ public class SpeechRecognizerDemo : MonoBehaviour {
                 if(status.ToLower().Equals("error_network") || status.ToLower().Equals("error_server")) //added
                     crystal.networkFail = true; //added
             }
-          
-
         }
 
     }
@@ -245,6 +243,7 @@ public class SpeechRecognizerDemo : MonoBehaviour {
 	}
 
 	private void onResults(string data){
+
 		dispatcher.InvokeAction(
 			()=>{
 				
@@ -262,7 +261,11 @@ public class SpeechRecognizerDemo : MonoBehaviour {
                 foreach (string possibleResults in results)
                 {
                     Debug.Log(TAG + " possibleResults " + possibleResults);
-                    if (saidHey == false && (possibleResults.ToLower().Equals("hey crystal") || possibleResults.ToLower().Equals("crystal")))
+                    //changed equals to contains
+                    if (saidHey == false && (possibleResults.ToLower().Contains("hey crystal") || possibleResults.ToLower().Contains("crystal") ||
+                    /*added */ possibleResults.ToLower().Contains("krystal") || possibleResults.ToLower().Contains("chris") || possibleResults.ToLower().Contains("liquor")
+                    || possibleResults.ToLower().Contains("krista") || possibleResults.ToLower().Contains("chrystal") || possibleResults.ToLower().Contains("pistol")
+                    || possibleResults.ToLower().Contains("christal") || possibleResults.ToLower().Contains("bristol") || possibleResults.ToLower().Contains("bristle")))
                     {
                         crystalWasSpokenOf = true;
                     }
@@ -296,7 +299,6 @@ public class SpeechRecognizerDemo : MonoBehaviour {
                     crystal.recordingStarted = false; //added
 
                 }
-
             }
 		);
 	}
