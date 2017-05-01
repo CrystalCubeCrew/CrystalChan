@@ -88,10 +88,10 @@ public class SpeechRecognizerDemo : MonoBehaviour {
 
             // enable beep
             speechPlugin.EnableBeep(true);
-            speechPlugin.IncreaseMusicVolumeByValue(50);
+            speechPlugin.IncreaseMusicVolumeByValue(50); 
 
 			// enable offline
-			//speechPlugin.EnableOffline(true);
+			//speechPlugin.EnableOffline(true); //added
 
 			// enable partial Results
 			speechPlugin.EnablePartialResult(false);
@@ -120,10 +120,10 @@ public class SpeechRecognizerDemo : MonoBehaviour {
 
 			// disable beep
 			speechPlugin.EnableBeep(false);
-            speechPlugin.DecreaseMusicVolumeByValue(100);
+            speechPlugin.DecreaseMusicVolumeByValue(100);  
 
 			// enable offline
-			//speechPlugin.EnableOffline(true);
+			//speechPlugin.EnableOffline(true); //added
 
 			// enable partial Results
 			speechPlugin.EnablePartialResult(false);

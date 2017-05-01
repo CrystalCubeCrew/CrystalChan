@@ -45,15 +45,20 @@ public class CrystalChanPlayer : MonoBehaviour
         currentResponse = new CloudResponseObject("no response has been given");
         networkFail = false;
 
+        once = 1;
     }
+
+    int once;
 
     // Update is called once per frame
     void Update()
     {
-        //added
+       // if(once == 1)
+        //{
+         //   StartCoroutine(playRequiredReaction("play classical musice"));
+        //}
 
 
-        
         //start listening timer if "hey crystal" was said        
         //stop listening when we have listened for entime-current time about of secondss
         startTime = Time.realtimeSinceStartup;
@@ -61,7 +66,6 @@ public class CrystalChanPlayer : MonoBehaviour
         // Debug.Log("We have "+ (startTime > endtime)+" "+ !recordingStarted+" "+" "+!myAudio.isPlaying+" "+ !startedListening );
         if (startTime > endtime && !recordingStarted && !myAudio.isPlaying && !startedListening)
         {
-
             Debug.Log("Listening once again...");
             startTime = Time.realtimeSinceStartup;
             endtime = startTime + .7f;  // was +2 now .7f
@@ -196,7 +200,6 @@ public class CrystalChanPlayer : MonoBehaviour
 
     private void completeRequiredActionBasedOnResponse(CloudResponseObject currentResponse)
     {
-   //     if (currentUser.userId != null && !currentUser.userId.Equals("none")) { //added
             if (currentResponse.intent.ToLower().Equals("math intent"))
             {
                 currentResponse.response = MathCommand.getResultOf(currentResponse.response);
@@ -204,7 +207,8 @@ public class CrystalChanPlayer : MonoBehaviour
             }
             else if (currentResponse.intent.ToLower().Equals("music intent"))
             {
-                //play music 
+            //play music 
+            crystalCam.musicLeftToPlay = true;
                 music.playASong(currentResponse.response);
             }else if(currentResponse.intent.ToLower().Equals("todolist intent"))
             {
@@ -214,15 +218,7 @@ public class CrystalChanPlayer : MonoBehaviour
             else
             {
                 PlayTextToSpeechWithAnimation("Well "+currentUser.firstName+", "+currentResponse.response);
-            }
-     //   }
-       // else
-        //{
-          //  setAnimationStrategy("shrug");
-            //PlayTextToSpeechWithAnimation("Sorry I don't know who you are. Please login first");
-        //}
-       
-        
+            }             
 
     }
 
