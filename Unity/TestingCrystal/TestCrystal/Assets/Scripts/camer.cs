@@ -53,8 +53,9 @@ public class camer : MonoBehaviour
         }else if ((crystal.myAudio.isPlaying &&( startTime > endTime)) || (musicLeftToPlay && (startTime > endTime))) //added
         {
             startTime = Time.realtimeSinceStartup;
-            endTime = startTime + 1;
-            StartCoroutine(pixelRatioIsGreat());
+            endTime = startTime + 2f; //was 1 now 1.5f
+            StartCoroutine(sendPhotoToCloudForHandInfo()); //added 
+            //StartCoroutine(pixelRatioIsGreat());
         }
     }
 
@@ -68,7 +69,7 @@ public class camer : MonoBehaviour
         _TextureFromCamera.SetPixels((GetComponent<Renderer>().material.mainTexture as WebCamTexture).GetPixels());
         _TextureFromCamera.Apply();
         byte[] bytes = _TextureFromCamera.EncodeToPNG();
-        string encodedText = System.Convert.ToBase64String(bytes);
+        string encodedText = System.Convert.  ToBase64String(bytes);
         Debug.Log("grabbed image");
 
         Color[] colorpx =  _TextureFromCamera.GetPixels();
@@ -100,7 +101,7 @@ public class camer : MonoBehaviour
             sendNext = true;
         }else if (sendNext)
         {//send image to cloud to see if it is a hand or not and do the proper functions
-            StartCoroutine(sendPhotoToCloudForHandInfo(encodedText));
+            //StartCoroutine(sendPhotoToCloudForHandInfo(encodedText));  commentedout
             sendNext = false;
         }
 
@@ -114,10 +115,19 @@ public class camer : MonoBehaviour
         yield return 0;
     }
 
-    private IEnumerator sendPhotoToCloudForHandInfo(String encodedText)
+    private IEnumerator sendPhotoToCloudForHandInfo() //was String encodedText
     {
         sendNext = false;
-
+        //-------------added ---------------------
+        musicLeftToPlay = true;
+        Texture2D _TextureFromCamera = new Texture2D(GetComponent<Renderer>().material.mainTexture.width,
+        GetComponent<Renderer>().material.mainTexture.height);
+        _TextureFromCamera.SetPixels((GetComponent<Renderer>().material.mainTexture as WebCamTexture).GetPixels());
+        _TextureFromCamera.Apply();
+        byte[] bytes = _TextureFromCamera.EncodeToPNG();
+        string encodedText = System.Convert.ToBase64String(bytes);
+        Debug.Log("grabbed image");
+        //--------------------------------------------
         WWWForm form = new WWWForm();
         form.AddField("file", encodedText);
         form.AddField("fileName", "testHandImage.png");
@@ -189,6 +199,10 @@ public class camer : MonoBehaviour
 
             
             }
+            if (crystal.myAudio == null || crystal.myAudio.time == 0)
+            {
+                musicLeftToPlay = false;
+            }
 
             yield return camObject;
         }
@@ -256,6 +270,7 @@ public class camer : MonoBehaviour
                 crystal.setAnimationStrategy("shrug");
                 crystal.PlayTextToSpeechWithAnimation("Sorry, I am not sure who you are.");
             }
+
 
             yield return myObject;
         }

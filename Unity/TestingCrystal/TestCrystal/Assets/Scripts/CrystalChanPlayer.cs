@@ -30,6 +30,9 @@ public class CrystalChanPlayer : MonoBehaviour
     // Use this for initialization, runs at beginning of game
     void Start()
     {
+        //Screen.orientation = ScreenOrientation.AutoRotation; //added
+        //Screen.autorotateToPortrait = true;
+
         myAudio = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<AudioSource>();
         crystal = gameObject.GetComponent<Animator>();
         tts = gameObject.GetComponent<TextToSpeechDemo>();

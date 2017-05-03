@@ -26,6 +26,7 @@ public class SpeechRecognizerDemo : MonoBehaviour {
 		speechPlugin.Init();
 
 		AddSpeechPluginListener();
+        speechPlugin.IncreaseMusicVolumeByValue(50); //added
         crystal = gameObject.GetComponent<CrystalChanPlayer>();
         saidHey  = false;
         cloudService = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<ApiAiModuleCrystalChan>();
@@ -132,8 +133,8 @@ public class SpeechRecognizerDemo : MonoBehaviour {
 			
 			int numberOfResults = 1; //was 5
 			//speechPlugin.StartListening(numberOfResults);
-            ///speechPlugin.StartListeningNoBeep(numberOfResults,true);
-            speechPlugin.StartListeningWithExtraSetting(numberOfResults, 0, 2500);
+            //speechPlugin.StartListeningNoBeep(numberOfResults,true);
+            speechPlugin.StartListeningWithExtraSetting(numberOfResults, 0, 20000); //was 2500 now 2000
 			//by activating this, the Speech Recognizer will start and you can start Speaking or saying something 
 			//speech listener will stop automatically especially when you stop speaking or when you are speaking 
 			//for a long time
