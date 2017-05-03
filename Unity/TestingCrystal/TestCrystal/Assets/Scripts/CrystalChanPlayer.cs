@@ -11,7 +11,6 @@ public class CrystalChanPlayer : MonoBehaviour
     public bool recordingStarted;
     public SpeechRecognizerDemo srd;
     public TextToSpeechDemo tts;
-    HttpRequest httpTest;
     public bool haveWaited, startedListening, timeOut;
     public AudioClip beep;
     private string whatToSay;
@@ -35,7 +34,6 @@ public class CrystalChanPlayer : MonoBehaviour
         crystal = gameObject.GetComponent<Animator>();
         tts = gameObject.GetComponent<TextToSpeechDemo>();
         music = gameObject.GetComponent<PlaySongs>();
-        httpTest = new HttpRequest();
         setAnimationStrategy("idle");
         recordingStarted = haveWaited= startedListening = timeOut = false;
         startTime = Time.realtimeSinceStartup;
@@ -55,7 +53,8 @@ public class CrystalChanPlayer : MonoBehaviour
     {
        // if(once == 1)
         //{
-         //   StartCoroutine(playRequiredReaction("play classical musice"));
+          //  StartCoroutine(playRequiredReaction("login"));
+           // once = 0;
         //}
 
 
@@ -164,6 +163,30 @@ public class CrystalChanPlayer : MonoBehaviour
         {
             setAnimationStrategy(determineAction("login"));
             crystalCam.setLogin(true);
+
+        }else if (whatUserSaid.ToLower().Contains("how old are you"))
+        {
+            setAnimationStrategy("math");
+            PlayTextToSpeechWithAnimation("I am none of your business years old");
+        }
+        else if ((whatUserSaid.ToLower().Contains("who is in the team") || whatUserSaid.ToLower().Contains("who's in the team")))
+        {
+            setAnimationStrategy("news");
+            PlayTextToSpeechWithAnimation("The Crystal Cube team consists of John, Chet, Gus, Swati, Belcky, Mike, Mckenzie, Hong, and Sujen");
+        }else if (whatUserSaid.ToLower().Contains("android or apple") || whatUserSaid.ToLower().Contains("apple or android") ||
+            whatUserSaid.ToLower().Contains("android vs apple") || whatUserSaid.ToLower().Contains("apple vs android"))
+        {
+            setAnimationStrategy("math");
+            PlayTextToSpeechWithAnimation("Well I am built on Android OS so definately Android, but that is just what i am programmed to say.");
+        }else if (whatUserSaid.ToLower().Contains("what is your dream") || whatUserSaid.ToLower().Contains("what's your dream") ||
+            whatUserSaid.ToLower().Contains("what's your goal in life"))
+        {
+            setAnimationStrategy("news");
+            PlayTextToSpeechWithAnimation("My dream is to become the greatest Hokage, that way the whole village will stop disrespecting me and treat me like I'm somebody, somebody important");
+        }else if((whatUserSaid.ToLower().Contains("do you like us"))){
+            setAnimationStrategy("math");
+            PlayTextToSpeechWithAnimation("I try to. Swati and Sujen keep calling me stupid, john keeps asking me questions, Mike and Gus invade"
+                +" my hardware, chet always wonders why i dont work, Belcky wants me to be sexy, and Mckenzie never stops crying around me. So it's very hard to like you guys.");
 
         }
         else if((currentUser.userId != null && !currentUser.userId.Equals("none")))
@@ -296,26 +319,7 @@ public class CrystalChanPlayer : MonoBehaviour
         return whatToSay;
     }
 
-    IEnumerator getTextFromCloud(string intent)
-    {
-        //Assign httpRequest Object intent 
-        httpTest.intent = intent;
-
-        //Get Response object from coroutine
-        CoroutineWithData cd = new CoroutineWithData(this, httpTest.httpCall());
-        yield return cd.coroutine;
-        Response res = (Response)cd.result;
-        //Do something depended on return
-        if (res.error == null)
-        {
-            Debug.Log("result is " + res.response);
-            yield return res.response;
-        }
-        else {
-            Debug.Log("result error is " + res.error);
-        }
-
-    }
+   
     //setter for the animator (for testing purposes)
     public void setAnimator(Animator animator)
     {

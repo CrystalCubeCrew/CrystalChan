@@ -32,7 +32,7 @@ public class HttpRequest {
    */
 
   public IEnumerator httpCall () {
-    string url = "http://ec2-34-207-95-183.compute-1.amazonaws.com/" + this.intent;
+    string url = "http://34.206.165.219/" + this.intent;
     WWW www = new WWW(url);
     yield return www;
 

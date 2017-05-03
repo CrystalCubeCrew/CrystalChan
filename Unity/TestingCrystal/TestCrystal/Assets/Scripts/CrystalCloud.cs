@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class CrystalCloud : MonoBehaviour {
 
-    public string URL = "http://ec2-34-207-95-183.compute-1.amazonaws.com/crystalRequest";
+    private const string URL = "http://34.206.165.219/crystalRequest";
 
     private const String ID = "crystal_chan_6";
 
@@ -22,6 +22,7 @@ public class CrystalCloud : MonoBehaviour {
         // Upload to a cgi script
         form.AddField("userId", crystal.currentUser.userId); //added
         form.AddField("machineId", ID);  //added
+        Debug.Log("url is " + URL);
         WWW w = new WWW(URL, form);
         yield return w;
         if (!string.IsNullOrEmpty(w.error))

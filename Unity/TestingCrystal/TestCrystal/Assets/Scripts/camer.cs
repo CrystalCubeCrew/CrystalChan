@@ -8,7 +8,9 @@ public class camer : MonoBehaviour
 {
     WebCamTexture back;
     WebCamTexture _webcamtex;
-    public string URL = "http://ec2-34-207-95-183.compute-1.amazonaws.com/findUser";
+    // new ip 34.206.165.219
+    private const string URL = "http://34.206.165.219/findUser";
+    private const string HAND_URL = "http://34.206.165.219/checkImage";
     WebCamTexture webCamTexture;
     private bool login;
     private const String ID = "crystal_chan_6";
@@ -21,6 +23,8 @@ public class camer : MonoBehaviour
     public bool isHand, userIssuedMusicToPlay;
     public float startTime, endTime;
     public bool musicLeftToPlay, sendNext, toggle;
+
+    public SpeechRecognizerDemo srd;
 
     void Start()
     {
@@ -88,6 +92,7 @@ public class camer : MonoBehaviour
                 count++;
             }
         }
+        
         if (((double)count / length) * 100 > 55)
         {
             isHand = true;
@@ -95,7 +100,8 @@ public class camer : MonoBehaviour
             sendNext = true;
         }else if (sendNext)
         {//send image to cloud to see if it is a hand or not and do the proper functions
-            //StartCoroutine(sendPhotoToCloudForHandInfo(encodedText));
+            StartCoroutine(sendPhotoToCloudForHandInfo(encodedText));
+            sendNext = false;
         }
 
         if (crystal.myAudio == null || crystal.myAudio.time == 0)
@@ -110,12 +116,14 @@ public class camer : MonoBehaviour
 
     private IEnumerator sendPhotoToCloudForHandInfo(String encodedText)
     {
+        sendNext = false;
+
         WWWForm form = new WWWForm();
         form.AddField("file", encodedText);
-        form.AddField("fileName", "testImage.png");
+        form.AddField("fileName", "testHandImage.png");
         form.AddField("machineId", ID);
         // Upload to a cgi script
-        WWW w = new WWW(URL, form);
+        WWW w = new WWW(HAND_URL, form); //need to change url to something else
         yield return w;
         if (!string.IsNullOrEmpty(w.error))
         {
@@ -125,7 +133,7 @@ public class camer : MonoBehaviour
         }
         else
         {
-            print("Finished Uploading Screenshot");
+            print("Finished Uploading Hand Screenshot");
             try
             {
                 camObject = (w.error == null)
@@ -139,21 +147,26 @@ public class camer : MonoBehaviour
                 Debug.Log("object is -> " + camObject);
                 Debug.Log("response is -> " + camObject.response);
 
-                if (camObject.response.ToLower().Contains("hand"))
+                if (camObject.response.ToLower().Equals("hand"))
                 {
                     if (!toggle)
                     {
                         crystal.myAudio.Pause();
                         crystal.setAnimationStrategy("idle");
                         crystal.playAnimation();
+                        toggle = true;
                     }
                     else
                     {
                         if (crystal.myAudio.time < crystal.myAudio.clip.length && crystal.myAudio.time != 0)
                         {
+                            srd.getSpeechPlugin().IncreaseMusicVolumeByValue(50);
+                            crystal.myAudio.volume = 1.0f;
                             crystal.myAudio.UnPause();
+                            //crystal.myAudio.PlayScheduled(crystal.myAudio.time);
                             crystal.setAnimationStrategy("music");
                             crystal.playAnimation();
+                            toggle = false;
                         }
                         else
                         {
@@ -201,6 +214,8 @@ public class camer : MonoBehaviour
         form.AddField("machineId", id);
         // Upload to a cgi script
         WWW w = new WWW(URL, form);
+        Debug.Log("url is -" + URL);
+
         yield return w;
         if (!string.IsNullOrEmpty(w.error))
         {

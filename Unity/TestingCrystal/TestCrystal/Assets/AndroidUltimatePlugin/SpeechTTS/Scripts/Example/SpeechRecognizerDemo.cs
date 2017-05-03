@@ -97,12 +97,14 @@ public class SpeechRecognizerDemo : MonoBehaviour {
 			speechPlugin.EnablePartialResult(false);
 			
 			int numberOfResults = 1;  //was 5
-			speechPlugin.StartListening(numberOfResults);
-			
-			//by activating this, the Speech Recognizer will start and you can start Speaking or saying something 
-			//speech listener will stop automatically especially when you stop speaking or when you are speaking 
-			//for a long time
-		}else{
+			//speechPlugin.StartListening(numberOfResults);
+            speechPlugin.StartListeningWithExtraSetting(numberOfResults, 0, 2500);
+
+            //by activating this, the Speech Recognizer will start and you can start Speaking or saying something 
+            //speech listener will stop automatically especially when you stop speaking or when you are speaking 
+            //for a long time
+        }
+        else {
 			Debug.Log(TAG + "Speech Recognizer not supported by this Android device ");
 		}
 	}
@@ -120,7 +122,7 @@ public class SpeechRecognizerDemo : MonoBehaviour {
 
 			// disable beep
 			speechPlugin.EnableBeep(false);
-            speechPlugin.DecreaseMusicVolumeByValue(100);  
+           // speechPlugin.DecreaseMusicVolumeByValue(100);  
 
 			// enable offline
 			//speechPlugin.EnableOffline(true); //added
@@ -129,9 +131,9 @@ public class SpeechRecognizerDemo : MonoBehaviour {
 			speechPlugin.EnablePartialResult(false);
 			
 			int numberOfResults = 1; //was 5
-			speechPlugin.StartListening(numberOfResults);
-			///speechPlugin.StartListeningNoBeep(numberOfResults,true);
-			
+			//speechPlugin.StartListening(numberOfResults);
+            ///speechPlugin.StartListeningNoBeep(numberOfResults,true);
+            speechPlugin.StartListeningWithExtraSetting(numberOfResults, 0, 2500);
 			//by activating this, the Speech Recognizer will start and you can start Speaking or saying something 
 			//speech listener will stop automatically especially when you stop speaking or when you are speaking 
 			//for a long time
@@ -312,6 +314,11 @@ public class SpeechRecognizerDemo : MonoBehaviour {
 
 	private void onPartialResults( string data ){
 
+    }
+
+    public SpeechPlugin getSpeechPlugin()
+    {
+        return speechPlugin;
     }
 
 	//SpeechRecognizer Events
