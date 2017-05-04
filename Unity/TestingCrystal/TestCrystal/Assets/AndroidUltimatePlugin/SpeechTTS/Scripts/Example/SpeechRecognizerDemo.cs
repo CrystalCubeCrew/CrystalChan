@@ -26,6 +26,7 @@ public class SpeechRecognizerDemo : MonoBehaviour {
 		speechPlugin.Init();
 
 		AddSpeechPluginListener();
+
         speechPlugin.IncreaseMusicVolumeByValue(50); //added
         crystal = gameObject.GetComponent<CrystalChanPlayer>();
         saidHey  = false;
@@ -132,9 +133,9 @@ public class SpeechRecognizerDemo : MonoBehaviour {
 			speechPlugin.EnablePartialResult(false);
 			
 			int numberOfResults = 1; //was 5
-			//speechPlugin.StartListening(numberOfResults);
+			speechPlugin.StartListening(numberOfResults);
             //speechPlugin.StartListeningNoBeep(numberOfResults,true);
-            speechPlugin.StartListeningWithExtraSetting(numberOfResults, 0, 20000); //was 2500 now 2000
+            //speechPlugin.StartListeningWithExtraSetting(numberOfResults, 0, 2000); //was 2500 now 2000
 			//by activating this, the Speech Recognizer will start and you can start Speaking or saying something 
 			//speech listener will stop automatically especially when you stop speaking or when you are speaking 
 			//for a long time
@@ -191,7 +192,7 @@ public class SpeechRecognizerDemo : MonoBehaviour {
             if (status.ToLower().Equals("error_speech_timeout") || status.ToLower().Equals("error_no_match")
                 || status.ToLower().Equals("error_network") || status.ToLower().Equals("error_server"))
             {
-                crystal.endtime = Time.realtimeSinceStartup + 1;  //wait a few before you record again
+                crystal.endtime = Time.realtimeSinceStartup + .7f;  //was 1f now .7f
                // speechPlugin.CancelInvoke();
                 crystal.timeOut = true;
                 if(status.ToLower().Equals("error_network") || status.ToLower().Equals("error_server")) //added

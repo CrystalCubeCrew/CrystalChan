@@ -70,7 +70,7 @@ public class CrystalChanPlayer : MonoBehaviour
         {
             Debug.Log("Listening once again...");
             startTime = Time.realtimeSinceStartup;
-            endtime = startTime + .7f;  // was +2 now .7f
+            endtime = startTime + .6f;  // was +.7f now .6f
             startedListening = true;
             srd.StartListeningNoBeep();
 
@@ -87,7 +87,7 @@ public class CrystalChanPlayer : MonoBehaviour
             {
                 Debug.Log("We have " + (startTime > endtime) + " " + !recordingStarted + " " + " " + !myAudio.isPlaying + " " + !startedListening);
                 timeOut = false;
-                if (networkFail)
+                if (networkFail && !tts.IsSpeaking())
                 {
                     networkFail = false;
                     setAnimationStrategy("shrug");
@@ -172,7 +172,8 @@ public class CrystalChanPlayer : MonoBehaviour
             setAnimationStrategy("math");
             PlayTextToSpeechWithAnimation("I am none of your business years old");
         }
-        else if ((whatUserSaid.ToLower().Contains("who is in the team") || whatUserSaid.ToLower().Contains("who's in the team")))
+        else if ((whatUserSaid.ToLower().Contains("who is in the team") || whatUserSaid.ToLower().Contains("who's in the team")
+            || whatUserSaid.ToLower().Contains("who's on the team")))
         {
             setAnimationStrategy("news");
             PlayTextToSpeechWithAnimation("The Crystal Cube team consists of John, Chet, Gus, Swati, Belcky, Mike, Mckenzie, Hong, and Sujen");

@@ -275,7 +275,7 @@ public class TextToSpeechDemo : MonoBehaviour {
 				CancelInvoke("WaitingMode");
 				Invoke("WaitingMode",waitingInterval);
                 crystal.startedListening = crystal.recordingStarted = false;
-                crystal.endtime = Time.realtimeSinceStartup+1;  //wait a few before you record again [changes to +1 from +2
+                crystal.endtime = Time.realtimeSinceStartup+.7f;  //wait a few before you record again [changes to +.7 from +1
 
             }
         );
