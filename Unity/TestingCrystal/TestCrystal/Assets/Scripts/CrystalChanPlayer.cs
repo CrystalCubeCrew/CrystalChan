@@ -47,6 +47,11 @@ public class CrystalChanPlayer : MonoBehaviour
         networkFail = false;
 
         once = 1;
+
+          foreach (var device in Microphone.devices)
+        {
+            Debug.Log("Name: " + device);
+        }
     }
 
     int once;
@@ -70,7 +75,7 @@ public class CrystalChanPlayer : MonoBehaviour
         {
             Debug.Log("Listening once again...");
             startTime = Time.realtimeSinceStartup;
-            endtime = startTime + .6f;  // was +.7f now .6f
+            endtime = startTime + .7f;  // was +.7f now .6f
             startedListening = true;
             srd.StartListeningNoBeep();
 

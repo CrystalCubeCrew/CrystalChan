@@ -83,7 +83,7 @@ public class SpeechRecognizerDemo : MonoBehaviour {
         Debug.Log("BEEP:  started listening -----------------------------------------------------------------------------------");
 
         if (isSupported){
-            Debug.Log("It is supposrted");
+            Debug.Log("It is supported");
             //number of possible results
             //Note: sometimes even you put 5 numberOfResults, there's a chance that it will be only 3 or 2
             //it is not constant.
@@ -100,7 +100,7 @@ public class SpeechRecognizerDemo : MonoBehaviour {
 			
 			int numberOfResults = 1;  //was 5
 			//speechPlugin.StartListening(numberOfResults);
-            speechPlugin.StartListeningWithExtraSetting(numberOfResults, 0, 2500);
+            speechPlugin.StartListeningWithExtraSetting(numberOfResults, 900, 2500);
 
             //by activating this, the Speech Recognizer will start and you can start Speaking or saying something 
             //speech listener will stop automatically especially when you stop speaking or when you are speaking 
@@ -133,9 +133,9 @@ public class SpeechRecognizerDemo : MonoBehaviour {
 			speechPlugin.EnablePartialResult(false);
 			
 			int numberOfResults = 1; //was 5
-			speechPlugin.StartListening(numberOfResults);
+			//speechPlugin.StartListening(numberOfResults);
             //speechPlugin.StartListeningNoBeep(numberOfResults,true);
-            //speechPlugin.StartListeningWithExtraSetting(numberOfResults, 0, 2000); //was 2500 now 2000
+            speechPlugin.StartListeningWithExtraSetting(numberOfResults, 600,1700 ); //was 2500 now 2000
 			//by activating this, the Speech Recognizer will start and you can start Speaking or saying something 
 			//speech listener will stop automatically especially when you stop speaking or when you are speaking 
 			//for a long time
@@ -189,10 +189,10 @@ public class SpeechRecognizerDemo : MonoBehaviour {
             crystal.startedListening = false;
             crystal.recordingStarted = false;
 
-            if (status.ToLower().Equals("error_speech_timeout") || status.ToLower().Equals("error_no_match")
+            if (status.ToLower().Equals("error_speech_timeout") || status.ToLower().Equals("error_no_match") 
                 || status.ToLower().Equals("error_network") || status.ToLower().Equals("error_server"))
             {
-                crystal.endtime = Time.realtimeSinceStartup + .7f;  //was 1f now .7f
+                crystal.endtime = Time.realtimeSinceStartup + .9f;  //was 1f now .9f
                // speechPlugin.CancelInvoke();
                 crystal.timeOut = true;
                 if(status.ToLower().Equals("error_network") || status.ToLower().Equals("error_server")) //added
@@ -283,7 +283,7 @@ public class SpeechRecognizerDemo : MonoBehaviour {
                         saidHey = true;
                         crystal.recordingStarted = true;
                         crystal.startedListening = true;
-                        crystal.waitToRecord(.3f);
+                        crystal.waitToRecord(0f);
 
                     }
                     else if (saidHey)
